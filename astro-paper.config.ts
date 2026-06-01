@@ -30,10 +30,9 @@ export default defineAstroPaperConfig({
     search: "pagefind",
   },
   socials: [
-    { name: "github",   url: "https://github.com/satnaing/astro-paper" },
-    { name: "x",        url: "https://x.com/username" },
-    { name: "linkedin", url: "https://www.linkedin.com/in/username/" },
-    { name: "mail",     url: "mailto:yourmail@gmail.com" },
+    { name: "github",   url: "https://github.com/shafinchowdhury", linkTitle: "Shafin on GitHub" },
+    { name: "linkedin", url: "https://www.linkedin.com/in/md-shafin-mahmud-chowdhury-11b732316/", linkTitle: "Shafin on LinkedIn" },
+    { name: "mail",     url: "mailto:shafinchowdhury2003@gmail.com", linkTitle: "Email Shafin" },
   ],
   shareLinks: [
     { name: "whatsapp", url: "https://wa.me/?text=" },
