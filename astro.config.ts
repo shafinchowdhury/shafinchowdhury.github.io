@@ -18,7 +18,7 @@ import { transformerFileName } from "./src/utils/transformers/fileName";
 import config from "./astro-paper.config";
 
 export default defineConfig({
-  site: "https://shafinchowdhury.github.io",
+  site: "https://shafinchowdhury.dev",
   integrations: [
     mdx(),
     sitemap({

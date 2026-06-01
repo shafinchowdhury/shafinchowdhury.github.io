@@ -2,7 +2,7 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://shafinchowdhury.github.io/",
+    url: "https://shafinchowdhury.dev/",
     title: "Shafin Chowdhury",
     description:
       "Blog and portfolio of Shafin Chowdhury — CSE student writing about code, learning, and projects.",
