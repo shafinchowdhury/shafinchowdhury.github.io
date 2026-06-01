@@ -1,0 +1,161 @@
+---
+interface Props {
+  imageUrl?: string;
+  imageAlt?: string;
+}
+
+const { imageUrl, imageAlt = "Md. Shafin Mahmud Chowdhury" } = Astro.props;
+const missionStatement =
+  "Second-year Computer Science & Engineering student at North South University. I build things with code and write about what I learn along the way.";
+---
+
+<section
+  id="hero-editorial"
+  class="border-border dark:border-zinc-800 border-b bg-white dark:bg-transparent py-12 sm:py-16 lg:py-20"
+>
+  <div class="app-layout">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-center">
+      <!-- Left: Headshot -->
+      {
+        imageUrl && (
+          <div class="flex justify-center lg:justify-start">
+            <img
+              src={imageUrl}
+              alt={imageAlt}
+              class="h-64 w-64 rounded-xl object-cover shadow-sm sm:h-80 sm:w-80 lg:h-96 lg:w-96"
+            />
+          </div>
+        )
+      }
+
+      <!-- Right: Content -->
+      <div class="flex flex-col justify-center space-y-8">
+        <!-- Full Name -->
+        <div>
+          <h1 class="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
+            Md. Shafin Mahmud Chowdhury
+          </h1>
+        </div>
+
+        <!-- Mission Statement -->
+        <div>
+          <p class="text-lg text-muted-foreground leading-relaxed sm:text-xl">
+            {missionStatement}
+          </p>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col gap-4 sm:flex-row">
+          <a
+            href="/posts"
+            class="cta-button primary-button inline-flex items-center justify-center rounded-lg bg-accent px-6 py-3 font-medium text-accent-foreground shadow-sm transition-all duration-300 hover:shadow-md hover:opacity-90 focus:outline-accent focus:outline-2 focus:outline-offset-2"
+          >
+            Read Latest Articles
+            <svg
+              class="arrow-icon ml-2 h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              ></path>
+            </svg>
+          </a>
+          <a
+            href="/about"
+            class="cta-button secondary-button inline-flex items-center justify-center rounded-lg border border-border dark:border-zinc-700 bg-white dark:bg-transparent px-6 py-3 font-medium text-slate-900 dark:text-slate-100 shadow-sm transition-all duration-300 hover:bg-muted dark:hover:bg-zinc-900/50 focus:outline-accent focus:outline-2 focus:outline-offset-2"
+          >
+            View Full Profile
+          </a>
+        </div>
+
+        <!-- Social Links Indicator -->
+        <div class="flex items-center gap-2 text-sm text-muted-foreground">
+          <span>Connect:</span>
+          <slot name="socials" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #hero-editorial {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* CTA Button Animations */
+  .cta-button {
+    animation: slideUpIn 0.7s ease-out backwards;
+  }
+
+  .primary-button {
+    animation-delay: 0.2s;
+  }
+
+  .secondary-button {
+    animation-delay: 0.35s;
+  }
+
+  @keyframes slideUpIn {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .cta-button:hover {
+    animation: liftUp 0.3s ease-out forwards;
+  }
+
+  @keyframes liftUp {
+    to {
+      transform: translateY(-4px);
+    }
+  }
+
+  .arrow-icon {
+    animation: arrowSlide 0.4s ease-out backwards;
+  }
+
+  .primary-button:hover .arrow-icon {
+    animation: arrowSlideIn 0.4s ease-out forwards;
+  }
+
+  @keyframes arrowSlide {
+    from {
+      transform: translateX(-4px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes arrowSlideIn {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(4px);
+    }
+  }
+</style>
