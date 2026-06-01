@@ -16,25 +16,19 @@ Personal blog + portfolio for Shafin Chowdhury. Built with [Astro](https://astro
 
 ## Images
 
-Two options, depending on the image:
+Images are stored in a Cloudflare R2 bucket (**`personal-site-assets`**) and served from `cdn.shafinchowdhury.dev`, so they live outside the repo and adding one needs no rebuild.
 
-**Small images bundled with the site (default).** Drop the file in `src/assets/images/` and reference it with a relative path in Markdown — Astro optimizes it at build time (resize, WebP/AVIF, lazy-load):
+**Optimize before uploading.** R2 serves files as-is — it does no optimization. Resize and compress images locally first (aim for ~1600px max width, WebP, ~80% quality → usually 100–300 KB) so visitors aren't downloading multi-megabyte originals.
 
-```markdown
-![Diagram](../../assets/images/diagram.png)
-```
-
-**Larger / many images via the R2 CDN.** Images are stored in a Cloudflare R2 bucket and served from `cdn.shafinchowdhury.dev` — they live outside the repo, so adding one needs no rebuild.
-
-One-time setup (Cloudflare dashboard): enable **R2** → create the **`blog-images`** bucket → bucket **Settings → Public access → Custom Domains** → connect **`cdn.shafinchowdhury.dev`**.
+One-time setup (Cloudflare dashboard): enable **R2** → create the **`personal-site-assets`** bucket → bucket **Settings → Public access → Custom Domains** → connect **`cdn.shafinchowdhury.dev`**.
 
 Upload an image (either works):
 
-- **Dashboard:** R2 → `blog-images` → **Upload** (drag and drop). Use folders like `posts/<slug>/` to stay organized.
+- **Dashboard:** R2 → `personal-site-assets` → **Upload** (drag and drop). Use folders like `posts/<slug>/` to stay organized.
 - **CLI:**
   ```bash
   npx wrangler login            # one-time
-  npx wrangler r2 object put blog-images/posts/my-post/diagram.png \
+  npx wrangler r2 object put personal-site-assets/posts/my-post/diagram.png \
     --file=./diagram.png --remote
   ```
 
