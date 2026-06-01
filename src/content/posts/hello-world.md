@@ -1,7 +1,7 @@
 ---
 title: "Hello, World"
 author: "Shafin Chowdhury"
-pubDatetime: 2026-06-01T10:00:00Z
+pubDatetime: 2026-06-01T06:00:00Z
 featured: true
 draft: false
 tags:
