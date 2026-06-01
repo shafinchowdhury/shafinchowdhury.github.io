@@ -25,12 +25,11 @@ pnpm exec astro check # type-check only
 
 ## Deployment
 
-Hosted on **Cloudflare Pages** at [shafinchowdhury.dev](https://shafinchowdhury.dev), built from this repo via Cloudflare's Git integration — every push to `main` triggers a build and deploy automatically.
+Hosted on **Cloudflare Workers** (static assets) at [shafinchowdhury.dev](https://shafinchowdhury.dev), built from this repo via Workers Builds (Git integration) — every push to `main` triggers a build and deploy automatically.
 
-Build configuration (set in the Cloudflare Pages project):
-
+- Static assets config: `wrangler.jsonc` serves `./dist`
 - Build command: `pnpm run build`
-- Output directory: `dist`
+- Deploy command: `npx wrangler deploy`
 - Node version: pinned to 22 via `.nvmrc`
 
 The site is fully static, so it can be served from any static host without code changes (only `site` in the Astro config needs to match the domain).
