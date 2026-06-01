@@ -34,9 +34,16 @@ const homePath = getRelativeLocaleUrl(locale, "");
     class="app-layout"
   >
     <section id="hero" class="border-border border-b pt-8 pb-6">
-      <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-        Hi, I'm Shafin 👋
-      </h1>
+      <div class="flex items-center gap-4 sm:gap-6">
+        <img
+          src="https://cdn.shafinchowdhury.dev/blogs/home-page/598329222_3693489057452548_6311579749096457581_n.jpg"
+          alt="Shafin Chowdhury"
+          class="h-20 w-20 rounded-full object-cover sm:h-28 sm:w-28"
+        />
+        <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
+          Hi, I'm Shafin 👋
+        </h1>
+      </div>
       <a
         target="_blank"
         href={`${import.meta.env.BASE_URL.replace(/\/?$/, "/")}rss.xml`}
