@@ -2,11 +2,12 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://astro-paper.pages.dev/",
-    title: "AstroPaper",
-    description: "A minimal, responsive and SEO-friendly Astro blog theme.",
-    author: "Sat Naing",
-    profile: "https://satna.ing",
+    url: "https://shafinchowdhury.github.io/",
+    title: "Shafin Chowdhury",
+    description:
+      "Blog and portfolio of Shafin Chowdhury — CSE student writing about code, learning, and projects.",
+    author: "Shafin Chowdhury",
+    profile: "https://github.com/shafinchowdhury",
     ogImage: "default-og.jpg",
     lang: "en",
     timezone: "Asia/Bangkok",
