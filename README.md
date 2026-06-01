@@ -25,17 +25,12 @@ pnpm exec astro check # type-check only
 
 ## Deployment
 
-Auto-deployed to GitHub Pages on every push to `main` via `.github/workflows/deploy.yml` (uses pnpm + Node 22).
+Hosted on **Cloudflare Pages** at [shafinchowdhury.dev](https://shafinchowdhury.dev), built from this repo via Cloudflare's Git integration — every push to `main` triggers a build and deploy automatically.
 
-## Migrating to Cloudflare Pages (later, with a custom domain)
+Build configuration (set in the Cloudflare Pages project):
 
-1. In Cloudflare Pages, create a project connected to this GitHub repo.
-2. Set the framework/preset to none and configure:
-   - Build command: `pnpm build`
-   - Output directory: `dist`
-   - Environment variable `NODE_VERSION = 22` (Cloudflare defaults to an older Node otherwise).
-3. Add the custom domain in the Cloudflare Pages project.
-4. Update `site` in the Astro config to the new domain (fixes canonical URLs, RSS, sitemap), then commit & push.
-5. Optionally disable the GitHub Pages workflow once Cloudflare is live.
+- Build command: `pnpm run build`
+- Output directory: `dist`
+- Node version: pinned to 22 via `.nvmrc`
 
-No other code changes are required — the site is fully static.
+The site is fully static, so it can be served from any static host without code changes (only `site` in the Astro config needs to match the domain).
