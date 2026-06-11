@@ -5,12 +5,9 @@ pubDatetime: 2026-06-10T10:11:00+06:00
 featured: true
 draft: false
 tags:
-  - memory
-  - memory-allocation
-  - c
-  - memory-handaling
-  - memory-with-no-limitation
-description: "Proper view of memory allocation dynamicly."
+  - palindrome
+  - algorithm
+description: "A student-friendly guide to writing highly efficient palindrome functions in C++. Move from slow string conversions to a raw arithmetic method that speeds up your code by 200%."
 ---
 
 
