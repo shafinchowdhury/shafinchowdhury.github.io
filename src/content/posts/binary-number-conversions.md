@@ -10,7 +10,7 @@ tags:
   - c
   - memory-handaling
   - memory-with-no-limitation
-description: "Proper view of memory allocation dynamicly."
+description: "Master binary number conversions between binary, decimal, octal, and hexadecimal systems with step-by-step methods and solved examples."
 ---
 
 # Conversion between Binary and Other Number Systems
@@ -28,7 +28,7 @@ A binary number is converted into a decimal number by multiplying each binary di
 1. Write the given binary number and assign powers of 2 from right to left (starting from 0).
 2. Multiply each binary digit by its corresponding power of 2.
 3. Add all the products together to get the final decimal number.
-![image](https://cdn.shafinchowdhury.dev/blogs/number-system/decimal_to_binary_conversio.png)
+   ![image](https://cdn.shafinchowdhury.dev/blogs/number-system/decimal_to_binary_conversio.png)
 
 **Solved Examples:**
 
@@ -66,7 +66,7 @@ To convert a decimal number to binary, the number is repeatedly divided by 2, an
 **Q.1: Convert $(25)_{10}$ to a binary number.**
 
 | Division | Quotient | Remainder |
-|----------|----------|-----------|
+| -------- | -------- | --------- |
 | 25 ÷ 2   | 12       | 1 (LSB)   |
 | 12 ÷ 2   | 6        | 0         |
 | 6 ÷ 2    | 3        | 0         |
@@ -78,7 +78,7 @@ Reading remainders from bottom to top: $(25)_{10} = (11001)_2$
 **Q.2: Convert $(43)_{10}$ to a binary number.**
 
 | Division | Quotient | Remainder |
-|----------|----------|-----------|
+| -------- | -------- | --------- |
 | 43 ÷ 2   | 21       | 1 (LSB)   |
 | 21 ÷ 2   | 10       | 1         |
 | 10 ÷ 2   | 5        | 0         |
@@ -99,17 +99,17 @@ Binary numbers have a base of 2, while octal numbers have a base of 8 ($2^3 = 8$
 1. Divide the binary number into groups of three digits starting from right to left (LSB to MSB).
 2. If the leftmost group has fewer than three digits, pad it with leading zeros.
 3. Convert each 3-digit group into its equivalent octal digit.
-![image](https://cdn.shafinchowdhury.dev/blogs/number-system/1_vgtJh1NVWEqa3b9OsuRXSQ.jpg)
+   ![image](https://cdn.shafinchowdhury.dev/blogs/number-system/1_vgtJh1NVWEqa3b9OsuRXSQ.jpg)
 
 **Solved Examples:**
 
 **Q.1: Convert $(11101011)_2$ into an octal number.**
 
 | Binary Group | Octal Digit |
-|:------------:|:-----------:|
-| `011`        | 3           |
-| `101`        | 5           |
-| `011`        | 3           |
+| :----------: | :---------: |
+|    `011`     |      3      |
+|    `101`     |      5      |
+|    `011`     |      3      |
 
 > Leading zero added to leftmost group.
 
@@ -118,9 +118,9 @@ Result: $(11101011)_2 = (353)_8$
 **Q.2: Convert $(101101)_2$ into an octal number.**
 
 | Binary Group | Octal Digit |
-|:------------:|:-----------:|
-| `101`        | 5           |
-| `101`        | 5           |
+| :----------: | :---------: |
+|    `101`     |      5      |
+|    `101`     |      5      |
 
 Result: $(101101)_2 = (55)_8$
 
@@ -141,10 +141,10 @@ To convert an octal number to binary, each individual octal digit is expanded in
 **Q.1: Convert $(742)_8$ into a binary number.**
 
 | Octal Digit | Binary Group |
-|:-----------:|:------------:|
-| 7           | `111`        |
-| 4           | `100`        |
-| 2           | `010`        |
+| :---------: | :----------: |
+|      7      |    `111`     |
+|      4      |    `100`     |
+|      2      |    `010`     |
 
 Result: $(742)_8 = (111100010)_2$
 
@@ -165,11 +165,11 @@ Binary numbers have a base of 2, while hexadecimal numbers have a base of 16 ($2
 **Q.1: Convert $(1110101101101)_2$ into a hexadecimal number.**
 
 | Binary Group | Hex Digit |
-|:------------:|:---------:|
-| `0001`       | 1         |
-| `1101`       | D         |
-| `0110`       | 6         |
-| `1101`       | D         |
+| :----------: | :-------: |
+|    `0001`    |     1     |
+|    `1101`    |     D     |
+|    `0110`    |     6     |
+|    `1101`    |     D     |
 
 > Three leading zeros added to leftmost group.
 
@@ -192,10 +192,10 @@ To convert a hexadecimal number to binary, each hex digit is expanded into its 4
 **Q.1: Convert $(3A9)_{16}$ into a binary number.**
 
 | Hex Digit | Binary Group |
-|:---------:|:------------:|
-| 3         | `0011`       |
-| A         | `1010`       |
-| 9         | `1001`       |
+| :-------: | :----------: |
+|     3     |    `0011`    |
+|     A     |    `1010`    |
+|     9     |    `1001`    |
 
 > Drop leading zeros from the final combined result.
 

@@ -10,7 +10,9 @@ Personal blog + portfolio for Shafin Chowdhury. Built with [Astro](https://astro
 ## Write a new blog post
 
 1. Add a Markdown file in `src/content/posts/`, e.g. `my-post.md`. The slug comes from the filename (`my-post` → `/posts/my-post`).
-2. Fill the frontmatter — `title`, `author`, `pubDatetime`, `tags`, `description`, and `draft: false` (set `featured: true` to pin it on the home page).
+2. Fill the frontmatter — `title`, `author`, `pubDatetime`, `tags`, `description`, and `draft: false`.
+   - `popularity: <number>` is optional. If provided, it boosts homepage ranking.
+   - The homepage now automatically selects featured posts by rank, with `featured: true` still giving a strong boost.
 3. Write the post in Markdown below the frontmatter.
 4. Commit and push to `main`. Cloudflare builds and deploys automatically.
 

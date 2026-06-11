@@ -3,6 +3,7 @@ title: "How I Cut My Palindrome Algorithm’s Execution Time in Half"
 author: "Shafin Chowdhury"
 pubDatetime: 2026-06-10T10:11:00+06:00
 featured: true
+popularity: 10
 draft: false
 tags:
   - palindrome

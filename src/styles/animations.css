@@ -1,0 +1,79 @@
+/* Fade in and scale up animation */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Fade in from bottom animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide in from left animation */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Box shadow glow animation */
+@keyframes shadowGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--color-accent, 255, 107, 107), 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--color-accent, 255, 107, 107), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--color-accent, 255, 107, 107), 0);
+  }
+}
+
+/* Apply staggered animation to featured cards */
+#featured ul li {
+  animation: fadeInScale 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+#featured ul li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+#featured ul li:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+#featured ul li:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+#featured ul li:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+#featured ul li:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+/* Optional: Hover effect for featured cards */
+#featured ul li a:hover {
+  animation: shadowGlow 0.6s ease-out;
+}
