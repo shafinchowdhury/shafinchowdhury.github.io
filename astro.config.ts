@@ -16,6 +16,8 @@ import {
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import config from "./astro-paper.config";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 export default defineConfig({
   site: "https://shafinchowdhury.dev",
@@ -34,7 +36,8 @@ export default defineConfig({
     },
   },
   markdown: {
-    remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
+    remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }], remarkMath],
+  rehypePlugins: [rehypeKatex], 
     shikiConfig: {
       themes: { light: "min-light", dark: "night-owl" },
       defaultColor: false,
