@@ -1,5 +1,5 @@
 ---
-title: "Object-Oriented Programming in Java: A Complete Story for Students"
+title: "Part 1: Object-Oriented Programming in Java: A Complete Story for Students"
 author: "Shafin Chowdhury"
 pubDatetime: 2026-06-20T09:19:00Z
 featured: true
