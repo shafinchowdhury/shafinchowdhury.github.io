@@ -66,4 +66,4 @@ OOP is built on four fundamental principles. Think of them as the four load-bear
 
 We will explore each pillar in depth throughout this guide. For now, just keep these four words in the back of your mind. 
 ## What's next? 
-Next part is about class and objects, ![click here](https://shafinchowdhury.dev/posts/class-object/) to explore the part 2
+Next part is about class and objects, [click here](https://shafinchowdhury.dev/posts/class-object/) to explore the part 2
