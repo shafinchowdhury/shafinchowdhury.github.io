@@ -1,7 +1,7 @@
 ---
 title: "Part 3: Encapsulation — Protecting Your Data"
 author: "Shafin Chowdhury"
-pubDatetime: 2026-07-20T09:19:00Z
+pubDatetime: 2026-07-09T09:19:00Z
 featured: true
 draft: false
 tags:
