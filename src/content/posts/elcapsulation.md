@@ -11,7 +11,8 @@ tags:
   - java-beginner
   - clean-code
   - java-core
-description: "This blog makes Java encapsulation super easy to understand. You will learn how to wrap your data and code together inside a single unit to keep it safe from outside mistakes. By using simple examples, you will quickly master how to use "getters" and "setters" to build better, cleaner programs.
+description: >
+  This blog makes Java encapsulation super easy to understand. You will learn how to wrap your data and code together inside a single unit to keep it safe from outside mistakes. By using simple examples, you will quickly master how to use "getters" and "setters" to build better, cleaner programs.
 ---
 
 In the previous chapter, we learned how to create classes and objects. [Click here](https://shafinchowdhury.dev/posts/class-object/) to revise the topic.
