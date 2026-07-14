@@ -36,7 +36,7 @@ The blueprint describes:
 * The electrical wiring
 
 From that single blueprint, builders can construct hundreds of houses. Every house follows the same design, but each one is completely independent. Painting one house blue doesn't change the others.
-![image](https://cdn.shafinchowdhury.dev/blogs/oop/Class_Object_example.webp)
+![image](https://cdn.shafinchowdhury.dev/blogs/oop/Gemini_Generated_Image_48xiua48xiua48xi.png)
 
 Java works exactly the same way.
 
@@ -85,9 +85,6 @@ Actual students will only be created later using the `new` keyword.
 * A class is **not** an object.
 * A class does **not** store data for individual objects.
 * Think of it as a blueprint or design.
-
-Definition:
-
 
 
 ---

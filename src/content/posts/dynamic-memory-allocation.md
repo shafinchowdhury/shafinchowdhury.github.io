@@ -1,7 +1,7 @@
 ---
 title: "Dynamic Memory Allocation"
 author: "Shafin Chowdhury"
-pubDatetime: 2026-06-01T09:19:00Z
+pubDatetime: 2026-05-01T09:19:00Z
 featured: true
 draft: false
 tags:
