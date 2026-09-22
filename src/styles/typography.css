@@ -3,18 +3,26 @@
 @layer base {
   /* ===== Override default Tailwind Typography styles ===== */
   .app-prose {
-    @apply prose;
+    @apply prose max-w-none text-[15px] leading-relaxed;
 
     h1,
     h2,
     h3,
     h4,
     th {
-      @apply text-foreground mb-3;
+      @apply text-foreground mb-3 font-semibold;
+    }
+
+    h1 {
+      @apply text-2xl sm:text-3xl font-bold;
+    }
+
+    h2 {
+      @apply text-xl sm:text-2xl font-bold mt-10 mb-4 border-b border-border/40 pb-2;
     }
 
     h3 {
-      @apply italic;
+      @apply text-[16px] sm:text-[17px] font-semibold not-italic mt-6 mb-2 text-accent;
     }
 
     p,
@@ -25,6 +33,11 @@
     table,
     code {
       @apply text-foreground;
+    }
+
+    p,
+    li {
+      @apply text-foreground/90 text-[14.5px] sm:text-[15px] leading-relaxed;
     }
 
     a {
@@ -40,11 +53,11 @@
     }
 
     hr {
-      @apply border-border;
+      @apply border-border my-8;
     }
 
     img {
-      @apply border-border mx-auto border;
+      @apply border-border mx-auto border rounded-lg;
     }
 
     figcaption {
@@ -54,16 +67,16 @@
     table {
       th,
       td {
-        @apply border-border border p-2;
+        @apply border-border border p-2 text-[13.5px] sm:text-sm;
       }
 
       th {
-        @apply py-1.5;
+        @apply py-1.5 font-semibold bg-muted/40;
       }
     }
 
     code {
-      @apply bg-muted/75 text-foreground rounded p-1 wrap-break-word before:content-none after:content-none;
+      @apply bg-muted/75 text-foreground rounded px-1.5 py-0.5 text-[13px] sm:text-[13.5px] wrap-break-word before:content-none after:content-none;
     }
 
     .astro-code code {
@@ -83,7 +96,24 @@
     }
 
     pre {
-      @apply focus-visible:outline-accent focus-visible:border-transparent focus-visible:outline-2 focus-visible:outline-dashed;
+      @apply text-[13px] sm:text-[13.5px] leading-relaxed rounded-lg focus-visible:outline-accent focus-visible:border-transparent focus-visible:outline-2 focus-visible:outline-dashed;
+    }
+  }
+
+  /* Side by side layout for code/examples/comparisons */
+  .side-by-side {
+    @apply my-6 grid grid-cols-1 items-start gap-5 lg:grid-cols-2;
+
+    > * {
+      @apply my-0! min-w-0;
+    }
+
+    > div > :first-child {
+      @apply mt-0;
+    }
+
+    > div > :last-child {
+      @apply mb-0;
     }
   }
 
