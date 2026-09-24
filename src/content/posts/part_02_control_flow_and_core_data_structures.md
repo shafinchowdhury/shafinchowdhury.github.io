@@ -1,5 +1,5 @@
 ---
-title: "Control Flow and Core Data Structures"
+title: "Python: Control Flow and Core Data Structures"
 author: "Shafin Chowdhury"
 pubDatetime: 2026-09-30T21:00:00+06:00
 featured: true
@@ -10,10 +10,6 @@ tags:
   - fundamentals
   - data-structures
 description: "A comprehensive guide to Python control flow and core data structures covering branching conditionals, loops, lists, tuples, sets, dictionaries, comprehensions, and Big-O performance."
----
-
-[← Part 1 — Python Fundamentals](part_01_python_fundamentals.md) | **Part 2 — Control Flow & Data Structures** | [Part 3 — Functions & Modular Programming →](part_03_functions_and_modular_programming.md)
-
 ---
 
 # Part 2 — Control Flow and Core Data Structures
@@ -43,9 +39,11 @@ In this chapter, we expand beyond linear, top-to-bottom execution to build dynam
 ## 1. Conditional Statements & Truthiness
 
 ### 1. What is it?
+
 Conditional statements control execution paths based on boolean evaluations (`True` or `False`).
 
 ### 2. Syntax
+
 ```python
 if condition_1:
     # Executes when condition_1 is True
@@ -59,9 +57,11 @@ else:
 ```
 
 ### 3. Truth Value Testing (Truthy vs Falsy)
+
 In Python, every object has an inherent boolean truth value. You do not need to write `if len(items) > 0:` or `if flag == True:`.
 
 #### Objects Considered Falsy in Python:
+
 - Constants: `None`, `False`
 - Numeric zeros: `0`, `0.0`, `0j`, `Decimal(0)`, `Fraction(0, 1)`
 - Empty sequences and collections: `""`, `()`, `[]`, `{}`, `set()`, `range(0)`
@@ -77,7 +77,9 @@ if not cart:
 ```
 
 ### 4. Ternary Conditional Expression
+
 Python provides a clean inline conditional expression:
+
 ```python
 # syntax: value_if_true if condition else value_if_false
 age = 19
@@ -89,6 +91,7 @@ status = "Adult" if age >= 18 else "Minor"
 ## 2. Loops: `for`, `while`, and Loop Control
 
 ### 1. The `for` Loop & `range()`
+
 Python's `for` loop is actually a **for-each** iterator that traverses elements of any iterable.
 
 ```python
@@ -99,7 +102,9 @@ for i in range(1, 10, 2):
 ```
 
 ### 2. The `while` Loop
+
 Repeats as long as a condition remains true. Always ensure an update step occurs to avoid infinite loops:
+
 ```python
 countdown = 3
 while countdown > 0:
@@ -109,6 +114,7 @@ print("Blast off!")
 ```
 
 ### 3. Loop Control: `break`, `continue`, `pass`
+
 - `break`: Terminates the innermost loop immediately.
 - `continue`: Skips the rest of the current iteration and jumps to the next loop cycle.
 - `pass`: A null statement used as a syntactic placeholder where code is required.
@@ -124,6 +130,7 @@ for num in range(1, 10):
 ```
 
 ### 4. The Loop `else` Clause
+
 Python provides a unique and powerful construct: an `else` block attached directly to a `for` or `while` loop.
 
 > **Rule:** The loop `else` block executes **ONLY if the loop completed normally without encountering a `break`**.
@@ -146,9 +153,11 @@ else:
 ## 3. Lists: Dynamic, Mutable Sequences
 
 ### 1. What is a List?
+
 A list is an ordered, mutable collection of arbitrary Python objects. Internally, CPython implements lists as dynamic arrays of pointers.
 
 ### 2. Creation, Indexing, and Slicing
+
 ```python
 fruits = ["apple", "banana", "cherry", "date"]
 
@@ -162,6 +171,7 @@ print(fruits[::-1]) # ['date', 'cherry', 'banana', 'apple'] (reversed copy)
 ```
 
 ### 3. List Mutation Methods
+
 ```python
 items = [10, 20, 30]
 
@@ -188,6 +198,7 @@ scores.reverse()        # In-place reversal
 > `items.extend([1, 2])` flattens the items: `[..., 1, 2]`.
 
 ### 4. Aliasing vs Shallow Copy vs Deep Copy
+
 ```python
 # 1. Aliasing (Both variables point to the exact same list in memory)
 original = [1, 2, [3, 4]]
@@ -213,9 +224,11 @@ print(original[2])         # [3, 4, 777] -> Original remains completely isolated
 ## 4. Tuples: Immutable Sequences
 
 ### 1. What is a Tuple?
+
 A tuple is an ordered, immutable collection. Once created, elements cannot be added, removed, or reassigned.
 
 ### 2. Creation and the Single-Element Gotcha
+
 ```python
 # Standard creation
 point = (10, 20)
@@ -227,6 +240,7 @@ is_a_tuple = (42,)    # Correct tuple of length 1
 ```
 
 ### 3. Tuple Packing and Unpacking
+
 ```python
 # Packing
 user_data = "Shafin", 23, "Engineer"  # Parentheses are optional
@@ -244,6 +258,7 @@ print(last)    # 6
 ```
 
 ### 4. Why Use Tuples Instead of Lists?
+
 1. **Safety**: Guarantee data cannot be accidentally mutated by downstream code.
 2. **Performance**: Tuples use less memory than lists and optimize small-tuple allocations.
 3. **Hashability**: Because they are immutable, tuples can be used as dictionary keys and set elements (provided their contents are also immutable).
@@ -253,9 +268,11 @@ print(last)    # 6
 ## 5. Sets: Unique, Unordered Hash Collections
 
 ### 1. What is a Set?
+
 A set is an unordered collection of unique, hashable objects. Sets are backed by hash tables, giving them average-case $O(1)$ time complexity for additions, deletions, and membership checks (`val in my_set`).
 
 ### 2. Creation and Modification
+
 ```python
 # Creating sets
 numbers = {1, 2, 3, 3, 2, 1}
@@ -273,6 +290,7 @@ colors.discard("yellow")  # Safe: does nothing if item does not exist
 ```
 
 ### 3. Mathematical Set Operations
+
 ```python
 a = {1, 2, 3, 4}
 b = {3, 4, 5, 6}
@@ -304,12 +322,15 @@ print(a.issuperset(c))    # True (a >= c)
 ## 6. Dictionaries: Key-Value Hash Maps
 
 ### 1. What is a Dictionary?
+
 A dictionary (`dict`) is an associative container that maps unique, hashable keys to arbitrary values. In Python 3.7+, dictionaries are guaranteed to maintain their insertion order.
 
 ### 2. Key Requirements
+
 Keys **must be hashable** (immutable types like `str`, `int`, `float`, `tuple` containing immutable items). Lists and dicts cannot be keys.
 
 ### 3. Accessing and Modifying
+
 ```python
 student = {
     "name": "Shafin",
@@ -336,6 +357,7 @@ del student["campus"]           # Deletes key
 ```
 
 ### 4. Iterating Over Dictionaries
+
 ```python
 inventory = {"laptops": 12, "monitors": 25, "keyboards": 40}
 
@@ -360,6 +382,7 @@ for item, count in inventory.items():
 Comprehensions provide a concise syntax for transforming, filtering, and constructing collections in a single expressive line.
 
 ### 1. List Comprehensions
+
 ```python
 # Traditional approach
 squares = []
@@ -382,6 +405,7 @@ print(labels)  # ['EVEN', 'ODD', 'EVEN', 'ODD', 'EVEN']
 ```
 
 ### 2. Set & Dictionary Comprehensions
+
 ```python
 # Set Comprehension (extract unique lengths of words)
 words = ["python", "is", "awesome", "python", "code"]
@@ -398,12 +422,12 @@ print(inverted_dict)  # {1: 'a', 2: 'b', 3: 'c'}
 
 ## 8. Master Comparison Matrix
 
-| Data Structure | Syntax | Ordered? | Mutable? | Allows Duplicates? | Element Lookup Cost | Practical Best Use Case |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **List** | `[1, 2, 3]` | Yes | Yes | Yes | $O(N)$ linear scan | Dynamic ordered collections, stacks, queues |
-| **Tuple** | `(1, 2, 3)` | Yes | No | Yes | $O(N)$ linear scan | Fixed records, dict keys, function multi-returns |
-| **Set** | `{1, 2, 3}` | No | Yes | No | **$O(1)$ constant** | De-duplication, fast membership checking |
-| **Dictionary** | `{"k": "v"}` | Yes (3.7+) | Yes | Keys: No, Values: Yes| **$O(1)$ constant** | Keyed indexing, caches, entity representations |
+| Data Structure | Syntax       | Ordered?   | Mutable? | Allows Duplicates?    | Element Lookup Cost | Practical Best Use Case                          |
+| :------------- | :----------- | :--------- | :------- | :-------------------- | :------------------ | :----------------------------------------------- |
+| **List**       | `[1, 2, 3]`  | Yes        | Yes      | Yes                   | $O(N)$ linear scan  | Dynamic ordered collections, stacks, queues      |
+| **Tuple**      | `(1, 2, 3)`  | Yes        | No       | Yes                   | $O(N)$ linear scan  | Fixed records, dict keys, function multi-returns |
+| **Set**        | `{1, 2, 3}`  | No         | Yes      | No                    | **$O(1)$ constant** | De-duplication, fast membership checking         |
+| **Dictionary** | `{"k": "v"}` | Yes (3.7+) | Yes      | Keys: No, Values: Yes | **$O(1)$ constant** | Keyed indexing, caches, entity representations   |
 
 ---
 
@@ -412,6 +436,7 @@ print(inverted_dict)  # {1: 'a', 2: 'b', 3: 'c'}
 1. **`=` vs `==`**:
    `=` is assignment; `==` is equality comparison.
 2. **Modifying a collection while iterating over it**:
+
    ```python
    # BUG: Modifying list during iteration skips elements!
    numbers = [1, 2, 3, 4, 5]
@@ -422,6 +447,7 @@ print(inverted_dict)  # {1: 'a', 2: 'b', 3: 'c'}
    # FIX: Iterate over a copy or use a comprehension:
    numbers = [n for n in numbers if n % 2 != 0]
    ```
+
 3. **Empty Collection Creation Bug**:
    Remember that `{}` creates an empty dictionary, not an empty set. Always use `set()`.
 4. **Defaulting `dict[key]` instead of `.get()`**:
@@ -442,34 +468,38 @@ print(inverted_dict)  # {1: 'a', 2: 'b', 3: 'c'}
 
 ## Quick Reference
 
-| Operation | Code Snippet | Output / Behavior |
-| :--- | :--- | :--- |
-| Ternary operator | `x = "yes" if flag else "no"` | Conditional assignment |
-| Unpack with star | `a, *rest, b = [1, 2, 3, 4]` | `a=1`, `rest=[2, 3]`, `b=4` |
-| Safe Dict Retrieval | `d.get("missing", 0)` | Returns `0` without KeyError |
-| Remove from Set safely | `s.discard("unknown")` | Does not raise KeyError |
-| List Comprehension | `[x*2 for x in nums if x > 0]` | Transforms and filters |
-| Dict Comprehension | `{k: v for k, v in pairs}` | Constructs dict from pairs |
+| Operation              | Code Snippet                   | Output / Behavior            |
+| :--------------------- | :----------------------------- | :--------------------------- |
+| Ternary operator       | `x = "yes" if flag else "no"`  | Conditional assignment       |
+| Unpack with star       | `a, *rest, b = [1, 2, 3, 4]`   | `a=1`, `rest=[2, 3]`, `b=4`  |
+| Safe Dict Retrieval    | `d.get("missing", 0)`          | Returns `0` without KeyError |
+| Remove from Set safely | `s.discard("unknown")`         | Does not raise KeyError      |
+| List Comprehension     | `[x*2 for x in nums if x > 0]` | Transforms and filters       |
+| Dict Comprehension     | `{k: v for k, v in pairs}`     | Constructs dict from pairs   |
 
 ---
 
 ## Practice Problems
 
 ### Level 1 — Basic
+
 1. Given a list of numbers `[12, 45, 2, 9, 88, 34]`, use a single `for` loop to find and print the minimum and maximum values without using `min()` or `max()`.
 2. Take a string with duplicate characters (e.g. `"abracadabra"`) and print the unique characters in alphabetical order using a set and `sorted()`.
 
 ### Level 2 — Intermediate
+
 3. Given a dictionary of student grades `scores = {"Alice": 85, "Bob": 62, "Charlie": 91, "Diana": 74}`, write a dictionary comprehension that creates a new dictionary containing only students with passing grades (`>= 70`), mapping their names to `"PASS"`.
 4. Implement a palindrome checker that ignores spaces, punctuation, and letter casing (e.g., `"A man, a plan, a canal: Panama"` should return `True`) using list comprehension or string filtering.
 
 ### Level 3 — Challenge
+
 5. Write a two-sum lookup algorithm: Given a list of integers `nums = [2, 7, 11, 15]` and a target `target = 9`, use a dictionary to find the indices of the two numbers that add up to `target` in a single $O(N)$ pass.
 
 ### Hints
-- *Problem 3*: `{name: "PASS" for name, score in scores.items() if score >= 70}`.
-- *Problem 4*: Use `clean = [c.lower() for c in text if c.isalnum()]`, then check `clean == clean[::-1]`.
-- *Problem 5*: For each number, calculate `complement = target - num`. If `complement` exists in `seen_dict`, return `[seen_dict[complement], current_index]`. Otherwise, store `seen_dict[num] = current_index`.
+
+- _Problem 3_: `{name: "PASS" for name, score in scores.items() if score >= 70}`.
+- _Problem 4_: Use `clean = [c.lower() for c in text if c.isalnum()]`, then check `clean == clean[::-1]`.
+- _Problem 5_: For each number, calculate `complement = target - num`. If `complement` exists in `seen_dict`, return `[seen_dict[complement], current_index]`. Otherwise, store `seen_dict[num] = current_index`.
 
 ---
 
@@ -518,7 +548,7 @@ for student in classroom_data:
     average_score = sum(scores) / len(scores)
     letter_grade = calculate_letter_grade(average_score)
     is_honor_roll = average_score >= 90
-    
+
     student_summary = {
         "id": student["id"],
         "name": student["name"],
