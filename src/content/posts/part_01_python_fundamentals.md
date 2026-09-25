@@ -1,7 +1,7 @@
 ---
 title: "Python Fundamentals"
 author: "Shafin Chowdhury"
-pubDatetime: 2026-09-22T8:50:00+06:00
+pubDatetime: 2026-09-22T08:50:00+06:00
 featured: true
 draft: false
 tags:

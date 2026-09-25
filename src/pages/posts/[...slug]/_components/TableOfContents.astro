@@ -1,0 +1,142 @@
+---
+export type Heading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
+
+type Props = {
+  headings: Heading[];
+};
+
+const { headings } = Astro.props;
+
+// Filter out "Table of Contents" itself and keep depth 2 and depth 3
+const tocHeadings = headings.filter(
+  h => h.slug !== "table-of-contents" && (h.depth === 2 || h.depth === 3)
+);
+
+const hasSubheadings = tocHeadings.some(h => h.depth === 3);
+---
+
+{
+  tocHeadings.length > 0 && (
+    <aside
+      id="toc-sidebar"
+      class="hidden lg:block w-64 xl:w-72 shrink-0 sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pl-5 border-l border-border/50 text-[13px] scrollbar-thin"
+      aria-label="Table of Contents"
+    >
+      <div class="flex items-center justify-between mb-3 pb-2 border-b border-border/40">
+        <span class="font-semibold uppercase tracking-wider text-xs text-foreground/80 flex items-center gap-1.5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-3.5 text-accent"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="8" y1="6" x2="21" y2="6" />
+            <line x1="8" y1="12" x2="21" y2="12" />
+            <line x1="8" y1="18" x2="21" y2="18" />
+            <line x1="3" y1="6" x2="3.01" y2="6" />
+            <line x1="3" y1="12" x2="3.01" y2="12" />
+            <line x1="3" y1="18" x2="3.01" y2="18" />
+          </svg>
+          Table of Contents
+        </span>
+        <span class="text-[11px] text-muted-foreground font-mono">
+          {hasSubheadings ? tocHeadings.filter(h => h.depth === 3).length : tocHeadings.length}
+        </span>
+      </div>
+
+      <nav class="space-y-0.5">
+        {tocHeadings.map(h =>
+          h.depth === 2 ? (
+            <div class:list={["pt-3 pb-0.5 first:pt-0", hasSubheadings && "border-t border-border/25 first:border-0"]}>
+              <a
+                href={`#${h.slug}`}
+                data-toc-link={h.slug}
+                class="toc-link block font-bold text-[11.5px] uppercase tracking-wider text-accent/90 hover:text-accent transition-colors py-0.5 rounded px-1.5 -mx-1.5"
+              >
+                <span class="line-clamp-1">{h.text}</span>
+              </a>
+            </div>
+          ) : (
+            <a
+              href={`#${h.slug}`}
+              data-toc-link={h.slug}
+              class="toc-link block py-0.5 pl-3 text-[12px] text-muted-foreground hover:text-accent transition-colors leading-snug rounded hover:bg-muted/30 px-1.5 -mx-1.5"
+            >
+              <span class="line-clamp-1">{h.text}</span>
+            </a>
+          )
+        )}
+      </nav>
+    </aside>
+  )
+}
+
+<script is:inline data-astro-rerun>
+  function initTocObserver() {
+    const links = document.querySelectorAll(".toc-link");
+    if (!links.length) return;
+
+    const headingElements = [];
+    links.forEach(link => {
+      const slug = link.getAttribute("data-toc-link");
+      const el = document.getElementById(slug);
+      if (el) headingElements.push({ el, link });
+    });
+
+    if (!headingElements.length) return;
+
+    let activeLink = null;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        // Find visible headings
+        const visible = entries.filter(e => e.isIntersecting);
+        if (visible.length > 0) {
+          const topVisible = visible.reduce((prev, curr) =>
+            prev.boundingClientRect.top < curr.boundingClientRect.top ? prev : curr
+          );
+          const found = headingElements.find(h => h.el === topVisible.target);
+          if (found) {
+            updateActive(found.link);
+          }
+        }
+      },
+      {
+        rootMargin: "-80px 0px -70% 0px",
+        threshold: 0,
+      }
+    );
+
+    headingElements.forEach(h => observer.observe(h.el));
+
+    function updateActive(link) {
+      if (activeLink) {
+        activeLink.classList.remove("text-accent", "font-semibold", "bg-accent/10");
+      }
+      activeLink = link;
+      if (activeLink) {
+        activeLink.classList.add("text-accent", "font-semibold", "bg-accent/10");
+        // Keep active link visible in sidebar
+        const sidebar = document.getElementById("toc-sidebar");
+        if (sidebar) {
+          const rect = activeLink.getBoundingClientRect();
+          const sideRect = sidebar.getBoundingClientRect();
+          if (rect.top < sideRect.top || rect.bottom > sideRect.bottom) {
+            activeLink.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          }
+        }
+      }
+    }
+  }
+
+  initTocObserver();
+  document.addEventListener("astro:after-swap", initTocObserver);
+</script>

@@ -13,6 +13,8 @@ import ShareLinks from "./_components/ShareLinks.astro";
 import BackButton from "./_components/BackButton.astro";
 import BackToTopButton from "./_components/BackToTopButton.astro";
 import AdjacentPostNav from "./_components/AdjacentPostNav.astro";
+import TableOfContents from "./_components/TableOfContents.astro";
+import LinkButton from "@/components/LinkButton.astro";
 import config from "@/config";
 
 export async function getStaticPaths() {
@@ -69,9 +71,31 @@ const {
   tags,
   hideEditPost,
   author,
+  socials,
 } = post.data;
 
-const { Content } = await render(post);
+const socialIconModules = import.meta.glob<{
+  default: (_props: Record<string, unknown>) => unknown;
+}>("/src/assets/icons/socials/*.svg");
+
+const postSocials =
+  socials && socials.length > 0
+    ? await Promise.all(
+        socials.map(async ({ name, url, linkTitle }) => {
+          const mod =
+            await socialIconModules[`/src/assets/icons/socials/${name}.svg`]?.();
+          const Icon = mod?.default;
+          const title =
+            linkTitle ??
+            (url.startsWith("mailto:") || name === "mail"
+              ? `Send an email to ${author}`
+              : `${author} on ${name.charAt(0).toUpperCase() + name.slice(1)}`);
+          return { url, title, Icon };
+        })
+      )
+    : null;
+
+const { Content, headings } = await render(post);
 
 let ogImageUrl: string | undefined;
 
@@ -108,7 +132,10 @@ const ogImage = ogImageUrl
 
   <main
     id="main-content"
-    class:list={["app-layout", { "mt-8": !config.features.showBackButton }]}
+    class:list={[
+      "app-layout xl:max-w-7xl",
+      { "mt-8": !config.features.showBackButton },
+    ]}
     data-pagefind-body
   >
     <h1
@@ -119,6 +146,22 @@ const ogImage = ogImageUrl
     </h1>
 
     <div class="text-muted-foreground mt-2 text-sm">{author}</div>
+
+    {postSocials && postSocials.length > 0 && (
+      <div class="my-2.5 flex items-center gap-2 text-sm text-muted-foreground">
+        <span>Connect:</span>
+        <div class="flex flex-wrap items-center gap-1">
+          {postSocials.map(({ url, title, Icon }) =>
+            Icon ? (
+              <LinkButton href={url} class="p-2 hover:rotate-6 sm:p-1" title={title}>
+                <Icon class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" />
+                <span class="sr-only">{title}</span>
+              </LinkButton>
+            ) : null
+          )}
+        </div>
+      </div>
+    )}
 
     <div class="my-2 flex items-center gap-2">
       <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
@@ -134,16 +177,22 @@ const ogImage = ogImageUrl
       <EditPost {hideEditPost} {post} class="max-sm:hidden" />
     </div>
 
-    <article
-      id="article"
-      class:list={[
-        "mt-8 w-full",
-        "app-prose max-w-app",
-        "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
-      ]}
-    >
-      <Content />
-    </article>
+    <div class="mt-8 flex flex-col lg:flex-row lg:gap-10 xl:gap-14 items-start justify-between">
+      <article
+        id="article"
+        class:list={[
+          "w-full min-w-0 flex-1",
+          "app-prose",
+          "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+        ]}
+      >
+        <Content />
+      </article>
+
+      {headings && headings.filter(h => h.slug !== "table-of-contents" && h.depth === 2).length > 2 && (
+        <TableOfContents {headings} />
+      )}
+    </div>
 
     <hr class="my-8 border-dashed" />
 
