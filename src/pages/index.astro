@@ -11,6 +11,7 @@ import Card from "@/components/Card.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import ProfessionalHero from "@/components/ProfessionalHero.astro";
 import LatestWork from "@/components/LatestWork.astro";
+import profilePhoto from "@/assets/shafin.jpg";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
@@ -57,7 +58,7 @@ const homePath = getRelativeLocaleUrl(locale, "");
     class="app-layout"
   >
     <ProfessionalHero
-      imageUrl="https://cdn.shafinchowdhury.dev/blogs/home-page/598329222_3693489057452548_6311579749096457581_n.jpg"
+      imageUrl={profilePhoto.src}
     >
       <div slot="socials" class="flex flex-wrap items-center gap-2">
         <Socials />

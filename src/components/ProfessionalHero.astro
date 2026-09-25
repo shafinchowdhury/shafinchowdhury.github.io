@@ -15,15 +15,17 @@ const missionStatement =
 >
   <div class="app-layout">
     <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-center">
-      <!-- Left: Headshot -->
+      <!-- Left: Headshot with fade-up and background blend -->
       {
         imageUrl && (
-          <div class="flex justify-center lg:justify-start">
-            <img
-              src={imageUrl}
-              alt={imageAlt}
-              class="h-64 w-64 rounded-xl object-cover shadow-sm sm:h-80 sm:w-80 lg:h-96 lg:w-96"
-            />
+          <div class="hero-image-wrapper flex justify-center lg:justify-start">
+            <div class="hero-image-container relative group">
+              <img
+                src={imageUrl}
+                alt={imageAlt}
+                class="hero-image h-72 w-72 sm:h-80 sm:w-80 lg:h-96 lg:w-96 rounded-2xl object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+              />
+            </div>
           </div>
         )
       }
@@ -86,6 +88,97 @@ const missionStatement =
 <style>
   #hero-editorial {
     animation: fadeIn 0.6s ease-out;
+  }
+
+  /* Hero Image Fadeup & Background Blending */
+  .hero-image-wrapper {
+    animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  .hero-image {
+    -webkit-mask-image:
+      linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.05) 0.6%,
+        rgba(0, 0, 0, 0.2) 1.5%,
+        rgba(0, 0, 0, 0.48) 2.6%,
+        rgba(0, 0, 0, 0.78) 3.8%,
+        rgba(0, 0, 0, 0.94) 4.8%,
+        rgba(0, 0, 0, 1) 5.8%,
+        rgba(0, 0, 0, 1) 94.2%,
+        rgba(0, 0, 0, 0.94) 95.2%,
+        rgba(0, 0, 0, 0.78) 96.2%,
+        rgba(0, 0, 0, 0.48) 97.4%,
+        rgba(0, 0, 0, 0.2) 98.5%,
+        rgba(0, 0, 0, 0.05) 99.4%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.05) 0.6%,
+        rgba(0, 0, 0, 0.2) 1.5%,
+        rgba(0, 0, 0, 0.48) 2.6%,
+        rgba(0, 0, 0, 0.78) 3.8%,
+        rgba(0, 0, 0, 0.94) 4.8%,
+        rgba(0, 0, 0, 1) 5.8%,
+        rgba(0, 0, 0, 1) 93.2%,
+        rgba(0, 0, 0, 0.94) 94.4%,
+        rgba(0, 0, 0, 0.78) 95.8%,
+        rgba(0, 0, 0, 0.48) 97.2%,
+        rgba(0, 0, 0, 0.2) 98.5%,
+        rgba(0, 0, 0, 0.05) 99.4%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.05) 0.6%,
+        rgba(0, 0, 0, 0.2) 1.5%,
+        rgba(0, 0, 0, 0.48) 2.6%,
+        rgba(0, 0, 0, 0.78) 3.8%,
+        rgba(0, 0, 0, 0.94) 4.8%,
+        rgba(0, 0, 0, 1) 5.8%,
+        rgba(0, 0, 0, 1) 94.2%,
+        rgba(0, 0, 0, 0.94) 95.2%,
+        rgba(0, 0, 0, 0.78) 96.2%,
+        rgba(0, 0, 0, 0.48) 97.4%,
+        rgba(0, 0, 0, 0.2) 98.5%,
+        rgba(0, 0, 0, 0.05) 99.4%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.05) 0.6%,
+        rgba(0, 0, 0, 0.2) 1.5%,
+        rgba(0, 0, 0, 0.48) 2.6%,
+        rgba(0, 0, 0, 0.78) 3.8%,
+        rgba(0, 0, 0, 0.94) 4.8%,
+        rgba(0, 0, 0, 1) 5.8%,
+        rgba(0, 0, 0, 1) 93.2%,
+        rgba(0, 0, 0, 0.94) 94.4%,
+        rgba(0, 0, 0, 0.78) 95.8%,
+        rgba(0, 0, 0, 0.48) 97.2%,
+        rgba(0, 0, 0, 0.2) 98.5%,
+        rgba(0, 0, 0, 0.05) 99.4%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    mask-composite: intersect;
+  }
+
+  @keyframes heroFadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @keyframes fadeIn {
