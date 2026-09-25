@@ -3,7 +3,7 @@ title: "Python: Control Flow and Core Data Structures"
 author: "Shafin Chowdhury"
 pubDatetime: 2026-09-30T21:00:00+06:00
 featured: true
-draft: false
+draft: true
 tags:
   - python
   - programming

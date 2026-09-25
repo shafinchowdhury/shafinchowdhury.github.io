@@ -1110,7 +1110,6 @@ socials:
 
 Explore more programming and computer science guides:
 
-- [**Python: Control Flow and Core Data Structures**](/posts/part_02_control_flow_and_core_data_structures/) — A comprehensive guide covering branching conditionals, loops, lists, tuples, sets, dictionaries, comprehensions, and Big-O performance.
 - [**Python Fundamentals**](/posts/part_01_python_fundamentals/) — Foundations of Python covering architecture, CPython execution model, syntax rules, variables, memory mechanics, data types, and operators.
 - [**Part 3: Encapsulation — Protecting Your Data**](/posts/elcapsulation/) — Object-oriented principles in Java, data hiding, access modifiers, and writing robust encapsulated code.
 - [**Part 2: Classes and Objects — Building Your First Java Class**](/posts/class-object/) — Introduction to object-oriented programming, class design, objects, constructors, and instance state.
