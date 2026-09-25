@@ -247,26 +247,6 @@ const ogImage = ogImageUrl
   }
   updateScrollProgress();
 
-  function addHeadingLinks() {
-    const headings = Array.from(
-      document.querySelectorAll("h2, h3, h4, h5, h6")
-    );
-    for (const heading of headings) {
-      heading.classList.add("group");
-      const link = document.createElement("a");
-      link.className =
-        "heading-link ms-2 no-underline text-accent/60 opacity-60 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100 font-normal text-sm select-none hover:text-accent";
-      link.href = "#" + heading.id;
-      link.setAttribute("aria-label", `Link to ${heading.innerText.trim()}`);
-
-      const span = document.createElement("span");
-      span.ariaHidden = "true";
-      span.innerText = "#";
-      link.appendChild(span);
-      heading.appendChild(link);
-    }
-  }
-  addHeadingLinks();
 
   function attachCopyButtons() {
     const copyButtonLabel = "Copy";
