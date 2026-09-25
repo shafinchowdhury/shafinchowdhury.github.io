@@ -22,7 +22,11 @@
     }
 
     h3 {
-      @apply text-[16px] sm:text-[17px] font-semibold not-italic mt-6 mb-2 text-accent;
+      @apply text-[16px] sm:text-[18px] font-semibold not-italic mt-7 mb-2 text-accent;
+    }
+
+    h4 {
+      @apply text-[14px] sm:text-[15px] font-medium text-foreground/80 mt-4 mb-2;
     }
 
     p,
@@ -65,13 +69,41 @@
     }
 
     table {
+      @apply w-full my-4 border-collapse text-left;
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+
       th,
       td {
-        @apply border-border border p-2 text-[13.5px] sm:text-sm;
+        @apply border-border border px-3 py-2 text-[12.5px] sm:text-[13.5px] align-middle;
       }
 
       th {
-        @apply py-1.5 font-semibold bg-muted/40;
+        @apply py-2 font-semibold bg-muted/60 text-foreground whitespace-nowrap;
+      }
+
+      /* Responsive column minimum widths preventing mobile squishing */
+      th:nth-child(1),
+      td:nth-child(1) {
+        min-width: 3.25rem;
+        text-align: center;
+      }
+
+      th:nth-child(2),
+      td:nth-child(2) {
+        min-width: 7.5rem;
+      }
+
+      th:nth-child(3),
+      td:nth-child(3) {
+        min-width: 9.5rem;
+        text-align: center;
+      }
+
+      th:nth-child(4),
+      td:nth-child(4) {
+        min-width: 12rem;
       }
     }
 

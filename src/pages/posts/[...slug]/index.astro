@@ -178,20 +178,21 @@ const ogImage = ogImageUrl
     </div>
 
     <div class="mt-8 flex flex-col lg:flex-row lg:gap-10 xl:gap-14 items-start justify-between">
+      {headings && headings.filter(h => h.slug !== "table-of-contents" && (h.depth === 2 || h.depth === 3)).length > 2 && (
+        <TableOfContents {headings} />
+      )}
+
       <article
         id="article"
         class:list={[
           "w-full min-w-0 flex-1",
           "app-prose",
+          "lg:order-first",
           "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
         ]}
       >
         <Content />
       </article>
-
-      {headings && headings.filter(h => h.slug !== "table-of-contents" && h.depth === 2).length > 2 && (
-        <TableOfContents {headings} />
-      )}
     </div>
 
     <hr class="my-8 border-dashed" />
@@ -254,8 +255,9 @@ const ogImage = ogImageUrl
       heading.classList.add("group");
       const link = document.createElement("a");
       link.className =
-        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+        "heading-link ms-2 no-underline text-accent/60 opacity-60 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100 font-normal text-sm select-none hover:text-accent";
       link.href = "#" + heading.id;
+      link.setAttribute("aria-label", `Link to ${heading.innerText.trim()}`);
 
       const span = document.createElement("span");
       span.ariaHidden = "true";
