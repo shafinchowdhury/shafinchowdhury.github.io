@@ -14,19 +14,19 @@
     }
 
     h1 {
-      @apply text-2xl sm:text-3xl font-bold;
+      @apply text-2xl font-bold sm:text-3xl;
     }
 
     h2 {
-      @apply text-xl sm:text-2xl font-bold mt-10 mb-4 border-b border-border/40 pb-2;
+      @apply border-border/40 mt-10 mb-4 border-b pb-2 text-xl font-bold sm:text-2xl;
     }
 
     h3 {
-      @apply text-[16px] sm:text-[18px] font-semibold not-italic mt-7 mb-2 text-accent;
+      @apply text-accent mt-7 mb-2 text-[16px] font-semibold not-italic sm:text-[18px];
     }
 
     h4 {
-      @apply text-[14px] sm:text-[15px] font-medium text-foreground/80 mt-4 mb-2;
+      @apply text-foreground/80 mt-4 mb-2 text-[14px] font-medium sm:text-[15px];
     }
 
     p,
@@ -41,7 +41,7 @@
 
     p,
     li {
-      @apply text-foreground/90 text-[14.5px] sm:text-[15px] leading-relaxed;
+      @apply text-foreground/90 text-[14.5px] leading-relaxed sm:text-[15px];
     }
 
     a {
@@ -61,7 +61,7 @@
     }
 
     img {
-      @apply border-border mx-auto border rounded-lg;
+      @apply border-border mx-auto rounded-lg border;
     }
 
     figcaption {
@@ -69,18 +69,18 @@
     }
 
     table {
-      @apply w-full my-4 border-collapse text-left;
+      @apply my-4 w-full border-collapse text-left;
       display: block;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
 
       th,
       td {
-        @apply border-border border px-3 py-2 text-[12.5px] sm:text-[13.5px] align-middle;
+        @apply border-border border px-3 py-2 align-middle text-[12.5px] sm:text-[13.5px];
       }
 
       th {
-        @apply py-2 font-semibold bg-muted/60 text-foreground whitespace-nowrap;
+        @apply bg-muted/60 text-foreground py-2 font-semibold whitespace-nowrap;
       }
 
       /* Responsive column minimum widths preventing mobile squishing */
@@ -108,7 +108,7 @@
     }
 
     code {
-      @apply bg-muted/75 text-foreground rounded px-1.5 py-0.5 text-[13px] sm:text-[13.5px] wrap-break-word before:content-none after:content-none;
+      @apply bg-muted/75 text-foreground rounded px-1.5 py-0.5 text-[13px] wrap-break-word before:content-none after:content-none sm:text-[13.5px];
     }
 
     .astro-code code {
@@ -128,7 +128,7 @@
     }
 
     pre {
-      @apply text-[13px] sm:text-[13.5px] leading-relaxed rounded-lg focus-visible:outline-accent focus-visible:border-transparent focus-visible:outline-2 focus-visible:outline-dashed;
+      @apply focus-visible:outline-accent rounded-lg text-[13px] leading-relaxed focus-visible:border-transparent focus-visible:outline-2 focus-visible:outline-dashed sm:text-[13.5px];
     }
   }
 

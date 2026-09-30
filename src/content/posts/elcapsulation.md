@@ -15,7 +15,7 @@ description: >
   This blog makes Java encapsulation super easy to understand. You will learn how to wrap your data and code together inside a single unit to keep it safe from outside mistakes. By using simple examples, you will quickly master how to use "getters" and "setters" to build better, cleaner programs.
 ---
 
-In the previous chapter, we learned how to create classes and objects. [Click here](https://shafinchowdhury.dev/posts/class-object/) to revise the topic.
+In the previous chapter, [Part 2: Classes and Objects — Building Your First Java Class](/posts/class-object/), we learned how to design blueprints and instantiate objects. If you are starting fresh, begin with [Part 1: OOP in Java](/posts/oop/).
 However, do you notice? There's a problem with the classes we've written so far.
 
 Consider this `Student` class.
@@ -46,7 +46,7 @@ Nothing stops another programmer from assigning invalid values. For small codes 
 account.balance = -100000;
 ```
 
-or maybe, 
+or maybe,
 
 ```java
 account.balance = 999999999;
@@ -62,9 +62,9 @@ Think about a medicine capsule. You cannot reach inside it and change with the c
 
 A well-designed Java class works the same way.
 
-Instead of letting external code read and write its variables freely, the class hides its data and **exposes only safe, controlled ways to interact with it**. That's the main concept of encapsulation. 
+Instead of letting external code read and write its variables freely, the class hides its data and **exposes only safe, controlled ways to interact with it**. That's the main concept of encapsulation.
 
-> **Encapsulation** Encapsulation is one of the fundamental principles of object-oriented programming (OOP). It provides a way to bundle the data (fields) and methods that operate on the data into a class unit. By restricting direct access to some of the object’s components, encapsulation protects the integrity of the data and ensures that the object controls its state. 
+> **Encapsulation** Encapsulation is one of the fundamental principles of object-oriented programming (OOP). It provides a way to bundle the data (fields) and methods that operate on the data into a class unit. By restricting direct access to some of the object’s components, encapsulation protects the integrity of the data and ensures that the object controls its state.
 
 The three tools Java gives you to achieve this are:
 
@@ -78,12 +78,12 @@ The three tools Java gives you to achieve this are:
 
 Before writing any code, you need to understand the four access levels, Java provides.
 
-|Modifier|Who Can Access It|
-|---|---|
-|`private`|Only code inside this same class|
-|`Default`|Code inside the same package|
-|`protected`|Same package, plus subclasses|
-|`public`|Anywhere in the entire program|
+| Modifier    | Who Can Access It                |
+| ----------- | -------------------------------- |
+| `private`   | Only code inside this same class |
+| `Default`   | Code inside the same package     |
+| `protected` | Same package, plus subclasses    |
+| `public`    | Anywhere in the entire program   |
 
 For encapsulation, the ones you will use constantly are `private` (for data you want to hide) and `public` (for methods you want to expose, like getters and setters).
 
@@ -120,7 +120,8 @@ account.balance = 5000; // Compile-time error
 
 Java refuses. `balance` is private. Code outside `BankAccount` cannot touch it.
 
-However, a new problem has arisen: how does anything get read or changed? The answer is getter and setter methods. 
+However, a new problem has arisen: how does anything get read or changed? The answer is getter and setter methods.
+
 ## Step 4: Getter Methods: Reading Private Data
 
 A **getter** is a `public` method that reads and returns a private variable. The naming convention is always `get` followed by the variable name with the first letter capitalised, like getName(), getBalance(), getNid() and so on.
@@ -181,8 +182,7 @@ public void setBalance(double balance) {
 }
 ```
 
-Notice `this.balance` — the keyword `this` refers to the current object's variable. Without it, Java would get confused between the method parameter `balance` and the class field `balance`. This is a very common pattern inside setters, you can learn more about `this` keyword in previous part. 
-
+Notice `this.balance` — the keyword `this` refers to the current object's variable. Without it, Java would get confused between the method parameter `balance` and the class field `balance`. This is a very common pattern inside setters, you can learn more about `this` keyword in previous part.
 
 java
 
@@ -209,7 +209,9 @@ student.setAge(20);      // Can validate: age must be between 1 and 150
 student.setGpa(3.8);     // Can validate: GPA must be between 0.0 and 4.0
 employee.setSalary(5000); // Can validate: salary must be positive
 ```
+
 ---
+
 ## Step 5: Not Every Variable Needs a Setter
 
 This is an important design decision beginners often miss. Just because you _can_ write a setter does not mean you _should_.
@@ -281,6 +283,7 @@ These methods are not setters in the traditional sense. They are **domain method
 This is important application of encapsulation: the class doesn't just validate input, it _owns the rules_ of how its data evolves
 
 ---
+
 # Step 7: Constructor vs Getter/Setter
 
 Which is better to use, initialization through a constructor + overriding the toString() method, or using getters and setters?
@@ -290,6 +293,7 @@ It is definitely better to use getters and setters to access fields protected by
 It is also worth noting that each field requires its own getter and setter. If a class has two fields protected by the private access modifier, the class should have one getter for each field, meaning two getters and two setters. Let's take a look at an example where we add an age field to the Person class:
 
 # Step 8: Complete Encapsulated BankAccount Class
+
 Let's put everything together into a `BankAccount` class that demonstrates all the concepts: private fields, a constructor, getters, intentionally missing setters, and domain methods.
 
 ```java
@@ -538,32 +542,37 @@ Without encapsulation, every place in your codebase that reads `account.balance`
 All the rules for a piece of data live in one place — inside the class that owns it. If a bug is found in how withdrawals work, you fix it in one method. You don't have to hunt through the entire codebase for every place that modifies the balance
 
 ---
+
 # Encapsulation Workflow
 
 When designing an encapsulated class, follow these steps
+
 1. Create the class.
-    
 2. Make all instance variables `private`.
-    
 3. Create a constructor to initialize the object.
-    
 4. Add getter methods for values that should be readable.
-    
 5. Add setter methods or other public methods to safely modify the data.
-    
 6. Validate every input before changing the object's state.
-    
 
 ---
 
 # Summary
 
-|Task|Syntax|
-|---|---|
-|Make data private|`private double balance;`|
-|Read data|`account.getBalance();`|
-|Modify data safely|`account.deposit(500);`|
-|Restrict direct access|Use `private`|
-|Allow controlled access|Use `public` methods|
+| Task                    | Syntax                    |
+| ----------------------- | ------------------------- |
+| Make data private       | `private double balance;` |
+| Read data               | `account.getBalance();`   |
+| Modify data safely      | `account.deposit(500);`   |
+| Restrict direct access  | Use `private`             |
+| Allow controlled access | Use `public` methods      |
 
-Encapsulation is not just about hiding variables. It's about **protecting an object's data and ensuring that every change follows the rules defined by the class**. By controlling how data is accessed and modified, classes become safer, easier to maintain, and much less prone to bugs. In the next part we will learn about Inheritance. Click here to learn about it. Thank you 
+Encapsulation is not just about hiding variables. It's about **protecting an object's data and ensuring that every change follows the rules defined by the class**. By controlling how data is accessed and modified, classes become safer, easier to maintain, and much less prone to bugs.
+
+---
+
+### Further Exploration & Learning Paths
+
+- Revisit class blueprints and constructors in [Part 2: Classes and Objects](/posts/class-object/).
+- Review the overarching OOP mental model in [Part 1: OOP in Java](/posts/oop/).
+- Explore how references and object memory behave at the system level in [Dynamic Memory Allocation](/posts/dynamic-memory-allocation/).
+- Explore the complete progressive curriculum on the [Java & Object-Oriented Software Design topic hub](/topics/java/).

@@ -8,44 +8,46 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import Card from "@/components/Card.astro";
+import FeaturedProjectCard from "@/components/FeaturedProjectCard.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import ProfessionalHero from "@/components/ProfessionalHero.astro";
-import LatestWork from "@/components/LatestWork.astro";
 import profilePhoto from "@/assets/shafin.jpg";
 import { getSortedPosts } from "@/utils/getSortedPosts";
+import { postFilter } from "@/utils/postFilter";
+import { getPostSlug } from "@/utils/getPostPaths";
+import { TOPIC_HUBS } from "@/data/topics";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
-
-const { posts: postsConfig } = config;
 
 const locale = Astro.currentLocale ?? config.site.lang;
 const t = useTranslations(locale);
 
-const posts = await getCollection("posts");
+const rawPosts = await getCollection("posts");
+const posts = rawPosts.filter(postFilter);
 const sortedPosts = getSortedPosts(posts);
-const rankedPosts = sortedPosts
-  .map(post => {
-    const popularityScore =
-      typeof post.data.popularity === "number" ? post.data.popularity : 0;
-    const updatedAt = new Date(
-      post.data.modDatetime ?? post.data.pubDatetime
-    ).getTime();
-    const ageDays = Math.max(0, (Date.now() - updatedAt) / 86400000);
-    const recencyScore = Math.max(0, 10000 - ageDays);
-    const featuredBonus = post.data.featured ? 10000 : 0;
 
-    return {
-      ...post,
-      score: popularityScore + recencyScore + featuredBonus,
-    };
-  })
-  .sort(
-    (a, b) =>
-      b.score - a.score ||
-      new Date(b.data.modDatetime ?? b.data.pubDatetime).getTime() -
-        new Date(a.data.modDatetime ?? a.data.pubDatetime).getTime()
-  );
-const featuredPosts = rankedPosts.slice(0, postsConfig.perIndex);
+// Featured guides
+const featuredGuides = sortedPosts
+  .filter(post => post.data.featured)
+  .slice(0, 3);
+
+// Latest articles
+const latestArticles = sortedPosts.slice(0, 4);
+
+// Topic hubs with guide counts
+const topicList = Object.values(TOPIC_HUBS).map(topic => {
+  const allTopicSlugs = new Set(topic.groups.flatMap(group => group.postSlugs));
+  const guideCount = posts.filter(post => {
+    const postSlug = post.id.replace(/\.(md|mdx)$/, "");
+    return allTopicSlugs.has(postSlug);
+  }).length;
+
+  return {
+    ...topic,
+    guideCount,
+  };
+});
+
 const homePath = getRelativeLocaleUrl(locale, "");
 ---
 
@@ -57,9 +59,8 @@ const homePath = getRelativeLocaleUrl(locale, "");
     data-home-path={homePath}
     class="app-layout"
   >
-    <ProfessionalHero
-      imageUrl={profilePhoto.src}
-    >
+    <!-- 1. HERO -->
+    <ProfessionalHero imageUrl={profilePhoto.src}>
       <div slot="socials" class="flex flex-wrap items-center gap-2">
         <Socials />
         <a
@@ -74,29 +75,206 @@ const homePath = getRelativeLocaleUrl(locale, "");
       </div>
     </ProfessionalHero>
 
-    <LatestWork />
+    <!-- 2. TOPIC EXPLORATION -->
+    <section id="topics" class="border-border border-b py-12 sm:py-16">
+      <div class="mb-8 space-y-2">
+        <div class="inline-flex items-center gap-2">
+          <span
+            class="bg-accent/10 text-accent rounded-md px-2.5 py-0.5 text-xs font-semibold tracking-wider uppercase"
+          >
+            Explore Topics
+          </span>
+        </div>
+        <h2
+          class="text-foreground text-2xl font-bold tracking-tight sm:text-3xl"
+        >
+          Core Topic Hubs
+        </h2>
+        <p class="text-muted-foreground text-sm sm:text-base">
+          Start with structured learning paths across key computer science and
+          programming domains.
+        </p>
+      </div>
 
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          topicList.map(topic => (
+            <a
+              href={getRelativeLocaleUrl(locale, `topics/${topic.slug}`)}
+              class="border-border/80 group bg-muted/20 hover:border-accent hover:bg-muted/30 flex flex-col justify-between rounded-xl border p-5 transition-all duration-200 hover:shadow-xs"
+            >
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="bg-accent/10 text-accent rounded px-2 py-0.5 text-xs font-semibold">
+                    {topic.name}
+                  </span>
+                  <span class="text-muted-foreground text-xs">
+                    {topic.guideCount}{" "}
+                    {topic.guideCount === 1 ? "Guide" : "Guides"}
+                  </span>
+                </div>
+                <h3 class="text-foreground group-hover:text-accent text-base font-bold transition-colors sm:text-lg">
+                  {topic.title}
+                </h3>
+                <p class="text-muted-foreground line-clamp-2 text-xs leading-relaxed sm:text-sm">
+                  {topic.description}
+                </p>
+              </div>
+
+              <div class="text-accent border-border/40 mt-4 flex items-center gap-1 border-t pt-2 text-xs font-medium">
+                <span>View {topic.name} Pillar</span>
+                <IconArrowRight class="size-3.5 transition-transform group-hover:translate-x-1 rtl:-rotate-180" />
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="mt-6 text-center">
+        <a
+          href={getRelativeLocaleUrl(locale, "topics")}
+          class="text-accent inline-flex items-center gap-1.5 text-sm font-medium hover:underline"
+        >
+          <span>Explore all learning paths & topic hubs</span>
+          <IconArrowRight class="size-4 rtl:-rotate-180" />
+        </a>
+      </div>
+    </section>
+
+    <!-- 3. FEATURED GUIDES / RECOMMENDED READING -->
     {
-      featuredPosts.length > 0 && (
-        <section id="featured" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">
-            {t.home.featured}
-          </h2>
-          <ul>
-            {featuredPosts.map(data => (
-              <Card variant="h3" {...data} />
-            ))}
-          </ul>
+      featuredGuides.length > 0 && (
+        <section
+          id="featured-guides"
+          class="border-border border-b py-12 sm:py-16"
+        >
+          <div class="mb-8 space-y-2">
+            <h2 class="text-foreground text-2xl font-bold tracking-tight sm:text-3xl">
+              Featured Guides
+            </h2>
+            <p class="text-muted-foreground text-sm sm:text-base">
+              High-value deep dives and comprehensive reference sheets
+              recommended for all readers.
+            </p>
+          </div>
+
+          <div class="grid gap-6 sm:gap-8 lg:grid-cols-1">
+            {featuredGuides.map(post => {
+              const postSlug = getPostSlug(post.id, post.filePath);
+              const displayTags = (post.data.tags ?? []).slice(0, 3);
+
+              return (
+                <FeaturedProjectCard
+                  title={post.data.title}
+                  description={post.data.description}
+                  date={post.data.pubDatetime.toISOString()}
+                  tags={displayTags}
+                  href={`/posts/${postSlug}/`}
+                />
+              );
+            })}
+          </div>
         </section>
       )
     }
 
-    <div class="my-8 text-center">
-      <LinkButton href={getRelativeLocaleUrl(locale, "posts")}>
-        {t.home.allPosts}
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
-    </div>
+    <!-- 4. LATEST ARTICLES -->
+    <section id="latest-articles" class="border-border border-b py-12 sm:py-16">
+      <div
+        class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+      >
+        <div class="space-y-1">
+          <h2
+            class="text-foreground text-2xl font-bold tracking-tight sm:text-3xl"
+          >
+            Latest Articles
+          </h2>
+          <p class="text-muted-foreground text-sm sm:text-base">
+            Recent engineering writeups, algorithm solutions, and technical
+            notes.
+          </p>
+        </div>
+        <LinkButton
+          href={getRelativeLocaleUrl(locale, "posts")}
+          class="text-accent shrink-0 text-sm font-medium hover:underline"
+        >
+          {t.home.allPosts}
+          <IconArrowRight class="inline-block size-4 rtl:-rotate-180" />
+        </LinkButton>
+      </div>
+
+      <ul>
+        {latestArticles.map(data => <Card variant="h3" {...data} />)}
+      </ul>
+    </section>
+
+    <!-- 5. AUTHOR / ABOUT CTA -->
+    <section id="about-author" class="border-border border-b py-12 sm:py-16">
+      <div class="border-border/80 bg-muted/20 rounded-xl border p-6 sm:p-8">
+        <div
+          class="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center"
+        >
+          <div class="max-w-2xl space-y-3">
+            <span
+              class="bg-accent/10 text-accent rounded-md px-2.5 py-0.5 text-xs font-semibold tracking-wider uppercase"
+            >
+              About the Author
+            </span>
+            <h3
+              class="text-foreground text-xl font-bold tracking-tight sm:text-2xl"
+            >
+              Shafin Chowdhury
+            </h3>
+            <p
+              class="text-muted-foreground text-sm leading-relaxed sm:text-base"
+            >
+              Software Developer & Computer Science Student at North South
+              University. This site is where I document what I learn, explain
+              programming and computer science concepts, and build a personal
+              reference library that can also help other developers and
+              students.
+            </p>
+          </div>
+          <LinkButton
+            href={getRelativeLocaleUrl(locale, "about")}
+            class="bg-accent text-accent-foreground inline-flex shrink-0 items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium shadow-sm transition-all hover:opacity-90"
+          >
+            <span>Read Full Profile</span>
+            <IconArrowRight class="size-4 rtl:-rotate-180" />
+          </LinkButton>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. FINAL DISCOVERY CTA -->
+    <section id="discovery-cta" class="py-12 text-center sm:py-16">
+      <div class="mx-auto max-w-2xl space-y-4">
+        <h2
+          class="text-foreground text-2xl font-bold tracking-tight sm:text-3xl"
+        >
+          Explore the Knowledge Base
+        </h2>
+        <p class="text-muted-foreground text-sm leading-relaxed sm:text-base">
+          Navigate by structured topic pillars, search through technical guides,
+          or view all published articles in chronological order.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 pt-2">
+          <LinkButton
+            href={getRelativeLocaleUrl(locale, "topics")}
+            class="bg-accent text-accent-foreground inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium shadow-sm transition-all hover:opacity-90 sm:text-base"
+          >
+            Browse Topic Hubs
+            <IconArrowRight class="size-4 rtl:-rotate-180" />
+          </LinkButton>
+          <LinkButton
+            href={getRelativeLocaleUrl(locale, "posts")}
+            class="border-border text-foreground hover:bg-muted inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-medium transition-colors sm:text-base"
+          >
+            View All Articles
+          </LinkButton>
+        </div>
+      </div>
+    </section>
   </main>
   <Footer />
 </Layout>

@@ -4,6 +4,7 @@ export default {
   nav: {
     home: "Home",
     posts: "Posts",
+    topics: "Topics",
     tags: "Tags",
     about: "About",
     archives: "Archives",

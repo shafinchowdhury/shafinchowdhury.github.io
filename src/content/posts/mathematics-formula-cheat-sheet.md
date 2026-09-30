@@ -1106,14 +1106,15 @@ socials:
 
 ---
 
-### Recent Articles
+### Related Guides & Topic Hubs
 
-Explore more programming and computer science guides:
+Explore practical applications of these mathematical principles in software engineering:
 
-- [**Python Fundamentals**](/posts/part_01_python_fundamentals/) — Foundations of Python covering architecture, CPython execution model, syntax rules, variables, memory mechanics, data types, and operators.
-- [**Part 3: Encapsulation — Protecting Your Data**](/posts/elcapsulation/) — Object-oriented principles in Java, data hiding, access modifiers, and writing robust encapsulated code.
-- [**Part 2: Classes and Objects — Building Your First Java Class**](/posts/class-object/) — Introduction to object-oriented programming, class design, objects, constructors, and instance state.
+- [**Binary Number Conversions**](/posts/binary-number-conversions/) — Positional number systems, radix mathematics, and conversion algorithms between binary, octal, decimal, and hexadecimal.
+- [**How I Cut My Palindrome Algorithm’s Execution Time in Half**](/posts/efficient-palindrome-code/) — Algorithmic number theory, integer digit extraction, and eliminating memory overhead.
+- [**Python Fundamentals**](/posts/part_01_python_fundamentals/) — Foundations of Python covering architecture, CPython execution model, syntax rules, variables, memory mechanics, and operators.
+- [**Mathematics Topic Hub**](/topics/mathematics/) — The complete mathematical pillar page and structured learning paths.
 
 ---
 
-**Last updated:** 2026-09-25
+**Last updated:** 2026-09-30

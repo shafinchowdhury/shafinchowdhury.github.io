@@ -25,18 +25,18 @@ const sectionCount = hasSubheadings
 {
   tocHeadings.length > 0 && (
     <>
-      <!-- ============================================== -->
-      <!-- 1. Mobile Inline Collapsible Card (Top of Post)-->
-      <!-- ============================================== -->
+      {/* ============================================== */}
+      {/* 1. Mobile Inline Collapsible Card (Top of Post) */}
+      {/* ============================================== */}
       <details
         id="mobile-toc-accordion"
-        class="mobile-toc group lg:hidden w-full mb-8 rounded-xl border border-border/80 bg-muted/20 backdrop-blur-xs p-3.5 transition-colors"
+        class="mobile-toc group border-border/80 bg-muted/20 mb-8 w-full rounded-xl border p-3.5 backdrop-blur-xs transition-colors lg:hidden"
       >
-        <summary class="flex cursor-pointer items-center justify-between font-semibold text-[13.5px] text-foreground select-none list-none">
+        <summary class="text-foreground flex cursor-pointer list-none items-center justify-between text-[13.5px] font-semibold select-none">
           <span class="flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="size-4 text-accent"
+              class="text-accent size-4"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -53,8 +53,8 @@ const sectionCount = hasSubheadings
             </svg>
             <span>Table of Contents</span>
           </span>
-          <span class="flex items-center gap-2 text-xs text-muted-foreground font-normal">
-            <span class="font-mono bg-muted/70 px-2 py-0.5 rounded text-[11px] font-medium text-foreground/80">
+          <span class="text-muted-foreground flex items-center gap-2 text-xs font-normal">
+            <span class="bg-muted/70 text-foreground/80 rounded px-2 py-0.5 font-mono text-[11px] font-medium">
               {sectionCount} topics
             </span>
             <svg
@@ -71,13 +71,18 @@ const sectionCount = hasSubheadings
           </span>
         </summary>
 
-        <nav class="mt-3.5 pt-3 border-t border-border/40 max-h-[55vh] overflow-y-auto space-y-0.5 pr-1 scrollbar-thin">
+        <nav class="border-border/40 mt-3.5 max-h-[55vh] scrollbar-thin space-y-0.5 overflow-y-auto border-t pt-3 pr-1">
           {tocHeadings.map(h =>
             h.depth === 2 ? (
-              <div class:list={["pt-3 pb-0.5 first:pt-0", hasSubheadings && "border-t border-border/25 first:border-0"]}>
+              <div
+                class:list={[
+                  "pt-3 pb-0.5 first:pt-0",
+                  hasSubheadings && "border-border/25 border-t first:border-0",
+                ]}
+              >
                 <a
                   href={`#${h.slug}`}
-                  class="mobile-toc-link block font-bold text-[12px] uppercase tracking-wider text-accent hover:text-accent/80 transition-colors py-1 px-1.5"
+                  class="mobile-toc-link text-accent hover:text-accent/80 block px-1.5 py-1 text-[12px] font-bold tracking-wider uppercase transition-colors"
                 >
                   {h.text}
                 </a>
@@ -85,7 +90,7 @@ const sectionCount = hasSubheadings
             ) : (
               <a
                 href={`#${h.slug}`}
-                class="mobile-toc-link block py-1 pl-3 text-[12.5px] text-muted-foreground hover:text-accent transition-colors leading-snug rounded hover:bg-muted/40 px-1.5"
+                class="mobile-toc-link text-muted-foreground hover:text-accent hover:bg-muted/40 block rounded px-1.5 py-1 pl-3 text-[12.5px] leading-snug transition-colors"
               >
                 <span class="line-clamp-1">{h.text}</span>
               </a>
@@ -94,22 +99,22 @@ const sectionCount = hasSubheadings
         </nav>
       </details>
 
-      <!-- ============================================== -->
-      <!-- 2. Mobile Floating Quick-Jump Pill & Drawer    -->
-      <!-- ============================================== -->
+      {/* ============================================== */}
+      {/* 2. Mobile Floating Quick-Jump Pill & Drawer    */}
+      {/* ============================================== */}
       <div
         id="mobile-toc-fab-container"
-        class="lg:hidden fixed start-4 bottom-8 z-40 translate-y-16 opacity-0 transition-all duration-300"
+        class="fixed start-4 bottom-8 z-40 translate-y-16 opacity-0 transition-all duration-300 lg:hidden"
       >
         <button
           id="mobile-toc-open-btn"
           type="button"
-          class="flex items-center gap-2 rounded-full border border-border/80 bg-background/90 px-4 py-2.5 text-sm font-semibold text-foreground shadow-lg backdrop-blur-md transition-transform active:scale-95 hover:bg-muted"
+          class="border-border/80 bg-background/90 text-foreground hover:bg-muted flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold shadow-lg backdrop-blur-md transition-transform active:scale-95"
           aria-label="Open Table of Contents"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="size-4 text-accent"
+            class="text-accent size-4"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -125,29 +130,32 @@ const sectionCount = hasSubheadings
             <line x1="3" y1="18" x2="3.01" y2="18" />
           </svg>
           <span>Contents</span>
-          <span class="text-[11px] font-mono text-muted-foreground bg-muted px-2 py-0.5 rounded-full font-medium">
+          <span class="text-muted-foreground bg-muted rounded-full px-2 py-0.5 font-mono text-[11px] font-medium">
             {sectionCount}
           </span>
         </button>
       </div>
 
-      <!-- Mobile Bottom Sheet Drawer -->
+      {/* Mobile Bottom Sheet Drawer */}
       <div
         id="mobile-toc-drawer"
-        class="lg:hidden fixed inset-0 z-50 pointer-events-none opacity-0 transition-opacity duration-300"
+        class="pointer-events-none fixed inset-0 z-50 opacity-0 transition-opacity duration-300 lg:hidden"
         aria-hidden="true"
       >
-        <div id="mobile-toc-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-xs" />
+        <div
+          id="mobile-toc-backdrop"
+          class="absolute inset-0 bg-black/50 backdrop-blur-xs"
+        />
 
         <div
           id="mobile-toc-sheet"
-          class="absolute inset-x-0 bottom-0 max-h-[75vh] flex flex-col rounded-t-2xl border-t border-border bg-background p-4 shadow-2xl transition-transform duration-300 translate-y-full"
+          class="border-border bg-background absolute inset-x-0 bottom-0 flex max-h-[75vh] translate-y-full flex-col rounded-t-2xl border-t p-4 shadow-2xl transition-transform duration-300"
         >
-          <div class="flex items-center justify-between pb-3 border-b border-border/50">
+          <div class="border-border/50 flex items-center justify-between border-b pb-3">
             <div class="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="size-4 text-accent"
+                class="text-accent size-4"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -162,13 +170,15 @@ const sectionCount = hasSubheadings
                 <line x1="3" y1="12" x2="3.01" y2="12" />
                 <line x1="3" y1="18" x2="3.01" y2="18" />
               </svg>
-              <span class="font-bold text-sm">Table of Contents</span>
-              <span class="text-xs text-muted-foreground font-mono">({sectionCount})</span>
+              <span class="text-sm font-bold">Table of Contents</span>
+              <span class="text-muted-foreground font-mono text-xs">
+                ({sectionCount})
+              </span>
             </div>
             <button
               id="mobile-toc-close-btn"
               type="button"
-              class="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
+              class="text-muted-foreground hover:text-foreground hover:bg-muted rounded-md p-1"
               aria-label="Close Table of Contents"
             >
               <svg
@@ -187,13 +197,19 @@ const sectionCount = hasSubheadings
             </button>
           </div>
 
-          <nav class="mt-2 overflow-y-auto space-y-0.5 py-2 scrollbar-thin flex-1">
+          <nav class="mt-2 flex-1 scrollbar-thin space-y-0.5 overflow-y-auto py-2">
             {tocHeadings.map(h =>
               h.depth === 2 ? (
-                <div class:list={["pt-3 pb-0.5 first:pt-0", hasSubheadings && "border-t border-border/25 first:border-0"]}>
+                <div
+                  class:list={[
+                    "pt-3 pb-0.5 first:pt-0",
+                    hasSubheadings &&
+                      "border-border/25 border-t first:border-0",
+                  ]}
+                >
                   <a
                     href={`#${h.slug}`}
-                    class="drawer-toc-link block font-bold text-[12px] uppercase tracking-wider text-accent hover:text-accent/80 transition-colors py-1 px-1.5"
+                    class="drawer-toc-link text-accent hover:text-accent/80 block px-1.5 py-1 text-[12px] font-bold tracking-wider uppercase transition-colors"
                   >
                     {h.text}
                   </a>
@@ -201,7 +217,7 @@ const sectionCount = hasSubheadings
               ) : (
                 <a
                   href={`#${h.slug}`}
-                  class="drawer-toc-link block py-1.5 pl-3 text-[13px] text-muted-foreground hover:text-accent transition-colors leading-snug rounded hover:bg-muted/40 px-1.5"
+                  class="drawer-toc-link text-muted-foreground hover:text-accent hover:bg-muted/40 block rounded px-1.5 py-1.5 pl-3 text-[13px] leading-snug transition-colors"
                 >
                   <span class="line-clamp-1">{h.text}</span>
                 </a>
@@ -211,19 +227,19 @@ const sectionCount = hasSubheadings
         </div>
       </div>
 
-      <!-- ============================================== -->
-      <!-- 3. Desktop Sticky Right Sidebar                -->
-      <!-- ============================================== -->
+      {/* ============================================== */}
+      {/* 3. Desktop Sticky Right Sidebar                */}
+      {/* ============================================== */}
       <aside
         id="toc-sidebar"
-        class="hidden lg:block w-64 xl:w-72 shrink-0 sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pl-5 border-l border-border/50 text-[13px] scrollbar-thin lg:order-last"
+        class="border-border/50 sticky top-24 hidden max-h-[calc(100vh-7rem)] w-64 shrink-0 scrollbar-thin overflow-y-auto border-l pl-5 text-[13px] lg:order-last lg:block xl:w-72"
         aria-label="Table of Contents"
       >
-        <div class="flex items-center justify-between mb-3 pb-2 border-b border-border/40">
-          <span class="font-semibold uppercase tracking-wider text-xs text-foreground/80 flex items-center gap-1.5">
+        <div class="border-border/40 mb-3 flex items-center justify-between border-b pb-2">
+          <span class="text-foreground/80 flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="size-3.5 text-accent"
+              class="text-accent size-3.5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -240,7 +256,7 @@ const sectionCount = hasSubheadings
             </svg>
             Table of Contents
           </span>
-          <span class="text-[11px] text-muted-foreground font-mono">
+          <span class="text-muted-foreground font-mono text-[11px]">
             {sectionCount}
           </span>
         </div>
@@ -248,11 +264,16 @@ const sectionCount = hasSubheadings
         <nav class="space-y-0.5">
           {tocHeadings.map(h =>
             h.depth === 2 ? (
-              <div class:list={["pt-3 pb-0.5 first:pt-0", hasSubheadings && "border-t border-border/25 first:border-0"]}>
+              <div
+                class:list={[
+                  "pt-3 pb-0.5 first:pt-0",
+                  hasSubheadings && "border-border/25 border-t first:border-0",
+                ]}
+              >
                 <a
                   href={`#${h.slug}`}
                   data-toc-link={h.slug}
-                  class="toc-link block font-bold text-[11.5px] uppercase tracking-wider text-accent/90 hover:text-accent transition-colors py-0.5 rounded px-1.5 -mx-1.5"
+                  class="toc-link text-accent/90 hover:text-accent -mx-1.5 block rounded px-1.5 py-0.5 text-[11.5px] font-bold tracking-wider uppercase transition-colors"
                 >
                   <span class="line-clamp-1">{h.text}</span>
                 </a>
@@ -261,7 +282,7 @@ const sectionCount = hasSubheadings
               <a
                 href={`#${h.slug}`}
                 data-toc-link={h.slug}
-                class="toc-link block py-0.5 pl-3 text-[12px] text-muted-foreground hover:text-accent transition-colors leading-snug rounded hover:bg-muted/30 px-1.5 -mx-1.5"
+                class="toc-link text-muted-foreground hover:text-accent hover:bg-muted/30 -mx-1.5 block rounded px-1.5 py-0.5 pl-3 text-[12px] leading-snug transition-colors"
               >
                 <span class="line-clamp-1">{h.text}</span>
               </a>
@@ -292,19 +313,38 @@ const sectionCount = hasSubheadings
             const visible = entries.filter(e => e.isIntersecting);
             if (visible.length > 0) {
               const topVisible = visible.reduce((prev, curr) =>
-                prev.boundingClientRect.top < curr.boundingClientRect.top ? prev : curr
+                prev.boundingClientRect.top < curr.boundingClientRect.top
+                  ? prev
+                  : curr
               );
-              const found = headingElements.find(h => h.el === topVisible.target);
+              const found = headingElements.find(
+                h => h.el === topVisible.target
+              );
               if (found) {
-                if (activeLink) activeLink.classList.remove("text-accent", "font-semibold", "bg-accent/10");
+                if (activeLink)
+                  activeLink.classList.remove(
+                    "text-accent",
+                    "font-semibold",
+                    "bg-accent/10"
+                  );
                 activeLink = found.link;
-                activeLink.classList.add("text-accent", "font-semibold", "bg-accent/10");
+                activeLink.classList.add(
+                  "text-accent",
+                  "font-semibold",
+                  "bg-accent/10"
+                );
                 const sidebar = document.getElementById("toc-sidebar");
                 if (sidebar) {
                   const rect = activeLink.getBoundingClientRect();
                   const sideRect = sidebar.getBoundingClientRect();
-                  if (rect.top < sideRect.top || rect.bottom > sideRect.bottom) {
-                    activeLink.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                  if (
+                    rect.top < sideRect.top ||
+                    rect.bottom > sideRect.bottom
+                  ) {
+                    activeLink.scrollIntoView({
+                      block: "nearest",
+                      behavior: "smooth",
+                    });
                   }
                 }
               }
@@ -369,7 +409,8 @@ const sectionCount = hasSubheadings
       window.addEventListener(
         "scroll",
         () => {
-          const scrollTop = window.scrollY || document.documentElement.scrollTop;
+          const scrollTop =
+            window.scrollY || document.documentElement.scrollTop;
           const showFab = scrollTop > 350;
           fabContainer.classList.toggle("translate-y-0", showFab);
           fabContainer.classList.toggle("opacity-100", showFab);

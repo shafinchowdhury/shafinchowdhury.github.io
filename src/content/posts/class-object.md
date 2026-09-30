@@ -11,37 +11,39 @@ description: "Proper view of Object-Oriented Programming through a series"
 
 # Part 2: Classes and Objects — Building Your First Java Class
 
-In the previous part, we learned the idea behind Object-Oriented Programming and why we use it. In this chapter, we'll start writing actual OOP programs in Java. If you didn't read the previous one then read this before :  [Click here](https://shafinchowdhury.dev/posts/oop/).
+In the previous part, [Part 1: Object-Oriented Programming in Java: A Complete Story for Students](/posts/oop/), we learned the idea behind Object-Oriented Programming and why we use it. In this chapter, we'll start writing actual OOP programs in Java.
 
 By the end of this chapter, you'll know how to:
 
-* Create a class
-* Create objects
-* Access variables and methods
-* Initialize objects using constructors
-* Understand the `this` keyword
-* Use `static` members correctly
+- Create a class
+- Create objects
+- Access variables and methods
+- Initialize objects using constructors
+- Understand the `this` keyword
+- Use `static` members correctly
+
 ---
 
 # Step 1: Creating a Class
+
 ![image](https://cdn.shafinchowdhury.dev/blogs/oop/4efed01c-5b2c-4361-80d4-b6b91d4dc663.jpeg)
 
 Imagine an architect drawing the blueprint of a house.
 
 The blueprint describes:
 
-* How many rooms the house has
-* Where the doors and windows are
-* The size of the kitchen
-* The electrical wiring
+- How many rooms the house has
+- Where the doors and windows are
+- The size of the kitchen
+- The electrical wiring
 
 From that single blueprint, builders can construct hundreds of houses. Every house follows the same design, but each one is completely independent. Painting one house blue doesn't change the others.
 ![image](https://cdn.shafinchowdhury.dev/blogs/oop/Gemini_Generated_Image_48xiua48xiua48xi.png)
 
 Java works exactly the same way.
 
-* The blueprint is called a **Class**.
-* Each actual house is called an **Object** (also known as an **Instance**).
+- The blueprint is called a **Class**.
+- Each actual house is called an **Object** (also known as an **Instance**).
 
 ## What is a Class?
 
@@ -82,10 +84,9 @@ Actual students will only be created later using the `new` keyword.
 
 ## Keep in Mind
 
-* A class is **not** an object.
-* A class does **not** store data for individual objects.
-* Think of it as a blueprint or design.
-
+- A class is **not** an object.
+- A class does **not** store data for individual objects.
+- Think of it as a blueprint or design.
 
 ---
 
@@ -294,10 +295,10 @@ A constructor is a **special method** that is automatically called whenever an o
 
 A constructor:
 
-* Has the same name as the class.
-* Has no return type. 
-* Is called automatically.
-* Runs once for every object created.
+- Has the same name as the class.
+- Has no return type.
+- Is called automatically.
+- Runs once for every object created.
 
 Example:
 
@@ -609,14 +610,24 @@ public class Main {
         // Accessing instance methods
         s1.introduce();
         s2.introduce();
-        
+
         s1.study("Data Structures");
         s2.study("Algorithms");
 
         System.out.println("---");
 
         // Accessing the class-level static method
-        Student.printTotalStudents(); 
+        Student.printTotalStudents();
     }
 }
 ```
+
+---
+
+### What's Next in the Series?
+
+Now that you can model real-world concepts into classes and instantiate objects, the next step is learning how to protect that data from improper external manipulation:
+
+- **Next Chapter**: [Part 3: Encapsulation — Protecting Your Data](/posts/elcapsulation/)
+- **Previous Chapter**: [Part 1: Object-Oriented Programming in Java: A Complete Story for Students](/posts/oop/)
+- **Pillar Hub**: Explore the full sequence on the [Java & Object-Oriented Software Design topic hub](/topics/java/)

@@ -11,7 +11,6 @@ tags:
 description: "A student-friendly guide to writing highly efficient palindrome functions in C++. Move from slow string conversions to a raw arithmetic method that speeds up your code by 200%."
 ---
 
-
 # The Secret to Lightning-Fast Code: Overcoming the Palindrome Trap
 
 We've all been there. It's late at night, your eyes are blurry, and you're staring at your screen. You're working on a coding problem, but your program keeps running too slowly because the numbers involved are enormous.
@@ -217,11 +216,11 @@ which confirms the palindrome.
 
 ## Complexity Analysis
 
-| Approach | Time Complexity | Extra Memory |
-|-----------|----------------|--------------|
-| Full Reversal | O(d) | O(1) |
-| String Conversion | O(d) | O(d) |
-| Half Reversal | O(d/2) ≈ O(d) | O(1) |
+| Approach          | Time Complexity | Extra Memory |
+| ----------------- | --------------- | ------------ |
+| Full Reversal     | O(d)            | O(1)         |
+| String Conversion | O(d)            | O(d)         |
+| Half Reversal     | O(d/2) ≈ O(d)   | O(1)         |
 
 Where **d** is the number of digits.
 
@@ -245,8 +244,13 @@ The next time you're solving a numerical problem, ask yourself:
 
 > Do I really need to process the entire value?
 
-Often, a clever observation can eliminate half the work, reduce memory usage, and make your solution significantly more efficient.
-
 In the case of palindrome detection, the simple "meet-in-the-middle" strategy transforms a straightforward solution into a highly optimized one without sacrificing readability.
 
+---
 
+### Related Algorithmic & Mathematical Studies
+
+- **Radix Mechanics**: Learn how positional notation and digit extraction operate across different numerical bases in [Binary Number Conversions](/posts/binary-number-conversions/).
+- **Mathematical Foundations**: Review arithmetic, series, and complexity principles in the [Mathematics Formula Cheat Sheet](/posts/mathematics-formula-cheat-sheet/).
+- **Memory Overhead in Containers**: Contrast raw arithmetic speed with node-based structures in [Mastering std::list in Modern C++](/posts/list-in-cpp/).
+- **Topic Hub**: Explore the structured roadmap on the [Algorithms & DSA topic hub](/topics/dsa/).

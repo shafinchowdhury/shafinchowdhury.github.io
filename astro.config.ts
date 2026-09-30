@@ -19,6 +19,27 @@ import config from "./astro-paper.config";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 
+/**
+ * Remark plugin to enforce single-H1 SEO hierarchy.
+ * Any top-level heading in the markdown body is shifted to H2 so the
+ * page-level article title remains the sole, canonical H1.
+ */
+function remarkEnsureSingleH1() {
+  return (tree: any) => {
+    function visit(node: any) {
+      if (node.type === "heading" && node.depth === 1) {
+        node.depth = 2;
+      }
+      if (node.children) {
+        for (const child of node.children) {
+          visit(child);
+        }
+      }
+    }
+    visit(tree);
+  };
+}
+
 export default defineConfig({
   site: "https://shafinchowdhury.dev",
   integrations: [
@@ -36,8 +57,13 @@ export default defineConfig({
     },
   },
   markdown: {
-    remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }], remarkMath],
-  rehypePlugins: [rehypeKatex], 
+    remarkPlugins: [
+      remarkToc,
+      [remarkCollapse, { test: "Table of contents" }],
+      remarkMath,
+      remarkEnsureSingleH1,
+    ],
+    rehypePlugins: [rehypeKatex],
     shikiConfig: {
       themes: { light: "min-light", dark: "night-owl" },
       defaultColor: false,

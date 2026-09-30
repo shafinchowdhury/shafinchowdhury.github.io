@@ -1,0 +1,103 @@
+---
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import IconCalendar from "@/assets/icons/IconCalendar.svg";
+import config from "@/config";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+type Props = {
+  author?: string;
+  pubDatetime: string | Date;
+  modDatetime?: string | Date | null;
+  timezone?: string;
+  readingTime?: string;
+  class?: string;
+};
+
+const {
+  author = config.site.author,
+  pubDatetime,
+  modDatetime,
+  timezone: postTimezone,
+  readingTime,
+  class: className = "",
+} = Astro.props;
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const tz = postTimezone ?? config.site.timezone;
+
+const pubDateObj = dayjs(pubDatetime).tz(tz);
+const formattedPubDate = pubDateObj.format("D MMM, YYYY");
+
+const isModified =
+  modDatetime &&
+  new Date(modDatetime).getTime() > new Date(pubDatetime).getTime();
+
+const modDateObj = isModified ? dayjs(modDatetime).tz(tz) : null;
+const formattedModDate = modDateObj?.format("D MMM, YYYY");
+---
+
+<div
+  class:list={[
+    "border-border/70 bg-muted/20 dark:bg-muted/10 my-5 rounded-lg border p-4 transition-colors",
+    className,
+  ]}
+>
+  <div
+    class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div class="space-y-0.5">
+      <div
+        class="text-foreground flex items-center gap-1.5 text-sm font-medium"
+      >
+        <span>Written by</span>
+        <a
+          href={getRelativeLocaleUrl(locale, "about")}
+          class="text-accent focus-outline font-semibold underline-offset-4 hover:underline"
+        >
+          {author}
+        </a>
+      </div>
+      <p class="text-muted-foreground text-xs">
+        Software Developer & Computer Science Student
+      </p>
+    </div>
+
+    <div
+      class="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 text-xs"
+    >
+      <div class="flex items-center gap-1">
+        <IconCalendar class="inline-block size-3.5 opacity-75" />
+        <span>Published:</span>
+        <time datetime={pubDateObj.toISOString()}>{formattedPubDate}</time>
+      </div>
+
+      {
+        isModified && modDateObj && (
+          <div class="flex items-center gap-1">
+            <span aria-hidden="true" class="opacity-50">
+              •
+            </span>
+            <span>Updated:</span>
+            <time datetime={modDateObj.toISOString()}>{formattedModDate}</time>
+          </div>
+        )
+      }
+
+      {
+        readingTime && (
+          <div class="flex items-center gap-1">
+            <span aria-hidden="true" class="opacity-50">
+              •
+            </span>
+            <span>{readingTime}</span>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</div>

@@ -3,8 +3,10 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import PostLayout from "@/layouts/PostLayout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Datetime from "@/components/Datetime.astro";
 import Tag from "@/components/Tag.astro";
+import ArticleAuthor from "@/components/ArticleAuthor.astro";
+import RelatedArticles from "@/components/RelatedArticles.astro";
+import { getReadingTime } from "@/utils/getReadingTime";
 import { getPostSlug, getPostUrl } from "@/utils/getPostPaths";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { slugifyStr } from "@/utils/slugify";
@@ -83,7 +85,9 @@ const postSocials =
     ? await Promise.all(
         socials.map(async ({ name, url, linkTitle }) => {
           const mod =
-            await socialIconModules[`/src/assets/icons/socials/${name}.svg`]?.();
+            await socialIconModules[
+              `/src/assets/icons/socials/${name}.svg`
+            ]?.();
           const Icon = mod?.default;
           const title =
             linkTitle ??
@@ -96,6 +100,7 @@ const postSocials =
     : null;
 
 const { Content, headings } = await render(post);
+const readingTime = getReadingTime(post.body);
 
 let ogImageUrl: string | undefined;
 
@@ -145,42 +150,53 @@ const ogImage = ogImageUrl
       {title}
     </h1>
 
-    <div class="text-muted-foreground mt-2 text-sm">{author}</div>
+    <ArticleAuthor
+      {author}
+      {pubDatetime}
+      {modDatetime}
+      {timezone}
+      {readingTime}
+    />
 
-    {postSocials && postSocials.length > 0 && (
-      <div class="my-2.5 flex items-center gap-2 text-sm text-muted-foreground">
-        <span>Connect:</span>
-        <div class="flex flex-wrap items-center gap-1">
-          {postSocials.map(({ url, title, Icon }) =>
-            Icon ? (
-              <LinkButton href={url} class="p-2 hover:rotate-6 sm:p-1" title={title}>
-                <Icon class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" />
-                <span class="sr-only">{title}</span>
-              </LinkButton>
-            ) : null
-          )}
-        </div>
-      </div>
-    )}
-
-    <div class="my-2 flex items-center gap-2">
-      <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
-      <span
-        aria-hidden="true"
-        class:list={[
-          "text-muted-foreground max-sm:hidden",
-          { hidden: !config.features.editPost?.enabled || hideEditPost },
-        ]}
-      >
-        |
-      </span>
-      <EditPost {hideEditPost} {post} class="max-sm:hidden" />
+    <div class="my-2 flex items-center justify-between">
+      {
+        postSocials && postSocials.length > 0 && (
+          <div class="text-muted-foreground flex items-center gap-2 text-sm">
+            <span>Connect:</span>
+            <div class="flex flex-wrap items-center gap-1">
+              {postSocials.map(({ url, title, Icon }) =>
+                Icon ? (
+                  <LinkButton
+                    href={url}
+                    class="p-2 hover:rotate-6 sm:p-1"
+                    title={title}
+                  >
+                    <Icon class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" />
+                    <span class="sr-only">{title}</span>
+                  </LinkButton>
+                ) : null
+              )}
+            </div>
+          </div>
+        )
+      }
+      <EditPost
+        {hideEditPost}
+        {post}
+        class="text-muted-foreground text-xs max-sm:hidden"
+      />
     </div>
 
-    <div class="mt-8 flex flex-col lg:flex-row lg:gap-10 xl:gap-14 items-start justify-between">
-      {headings && headings.filter(h => h.slug !== "table-of-contents" && (h.depth === 2 || h.depth === 3)).length > 2 && (
-        <TableOfContents {headings} />
-      )}
+    <div
+      class="mt-8 flex flex-col items-start justify-between lg:flex-row lg:gap-10 xl:gap-14"
+    >
+      {
+        headings &&
+          headings.filter(
+            h =>
+              h.slug !== "table-of-contents" && (h.depth === 2 || h.depth === 3)
+          ).length > 2 && <TableOfContents {headings} />
+      }
 
       <article
         id="article"
@@ -206,6 +222,8 @@ const ogImage = ogImageUrl
     </ul>
 
     <ShareLinks />
+
+    <RelatedArticles currentPost={post} />
 
     <hr class="my-8 border-dashed" />
 
@@ -246,7 +264,6 @@ const ogImage = ogImageUrl
     });
   }
   updateScrollProgress();
-
 
   function attachCopyButtons() {
     const copyButtonLabel = "Copy";

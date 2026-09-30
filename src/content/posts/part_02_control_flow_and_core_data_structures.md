@@ -3,7 +3,7 @@ title: "Python: Control Flow and Core Data Structures"
 author: "Shafin Chowdhury"
 pubDatetime: 2026-09-30T21:00:00+06:00
 featured: true
-draft: true
+draft: false
 tags:
   - python
   - programming
@@ -14,7 +14,7 @@ description: "A comprehensive guide to Python control flow and core data structu
 
 # Part 2 — Control Flow and Core Data Structures
 
-In this chapter, we expand beyond linear, top-to-bottom execution to build dynamic, intelligent programs. You will learn how Python makes decisions through branching conditionals, repeats work through loops, and organizes complex data using Python's four foundational built-in data structures: **Lists**, **Tuples**, **Sets**, and **Dictionaries**, culminating in Pythonic **Comprehensions**.
+In this chapter, continuing directly from [Part 1: Python Fundamentals](/posts/part_01_python_fundamentals/), we expand beyond linear, top-to-bottom execution to build dynamic, intelligent programs. You will learn how Python makes decisions through branching conditionals, repeats work through loops, and organizes complex data using Python's four foundational built-in data structures: **Lists**, **Tuples**, **Sets**, and **Dictionaries**, culminating in Pythonic **Comprehensions**.
 
 ---
 
@@ -585,8 +585,8 @@ print("=" * 65)
 
 ## What Comes Next?
 
-In **Part 3 — Functions and Modular Programming**, we introduce code reuse, function signatures, `*args` and `**kwargs`, the LEGB scope rule, closures, first-class functions, recursion, and packaging reusable modules with `__init__.py`.
+In **Part 3 — Functions and Modular Programming**, we introduce code reuse, function signatures, `*args` and `**kwargs`, the LEGB scope rule, closures, first-class functions, recursion, and packaging reusable modules.
 
 ---
 
-[← Part 1 — Python Fundamentals](part_01_python_fundamentals.md) | **Part 2 — Control Flow & Data Structures** | [Part 3 — Functions & Modular Programming →](part_03_functions_and_modular_programming.md)
+[← Part 1 — Python Fundamentals](/posts/part_01_python_fundamentals/) | **Part 2 — Control Flow & Data Structures** | [Explore Python Topic Hub →](/topics/python/)

@@ -727,6 +727,6 @@ print("Thank you for using Expense Splitter CLI!")
 
 ## What Comes Next?
 
-In **Part 2 — Control Flow and Core Data Structures**, we transition from linear execution to dynamic logic. You will master branching (`if`/`elif`/`else`), looping paradigms (`for`, `while`, loop `else`), and deep-dive into Python's primary collections: `list`, `tuple`, `set`, `dict`, and their powerful `comprehensions`.
+In [**Part 2 — Control Flow and Core Data Structures**](/posts/part_02_control_flow_and_core_data_structures/), we transition from linear execution to dynamic logic. You will master branching (`if`/`elif`/`else`), looping paradigms (`for`, `while`, loop `else`), and deep-dive into Python's primary collections: `list`, `tuple`, `set`, `dict`, and their powerful `comprehensions`.
 
----
+Follow the full curriculum on the [Python Architecture & Core Mechanics topic hub](/topics/python/).

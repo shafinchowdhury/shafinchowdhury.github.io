@@ -1,10 +1,13 @@
 ---
 import { getEntry, render } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import Main from "@/components/Main.astro";
 import Footer from "@/components/Footer.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import config from "@/config";
 
 const about = await getEntry("pages", "about");
@@ -16,20 +19,92 @@ if (!about) {
 }
 
 const { Content } = await render(about);
+const locale = Astro.currentLocale ?? config.site.lang;
+
+const pageCanonicalURL =
+  about.data.canonicalURL ?? new URL(Astro.url.pathname, Astro.site).href;
+
+const profileStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  mainEntity: {
+    "@type": "Person",
+    name: config.site.author,
+    alternateName: "Md. Shafin Mahmud Chowdhury",
+    jobTitle: "Software Developer & Computer Science Student",
+    affiliation: {
+      "@type": "EducationalOrganization",
+      name: "North South University",
+    },
+    url: pageCanonicalURL,
+    sameAs: [
+      "https://github.com/shafinchowdhury",
+      "https://www.linkedin.com/in/md-shafin-mahmud-chowdhury-11b732316/",
+    ],
+    knowsAbout: [
+      "C++",
+      "Python",
+      "Java",
+      "Data Structures and Algorithms",
+      "Software Development",
+      "Mathematics",
+    ],
+  },
+};
 ---
 
 <Layout
   title={`${about.data.title} | ${config.site.title}`}
   description={about.data.description}
   ogImage={about.data.ogImage}
-  canonicalURL={about.data.canonicalURL}
+  canonicalURL={pageCanonicalURL}
 >
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(profileStructuredData)}
+    />
+  </Fragment>
+
   <Header />
 
   <Breadcrumb />
 
   <Main pageTitle={about.data.title} class="app-prose">
     <Content />
+
+    <!-- Actionable Discovery CTAs -->
+    <div
+      class="not-prose border-border/80 bg-muted/20 mt-12 rounded-xl border p-6 sm:p-8"
+    >
+      <h2
+        class="text-foreground text-xl font-semibold tracking-tight sm:text-2xl"
+      >
+        Ready to dive into the guides?
+      </h2>
+      <p
+        class="text-muted-foreground mt-2 text-sm leading-relaxed sm:text-base"
+      >
+        Explore structured technical articles across core programming languages,
+        algorithms, and mathematics.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-4">
+        <LinkButton
+          href={getRelativeLocaleUrl(locale, "posts")}
+          class="bg-accent text-accent-foreground inline-flex items-center gap-2 rounded-lg px-5 py-2.5 font-medium shadow-sm transition-all hover:opacity-90"
+        >
+          Explore my articles
+          <IconArrowRight class="inline-block size-4 rtl:-rotate-180" />
+        </LinkButton>
+        <LinkButton
+          href={getRelativeLocaleUrl(locale, "topics")}
+          class="border-border text-foreground hover:bg-muted inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 font-medium transition-colors"
+        >
+          Browse topic hubs
+        </LinkButton>
+      </div>
+    </div>
   </Main>
 
   <Footer />

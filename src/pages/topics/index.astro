@@ -1,0 +1,105 @@
+---
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Footer from "@/components/Footer.astro";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import { TOPIC_HUBS } from "@/data/topics";
+import { postFilter } from "@/utils/postFilter";
+import config from "@/config";
+
+const posts = await getCollection("posts", postFilter);
+const locale = Astro.currentLocale ?? config.site.lang;
+
+const topics = Object.values(TOPIC_HUBS).map(topic => {
+  const allTopicSlugs = new Set(topic.groups.flatMap(group => group.postSlugs));
+  const guideCount = posts.filter(post => {
+    const postSlug = post.id.replace(/\.(md|mdx)$/, "");
+    return allTopicSlugs.has(postSlug);
+  }).length;
+
+  return {
+    ...topic,
+    guideCount,
+  };
+});
+
+const pageTitle = `Topic Hubs & Learning Paths | ${config.site.title}`;
+const pageDescription =
+  "Explore curated pillar pages and structured learning paths covering C++, Python, Java, Data Structures & Algorithms, and Mathematics.";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <Header />
+
+  <Breadcrumb />
+
+  <main id="main-content" class="app-layout py-8 sm:py-12">
+    <div class="mb-10 max-w-3xl space-y-3">
+      <h1 class="text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
+        Topic Hubs & Learning Paths
+      </h1>
+      <p class="text-muted-foreground text-base leading-relaxed sm:text-lg">
+        Comprehensive pillar pages organizing practical tutorials, architectural
+        breakdowns, and reference cheat sheets into progressive learning
+        pathways.
+      </p>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:gap-8">
+      {
+        topics.map(topic => (
+          <article class="border-border/80 group bg-muted/20 hover:border-accent hover:bg-muted/30 relative flex flex-col justify-between rounded-xl border p-6 transition-all duration-300 hover:shadow-sm">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <span class="bg-accent/10 text-accent rounded-md px-2.5 py-1 text-xs font-semibold tracking-wider uppercase">
+                  {topic.name}
+                </span>
+                <span class="text-muted-foreground text-xs font-medium">
+                  {topic.guideCount}{" "}
+                  {topic.guideCount === 1 ? "Guide" : "Guides"}
+                </span>
+              </div>
+
+              <h2 class="text-foreground group-hover:text-accent text-xl font-bold tracking-tight transition-colors">
+                <a
+                  href={getRelativeLocaleUrl(locale, `topics/${topic.slug}`)}
+                  class="focus-outline"
+                >
+                  <span class="absolute inset-0" aria-hidden="true" />
+                  {topic.title}
+                </a>
+              </h2>
+
+              <p class="text-muted-foreground text-sm leading-relaxed">
+                {topic.description}
+              </p>
+
+              <div class="pt-2">
+                <span class="text-foreground text-xs font-semibold">
+                  Key Sections:
+                </span>
+                <ul class="text-muted-foreground mt-1.5 flex flex-wrap gap-1.5 text-xs">
+                  {topic.groups.map(g => (
+                    <li class="bg-background/80 border-border/60 rounded border px-2 py-0.5">
+                      {g.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div class="text-accent mt-6 flex items-center gap-1.5 text-sm font-medium">
+              <span>Explore {topic.name} Hub</span>
+              <IconArrowRight class="size-4 transition-transform group-hover:translate-x-1 rtl:-rotate-180" />
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

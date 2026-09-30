@@ -222,3 +222,12 @@ Result: $(3A9)_{16} = (1110111001)_2$
 │     (Base 8)     │          │    (Base 16)     │
 └──────────────────┘          └──────────────────┘
 ```
+
+---
+
+### Related Mathematical & Computing Guides
+
+- **Discrete Math & Number Theory**: Review number theory, divisibility, and discrete formulas in the [Mathematics Formula Cheat Sheet](/posts/mathematics-formula-cheat-sheet/).
+- **Algorithmic Number Manipulation**: See how modulo and base-10 digit extraction enable high-performance checks in [How I Cut My Palindrome Algorithm’s Execution Time in Half](/posts/efficient-palindrome-code/).
+- **Memory Representation**: See how binary words and addresses map to memory locations in [Dynamic Memory Allocation](/posts/dynamic-memory-allocation/).
+- **Pillar Hubs**: Explore the complete [Mathematics topic hub](/topics/mathematics/) and [Algorithms & DSA topic hub](/topics/dsa/).
