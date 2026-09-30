@@ -175,6 +175,7 @@ int main()
 
 Understanding raw heap allocation is the foundation for all dynamic and pointer-based data structures:
 
+- **Language Fundamentals**: If you need a refresher on memory addresses and pointer syntax, revisit [Pointers in C++: Memory Addresses, Dereferencing, and Heap Basics](/posts/cpp-pointers/) and [References in C++](/posts/cpp-references/).
 - **Queue Implementation**: See dynamic memory and pointers in action in [Data Structures in C: Queue](/posts/queue/).
 - **Modern C++ Linked Structures**: Learn how modern C++ abstracts heap node allocation in [Mastering std::list in Modern C++: From Architecture to Production-Ready Code](/posts/list-in-cpp/).
 - **Pillar Hubs**: Explore the complete learning path on the [C++ Topic Hub](/topics/cpp/) and the [Algorithms & DSA Topic Hub](/topics/dsa/).

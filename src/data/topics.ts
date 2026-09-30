@@ -29,53 +29,170 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
     name: "C++",
     title: "C++ Programming & Systems Engineering",
     description:
-      "Modern C++, dynamic memory allocation, Standard Template Library (STL) internals, and algorithmic optimization.",
+      "A complete curriculum from modern C++ language fundamentals to memory management, pointers, references, STL internals, and high-performance engineering.",
     intro:
-      "C++ gives software engineers direct control over memory, hardware resources, and performance. This pillar covers modern C++ design, pointer mechanics, STL container internals like std::list, and techniques for writing high-throughput, low-overhead code.",
+      "C++ gives software engineers direct control over memory, hardware resources, and computational performance. This topic hub provides a comprehensive roadmap starting from foundational variables, streams, and control flow, through pointers and const correctness, up to dynamic heap mechanics and STL container internals.",
     learningPath: [
       {
         step: 1,
-        title: "Dynamic Memory Allocation & Heap Mechanics",
+        title: "C++ Variables and Data Types",
         description:
-          "Master pointers, heap vs stack memory, memory leaks, and dynamic allocation fundamentals.",
-        postSlug: "dynamic-memory-allocation",
+          "Memory representation, primitive types, modifiers, sizeof inspections, and static_cast.",
+        postSlug: "cpp-variables-and-data-types",
         level: "Beginner",
       },
       {
         step: 2,
-        title: "Mastering std::list & Linked Containers",
+        title: "Input and Output in C++",
         description:
-          "Analyze doubly-linked node architecture, iterator invalidation rules, and cache-locality trade-offs.",
-        postSlug: "list-in-cpp",
-        level: "Intermediate",
+          "Standard streams (cin, cout, cerr), newline performance, multi-word getline, and iomanip formatting.",
+        postSlug: "cpp-input-and-output",
+        level: "Beginner",
       },
       {
         step: 3,
+        title: "C++ Operators & Precedence",
+        description:
+          "Arithmetic, logical, bitwise masking, prefix vs postfix increment, and short-circuit evaluation.",
+        postSlug: "cpp-operators",
+        level: "Beginner",
+      },
+      {
+        step: 4,
+        title: "Conditional Statements & Branching",
+        description:
+          "Decision-making with if-else, modern C++17 init-statements, switch cases, and fallthrough rules.",
+        postSlug: "cpp-conditional-statements",
+        level: "Beginner",
+      },
+      {
+        step: 5,
+        title: "Loops & Iteration in C++",
+        description:
+          "for, while, do-while, modern range-based loops, break, continue, and matrix nesting.",
+        postSlug: "cpp-loops",
+        level: "Beginner",
+      },
+      {
+        step: 6,
+        title: "Functions, Scope, and Prototypes",
+        description:
+          "Modular architecture, function signatures, prototypes, default arguments, overloading, and pass-by-value.",
+        postSlug: "cpp-functions",
+        level: "Beginner",
+      },
+      {
+        step: 7,
+        title: "Arrays & Memory Layout",
+        description:
+          "Contiguous memory layouts, zero-based indexing offsets, array decay, and modern std::array.",
+        postSlug: "cpp-arrays",
+        level: "Beginner",
+      },
+      {
+        step: 8,
+        title: "Strings: std::string vs C-Strings",
+        description:
+          "Dynamic string management, character indexing, concatenation, substring slicing, and find.",
+        postSlug: "cpp-strings",
+        level: "Beginner",
+      },
+      {
+        step: 9,
+        title: "Pointers & Memory Addresses",
+        description:
+          "Address-of operator, dereferencing, nullptr, pointer arithmetic, and heap basics with new and delete.",
+        postSlug: "cpp-pointers",
+        level: "Intermediate",
+      },
+      {
+        step: 10,
+        title: "References & Aliases",
+        description:
+          "Direct aliases, immutable bindings, const references, temporary binding, and reference vs pointer comparisons.",
+        postSlug: "cpp-references",
+        level: "Intermediate",
+      },
+      {
+        step: 11,
+        title: "Pass by Value vs Pass by Reference",
+        description:
+          "Call stack mechanics, CPU hardware registers, const T& read-only performance, and parameter decision trees.",
+        postSlug: "cpp-pass-by-value-vs-pass-by-reference",
+        level: "Intermediate",
+      },
+      {
+        step: 12,
+        title: "const Correctness & constexpr",
+        description:
+          "Immutability contracts, decoding pointer constness variations, const member functions, and compile-time constexpr.",
+        postSlug: "cpp-const",
+        level: "Intermediate",
+      },
+      {
+        step: 13,
+        title: "Dynamic Memory Allocation & Heap Mechanics",
+        description:
+          "Deep dive into heap lifecycle, raw new/delete allocation patterns, memory leaks, and segmentation faults.",
+        postSlug: "dynamic-memory-allocation",
+        level: "Intermediate",
+      },
+      {
+        step: 14,
+        title: "Mastering std::list & STL Linked Containers",
+        description:
+          "Doubly-linked node architecture, iterator invalidation rules, and cache-locality trade-offs.",
+        postSlug: "list-in-cpp",
+        level: "Advanced",
+      },
+      {
+        step: 15,
         title: "Algorithmic Optimization & Raw Arithmetic",
         description:
-          "Optimize runtime by avoiding heap allocations and replacing string conversions with arithmetic digit operations.",
+          "Eliminating memory allocation overhead and replacing string conversions with arithmetic digit operations.",
         postSlug: "efficient-palindrome-code",
-        level: "Intermediate",
+        level: "Advanced",
       },
     ],
     groups: [
       {
-        name: "Memory & Pointers",
+        name: "Language Basics & Control Flow",
         description:
-          "Foundational heap allocation and pointer lifecycle in C/C++.",
-        postSlugs: ["dynamic-memory-allocation"],
+          "Core syntax, data types, stream I/O, operators, conditionals, and iteration.",
+        postSlugs: [
+          "cpp-variables-and-data-types",
+          "cpp-input-and-output",
+          "cpp-operators",
+          "cpp-conditional-statements",
+          "cpp-loops",
+        ],
       },
       {
-        name: "STL Containers",
+        name: "Modular Code & Data Sequences",
         description:
-          "In-depth architecture and usage of Standard Template Library collections.",
-        postSlugs: ["list-in-cpp"],
+          "Function prototypes, stack frames, fixed-size arrays, and dynamic strings.",
+        postSlugs: ["cpp-functions", "cpp-arrays", "cpp-strings"],
       },
       {
-        name: "Algorithmic Optimization",
+        name: "Pointers, References & Const Correctness",
         description:
-          "Performance tuning and low-overhead algorithmic implementations in C++.",
-        postSlugs: ["efficient-palindrome-code"],
+          "Memory addresses, dereferencing, aliases, zero-copy parameter passing, and immutability.",
+        postSlugs: [
+          "cpp-pointers",
+          "cpp-references",
+          "cpp-pass-by-value-vs-pass-by-reference",
+          "cpp-const",
+        ],
+      },
+      {
+        name: "Systems Architecture, Dynamic Memory & STL",
+        description:
+          "Heap allocation, doubly-linked node containers, and low-overhead algorithmic performance.",
+        postSlugs: [
+          "dynamic-memory-allocation",
+          "list-in-cpp",
+          "efficient-palindrome-code",
+        ],
       },
     ],
     relatedTopicSlugs: ["dsa", "mathematics"],

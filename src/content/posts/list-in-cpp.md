@@ -888,6 +888,7 @@ Understanding the internal behavior of `std::list` enables developers to choose 
 
 ### Related Guides & Next Steps
 
+- **Language Fundamentals**: Revisit node linkage concepts in [Pointers in C++: Memory Addresses, Dereferencing, and Heap Basics](/posts/cpp-pointers/) and [Pass by Value vs Pass by Reference in C++](/posts/cpp-pass-by-value-vs-pass-by-reference/).
 - **Heap Memory Management**: Learn how heap allocations and void pointers operate at the system level in [Dynamic Memory Allocation in C](/posts/dynamic-memory-allocation/).
 - **Linear Sequential Structures**: Contrast doubly linked lists with FIFO queues in [Data Structures in C: Queue](/posts/queue/).
 - **Algorithmic Performance**: See how eliminating heap allocation overhead doubles execution speed in [How I Cut My Palindrome Algorithm’s Execution Time in Half](/posts/efficient-palindrome-code/).
