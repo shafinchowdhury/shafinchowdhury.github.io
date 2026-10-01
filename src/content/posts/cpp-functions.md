@@ -52,6 +52,8 @@ return_type function_name(parameter_list) {
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 // Function definition
 int add(int a, int b) {
     return a + b;
@@ -59,7 +61,7 @@ int add(int a, int b) {
 
 int main() {
     int result = add(15, 27); // Function call
-    std::cout << "Sum: " << result << '\n';
+    cout << "Sum: " << result << '\n';
     return 0;
 }
 ```
@@ -77,7 +79,7 @@ int main() {
 }
 
 void printHello() {
-    std::cout << "Hello!\n";
+    cout << "Hello!\n";
 }
 ```
 
@@ -89,23 +91,26 @@ A prototype tells the compiler the function's name, return type, and parameter t
 
 ```cpp
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 // 1. Function Prototype (Declaration)
-void printGreeting(const std::string& name);
+void printGreeting(const string& name);
 int calculateArea(int width, int height);
 
 int main() {
     // The compiler knows these functions exist and checks their arguments:
     printGreeting("Shafin");
     int area = calculateArea(5, 8);
-    std::cout << "Calculated Area: " << area << '\n';
+    cout << "Calculated Area: " << area << '\n';
 
     return 0;
 }
 
 // 2. Function Definitions (Implementation)
-void printGreeting(const std::string& name) {
-    std::cout << "Welcome, " << name << "!\n";
+void printGreeting(const string& name) {
+    cout << "Welcome, " << name << "!\n";
 }
 
 int calculateArea(int width, int height) {
@@ -135,8 +140,8 @@ bool isEven(int number) {
 When a function performs an action (such as printing output, updating a display, or writing to a log file) without producing a return value, set its return type to `void`:
 
 ```cpp
-void logWarning(const std::string& message) {
-    std::cout << "[WARNING]: " << message << '\n';
+void logWarning(const string& message) {
+    cout << "[WARNING]: " << message << '\n';
     // 'return;' can be used here for early exits, but no value can be returned
 }
 ```
@@ -149,13 +154,16 @@ You can provide default values for function parameters. If the caller omits thos
 
 ```cpp
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 // Prototype with default arguments:
-void displayMessage(const std::string& msg, int repeatCount = 1, bool newline = true);
+void displayMessage(const string& msg, int repeatCount = 1, bool newline = true);
 
-void displayMessage(const std::string& msg, int repeatCount, bool newline) {
+void displayMessage(const string& msg, int repeatCount, bool newline) {
     for (int i = 0; i < repeatCount; ++i) {
-        std::cout << msg << (newline ? "\n" : " ");
+        cout << msg << (newline ? "\n" : " ");
     }
 }
 
@@ -163,7 +171,7 @@ int main() {
     displayMessage("System Booting");       // Uses default repeatCount=1, newline=true
     displayMessage("Ping", 3);              // Uses default newline=true
     displayMessage("Processing", 2, false); // Overrides all defaults
-    std::cout << "Done.\n";
+    cout << "Done.\n";
     return 0;
 }
 ```
@@ -184,28 +192,30 @@ The compiler examines the arguments passed during the call and automatically sel
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 // Overload 1: Two integers
 int multiply(int a, int b) {
-    std::cout << "(Calling int version) ";
+    cout << "(Calling int version) ";
     return a * b;
 }
 
 // Overload 2: Two doubles
 double multiply(double a, double b) {
-    std::cout << "(Calling double version) ";
+    cout << "(Calling double version) ";
     return a * b;
 }
 
 // Overload 3: Three integers
 int multiply(int a, int b, int c) {
-    std::cout << "(Calling 3-arg version) ";
+    cout << "(Calling 3-arg version) ";
     return a * b * c;
 }
 
 int main() {
-    std::cout << multiply(4, 5) << '\n';         // Calls Overload 1
-    std::cout << multiply(2.5, 4.0) << '\n';     // Calls Overload 2
-    std::cout << multiply(2, 3, 4) << '\n';      // Calls Overload 3
+    cout << multiply(4, 5) << '\n';         // Calls Overload 1
+    cout << multiply(2.5, 4.0) << '\n';     // Calls Overload 2
+    cout << multiply(2, 3, 4) << '\n';      // Calls Overload 3
     return 0;
 }
 ```
@@ -224,9 +234,11 @@ When you pass an argument by value, the compiler creates a fresh, independent **
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 void modifyValue(int num) {
     num = num + 100; // Alters ONLY the local copy 'num'
-    std::cout << "Inside function: " << num << '\n';
+    cout << "Inside function: " << num << '\n';
 }
 
 int main() {
@@ -235,7 +247,7 @@ int main() {
     modifyValue(original);
 
     // 'original' is STILL 50!
-    std::cout << "Inside main:     " << original << '\n';
+    cout << "Inside main:     " << original << '\n';
     return 0;
 }
 ```
@@ -289,6 +301,8 @@ $$5! = 5 \times 4 \times 3 \times 2 \times 1 = 120$$
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 long long factorial(int n) {
     // 1. Base Case: 0! = 1 and 1! = 1
     if (n <= 1) {
@@ -301,7 +315,7 @@ long long factorial(int n) {
 
 int main() {
     int value = 5;
-    std::cout << value << "! = " << factorial(value) << '\n';
+    cout << value << "! = " << factorial(value) << '\n';
     return 0;
 }
 ```
@@ -319,7 +333,7 @@ int main() {
    ```cpp
    // BUG: Accidental semicolon creates an empty function definition!
    void printStatus(); {
-       std::cout << "Ready\n";
+       cout << "Ready\n";
    }
    ```
 4. **Expecting Pass-by-Value to Modify the Original Variable**: If you want a function to modify caller variables, you must use references or pointers (covered in upcoming articles).

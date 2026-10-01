@@ -82,13 +82,15 @@ int b = a++; // b receives 5, then a becomes 6
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int counter = 10;
 
-    std::cout << "Original: " << counter << '\n';
-    std::cout << "Postfix (counter++): " << counter++ << '\n'; // Prints 10
-    std::cout << "After postfix: " << counter << '\n';         // Prints 11
-    std::cout << "Prefix (++counter): " << ++counter << '\n';   // Prints 12
+    cout << "Original: " << counter << '\n';
+    cout << "Postfix (counter++): " << counter++ << '\n'; // Prints 10
+    cout << "After postfix: " << counter << '\n';         // Prints 11
+    cout << "Prefix (++counter): " << ++counter << '\n';   // Prints 12
 
     return 0;
 }
@@ -156,7 +158,7 @@ int* ptr = nullptr;
 
 // Safe! Because ptr != nullptr evaluates to false, *ptr == 10 is NEVER executed
 if (ptr != nullptr && *ptr == 10) {
-    std::cout << "Value matches!\n";
+    cout << "Value matches!\n";
 }
 ```
 
@@ -182,6 +184,8 @@ Bitwise operators manipulate integers at the individual binary bit level. They a
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     // Permission bit flags
     const unsigned char READ_PERMISSION    = 0b00000001; // 1
@@ -197,8 +201,8 @@ int main() {
     bool canWrite = (userRole & WRITE_PERMISSION) != 0;
     bool canRead  = (userRole & READ_PERMISSION) != 0;
 
-    std::cout << "Can Read:    " << std::boolalpha << canRead << '\n';
-    std::cout << "Can Write:   " << canWrite << '\n';
+    cout << "Can Read:    " << boolalpha << canRead << '\n';
+    cout << "Can Write:   " << canWrite << '\n';
 
     return 0;
 }

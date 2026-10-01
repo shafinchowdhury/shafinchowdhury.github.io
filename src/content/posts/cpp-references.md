@@ -41,21 +41,23 @@ Once a reference is bound to an object, any operation performed on the reference
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int original = 100;
 
     // 'ref' is declared as a reference to 'original' using the & symbol:
     int& ref = original;
 
-    std::cout << "Original: " << original << '\n'; // 100
-    std::cout << "Ref:      " << ref << '\n';      // 100
+    cout << "Original: " << original << '\n'; // 100
+    cout << "Ref:      " << ref << '\n';      // 100
 
     // Modifying the reference alters the original variable!
     ref = 250;
 
-    std::cout << "After modifying ref:\n";
-    std::cout << "Original: " << original << '\n'; // 250!
-    std::cout << "Ref:      " << ref << '\n';      // 250
+    cout << "After modifying ref:\n";
+    cout << "Original: " << original << '\n'; // 250!
+    cout << "Ref:      " << ref << '\n';      // 250
 
     return 0;
 }
@@ -64,8 +66,8 @@ int main() {
 Notice that both `original` and `ref` share the exact same memory address:
 
 ```cpp
-std::cout << &original << '\n'; // e.g. 0x7ffd5e3a89bc
-std::cout << &ref << '\n';      // Exactly 0x7ffd5e3a89bc!
+cout << &original << '\n'; // e.g. 0x7ffd5e3a89bc
+cout << &ref << '\n';      // Exactly 0x7ffd5e3a89bc!
 ```
 
 ---
@@ -98,7 +100,7 @@ int b = 20;
 int& ref = a; // ref aliases 'a'
 ref = b;      // Does NOT rebind ref to b! This assigns the value of b (20) into 'a'!
 
-std::cout << "a is now: " << a << '\n'; // Prints 20!
+cout << "a is now: " << a << '\n'; // Prints 20!
 ```
 
 ### 3. References Cannot Be Null
@@ -115,7 +117,7 @@ When you want to alias an object without allowing modifications through the refe
 int score = 90;
 const int& scoreRef = score;
 
-std::cout << scoreRef << '\n'; // Legal: Reading is fine
+cout << scoreRef << '\n'; // Legal: Reading is fine
 
 // scoreRef = 95; // COMPILE ERROR: Cannot assign to a variable that is const-qualified!
 ```
@@ -149,9 +151,11 @@ Passing by reference allows the function to access the caller's object directly 
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 // Efficient: Zero copying, but read-only guarantee!
-void displayProfile(const std::string& username, const int& level) {
-    std::cout << "User: " << username << " [Level " << level << "]\n";
+void displayProfile(const string& username, const int& level) {
+    cout << "User: " << username << " [Level " << level << "]\n";
 }
 
 // Mutating parameter: Directly updates the caller's variable
@@ -160,13 +164,13 @@ void incrementScore(int& scoreToUpdate, int pointsEarned) {
 }
 
 int main() {
-    std::string player = "Shafin";
+    string player = "Shafin";
     int currentScore = 1500;
 
     displayProfile(player, 10);
 
     incrementScore(currentScore, 250);
-    std::cout << "Updated Score: " << currentScore << '\n'; // 1750
+    cout << "Updated Score: " << currentScore << '\n'; // 1750
 
     return 0;
 }
@@ -207,7 +211,7 @@ int& getLocalCalculation() {
 int main() {
     int& badRef = getLocalCalculation();
     // badRef now refers to expired stack memory that has been reclaimed!
-    std::cout << badRef << '\n'; // Undefined Behavior: May print garbage or crash!
+    cout << badRef << '\n'; // Undefined Behavior: May print garbage or crash!
     return 0;
 }
 ```

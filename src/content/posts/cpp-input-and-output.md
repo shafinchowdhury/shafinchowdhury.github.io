@@ -57,11 +57,13 @@ You send information to the console by chaining the `<<` operator with `std::cou
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int age{21};
     double score{94.5};
 
-    std::cout << "Student Age: " << age << ", Final Score: " << score << '\n';
+    cout << "Student Age: " << age << ", Final Score: " << score << '\n';
 
     return 0;
 }
@@ -72,7 +74,7 @@ int main() {
 Many beginners are taught to end output lines with `std::endl`:
 
 ```cpp
-std::cout << "Hello World" << std::endl;
+cout << "Hello World" << endl;
 ```
 
 While `std::endl` prints a newline character, it also forces an explicit **buffer flush** (`std::flush`), which forces the operating system to immediately write the buffered text to the physical display device.
@@ -82,12 +84,12 @@ In console programs, disk I/O, or competitive programming loops, flushing the bu
 ```cpp
 // SLOW: Forces 1,000,000 costly OS system calls to flush the buffer
 for (int i = 0; i < 1000000; ++i) {
-    std::cout << i << std::endl;
+    cout << i << endl;
 }
 
 // FAST: Allows the runtime to buffer output efficiently, flushing automatically
 for (int i = 0; i < 1000000; ++i) {
-    std::cout << i << '\n';
+    cout << i << '\n';
 }
 ```
 
@@ -102,7 +104,7 @@ When printing error messages, diagnostics, or crash alerts, use `std::cerr` inst
 
 ```cpp
 if (connectionFailed) {
-    std::cerr << "Error: Could not connect to database server.\n";
+    cerr << "Error: Could not connect to database server.\n";
 }
 ```
 
@@ -117,12 +119,14 @@ The `std::cin` object reads input from standard input using the stream extractio
 ```cpp
 #include <iostream>
 
-int main() {
-    std::cout << "Enter your age: ";
-    int age{};
-    std::cin >> age;
+using namespace std;
 
-    std::cout << "You are " << age << " years old.\n";
+int main() {
+    cout << "Enter your age: ";
+    int age{};
+    cin >> age;
+
+    cout << "You are " << age << " years old.\n";
     return 0;
 }
 ```
@@ -133,8 +137,8 @@ The extraction operator skips leading whitespace (spaces, tabs, newlines) automa
 
 ```cpp
 int day{}, month{}, year{};
-std::cout << "Enter day, month, and year (separated by spaces): ";
-std::cin >> day >> month >> year;
+cout << "Enter day, month, and year (separated by spaces): ";
+cin >> day >> month >> year;
 ```
 
 If the user types `15 8 2026` followed by Enter, `day` receives `15`, `month` receives `8`, and `year` receives `2026`.
@@ -149,12 +153,14 @@ When reading text strings using `cin >> str`, extraction stops at the very first
 #include <iostream>
 #include <string>
 
-int main() {
-    std::string fullName{};
-    std::cout << "Enter your full name: ";
-    std::cin >> fullName; // If you enter "Shafin Chowdhury", it only reads "Shafin"!
+using namespace std;
 
-    std::cout << "Hello, " << fullName << '\n';
+int main() {
+    string fullName{};
+    cout << "Enter your full name: ";
+    cin >> fullName; // If you enter "Shafin Chowdhury", it only reads "Shafin"!
+
+    cout << "Hello, " << fullName << '\n';
     return 0;
 }
 ```
@@ -165,12 +171,14 @@ To read an entire line including spaces up until the user presses Enter, use `st
 #include <iostream>
 #include <string>
 
-int main() {
-    std::string fullName{};
-    std::cout << "Enter your full name: ";
-    std::getline(std::cin, fullName);
+using namespace std;
 
-    std::cout << "Hello, " << fullName << '\n';
+int main() {
+    string fullName{};
+    cout << "Enter your full name: ";
+    getline(cin, fullName);
+
+    cout << "Hello, " << fullName << '\n';
     return 0;
 }
 ```
@@ -185,17 +193,19 @@ This is one of the most frustrating traps for C++ beginners. Consider this progr
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 int main() {
     int id{};
-    std::string address{};
+    string address{};
 
-    std::cout << "Enter Student ID: ";
-    std::cin >> id;
+    cout << "Enter Student ID: ";
+    cin >> id;
 
-    std::cout << "Enter Student Address: ";
-    std::getline(std::cin, address); // BUG: This line gets skipped completely!
+    cout << "Enter Student Address: ";
+    getline(cin, address); // BUG: This line gets skipped completely!
 
-    std::cout << "ID: " << id << ", Address: " << address << '\n';
+    cout << "ID: " << id << ", Address: " << address << '\n';
     return 0;
 }
 ```
@@ -220,20 +230,22 @@ To fix this, discard the leftover newline character using `std::cin.ignore()` be
 #include <string>
 #include <limits>
 
+using namespace std;
+
 int main() {
     int id{};
-    std::string address{};
+    string address{};
 
-    std::cout << "Enter Student ID: ";
-    std::cin >> id;
+    cout << "Enter Student ID: ";
+    cin >> id;
 
     // Discard any remaining characters up to and including the next newline
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    std::cout << "Enter Student Address: ";
-    std::getline(std::cin, address);
+    cout << "Enter Student Address: ";
+    getline(cin, address);
 
-    std::cout << "Registered: ID=" << id << ", Address=" << address << '\n';
+    cout << "Registered: ID=" << id << ", Address=" << address << '\n';
     return 0;
 }
 ```
@@ -254,25 +266,27 @@ You can check whether input succeeded using `cin.fail()`:
 #include <iostream>
 #include <limits>
 
+using namespace std;
+
 int main() {
     int number{};
 
     while (true) {
-        std::cout << "Please enter a positive integer: ";
-        std::cin >> number;
+        cout << "Please enter a positive integer: ";
+        cin >> number;
 
-        if (std::cin.fail() || number <= 0) {
-            std::cout << "Invalid input. Let's try again.\n";
-            std::cin.clear(); // 1. Clear the error state flags
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 2. Discard bad characters
+        if (cin.fail() || number <= 0) {
+            cout << "Invalid input. Let's try again.\n";
+            cin.clear(); // 1. Clear the error state flags
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // 2. Discard bad characters
         } else {
             // Clean up any remaining characters on this line
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             break;
         }
     }
 
-    std::cout << "Valid number entered: " << number << '\n';
+    cout << "Valid number entered: " << number << '\n';
     return 0;
 }
 ```
@@ -298,30 +312,32 @@ By default, C++ outputs floating-point numbers with flexible precision and no pa
 #include <iomanip>
 #include <string>
 
+using namespace std;
+
 int main() {
-    std::cout << "--- Store Inventory Report ---\n\n";
+    cout << "--- Store Inventory Report ---\n\n";
 
     // Header
-    std::cout << std::left << std::setw(15) << "Product"
-              << std::right << std::setw(8) << "Stock"
-              << std::right << std::setw(12) << "Price ($)" << '\n';
+    cout << left << setw(15) << "Product"
+         << right << setw(8) << "Stock"
+         << right << setw(12) << "Price ($)" << '\n';
 
-    std::cout << std::string(35, '-') << '\n';
+    cout << string(35, '-') << '\n';
 
     // Rows
-    std::cout << std::fixed << std::setprecision(2);
+    cout << fixed << setprecision(2);
 
-    std::cout << std::left << std::setw(15) << "Mechanical KB"
-              << std::right << std::setw(8) << 45
-              << std::right << std::setw(12) << 89.99 << '\n';
+    cout << left << setw(15) << "Mechanical KB"
+         << right << setw(8) << 45
+         << right << setw(12) << 89.99 << '\n';
 
-    std::cout << std::left << std::setw(15) << "Gaming Mouse"
-              << std::right << std::setw(8) << 120
-              << std::right << std::setw(12) << 49.50 << '\n';
+    cout << left << setw(15) << "Gaming Mouse"
+         << right << setw(8) << 120
+         << right << setw(12) << 49.50 << '\n';
 
-    std::cout << std::left << std::setw(15) << "USB-C Cable"
-              << std::right << std::setw(8) << 350
-              << std::right << std::setw(12) << 9.90 << '\n';
+    cout << left << setw(15) << "USB-C Cable"
+         << right << setw(8) << 350
+         << right << setw(12) << 9.90 << '\n';
 
     return 0;
 }

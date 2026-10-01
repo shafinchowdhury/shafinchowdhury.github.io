@@ -216,19 +216,21 @@ You can inspect the exact size (in bytes) of any type or variable on your machin
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
-    std::cout << "--- Primitive Type Sizes on this Machine ---\n";
-    std::cout << "bool:        " << sizeof(bool) << " byte(s)\n";
-    std::cout << "char:        " << sizeof(char) << " byte(s)\n";
-    std::cout << "short:       " << sizeof(short) << " byte(s)\n";
-    std::cout << "int:         " << sizeof(int) << " byte(s)\n";
-    std::cout << "long:        " << sizeof(long) << " byte(s)\n";
-    std::cout << "long long:   " << sizeof(long long) << " byte(s)\n";
-    std::cout << "float:       " << sizeof(float) << " byte(s)\n";
-    std::cout << "double:      " << sizeof(double) << " byte(s)\n";
+    cout << "--- Primitive Type Sizes on this Machine ---\n";
+    cout << "bool:        " << sizeof(bool) << " byte(s)\n";
+    cout << "char:        " << sizeof(char) << " byte(s)\n";
+    cout << "short:       " << sizeof(short) << " byte(s)\n";
+    cout << "int:         " << sizeof(int) << " byte(s)\n";
+    cout << "long:        " << sizeof(long) << " byte(s)\n";
+    cout << "long long:   " << sizeof(long long) << " byte(s)\n";
+    cout << "float:       " << sizeof(float) << " byte(s)\n";
+    cout << "double:      " << sizeof(double) << " byte(s)\n";
 
     double sampleRate{44100.0};
-    std::cout << "Variable sampleRate size: " << sizeof(sampleRate) << " byte(s)\n";
+    cout << "Variable sampleRate size: " << sizeof(sampleRate) << " byte(s)\n";
 
     return 0;
 }
@@ -279,6 +281,8 @@ In modern C++, whenever you intentionally want to convert between compatible typ
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int totalScore{285};
     int totalMatches{4};
@@ -289,8 +293,8 @@ int main() {
     // Explicit conversion ensures floating-point division: 285.0 / 4 produces 71.25
     double accurateAverage = static_cast<double>(totalScore) / totalMatches;
 
-    std::cout << "Incorrect Average: " << badAverage << '\n';
-    std::cout << "Accurate Average:  " << accurateAverage << '\n';
+    cout << "Incorrect Average: " << badAverage << '\n';
+    cout << "Accurate Average:  " << accurateAverage << '\n';
 
     return 0;
 }
@@ -328,15 +332,17 @@ The **scope** of a variable defines where in your program the variable is access
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int outerVal{10}; // Visible throughout main()
 
     {
         int innerVal{20}; // Visible ONLY inside this nested block
-        std::cout << "Inside block: " << outerVal << ", " << innerVal << '\n';
+        cout << "Inside block: " << outerVal << ", " << innerVal << '\n';
     } // innerVal is destroyed here!
 
-    // std::cout << innerVal; // COMPILE ERROR: 'innerVal' was not declared in this scope
+    // cout << innerVal; // COMPILE ERROR: 'innerVal' was not declared in this scope
 
     return 0;
 }
@@ -350,9 +356,9 @@ If you declare a variable inside an inner block with the same name as an outer v
 int value{100};
 {
     int value{200}; // Shadows outer 'value'
-    std::cout << value << '\n'; // Prints 200
+    cout << value << '\n'; // Prints 200
 }
-std::cout << value << '\n'; // Prints 100
+cout << value << '\n'; // Prints 100
 ```
 
 Shadowing is generally considered poor practice because it easily introduces subtle bugs. Use distinct variable names instead.
@@ -376,7 +382,7 @@ double result = a / b; // Evaluates to 2, then converts to 2.0!
 
 ```cpp
 int total; // Never initialized
-std::cout << total; // Prints random garbage or crashes!
+cout << total; // Prints random garbage or crashes!
 // Fix: Always initialize: int total{0};
 ```
 

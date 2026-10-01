@@ -55,6 +55,8 @@ for (initialization; condition; update) {
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int sum = 0;
 
@@ -63,7 +65,7 @@ int main() {
         sum += i;
     }
 
-    std::cout << "Sum of integers 1 through 10 is: " << sum << '\n';
+    cout << "Sum of integers 1 through 10 is: " << sum << '\n';
     return 0;
 }
 ```
@@ -95,22 +97,24 @@ The `while` loop is best suited for scenarios where the number of iterations dep
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     const int secretCode = 7;
     int guess = 0;
 
-    std::cout << "Guess the secret digit between 1 and 9:\n";
+    cout << "Guess the secret digit between 1 and 9:\n";
 
     while (guess != secretCode) {
-        std::cout << "Enter your guess: ";
-        std::cin >> guess;
+        cout << "Enter your guess: ";
+        cin >> guess;
 
         if (guess != secretCode) {
-            std::cout << "Incorrect! Try again.\n";
+            cout << "Incorrect! Try again.\n";
         }
     }
 
-    std::cout << "Congratulations! You found the secret code.\n";
+    cout << "Congratulations! You found the secret code.\n";
     return 0;
 }
 ```
@@ -138,19 +142,21 @@ do {
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int choice = 0;
 
     do {
-        std::cout << "\n=== System Control Menu ===\n";
-        std::cout << "1. Run Diagnostics\n";
-        std::cout << "2. View Error Logs\n";
-        std::cout << "3. Exit System\n";
-        std::cout << "Select an option (1-3): ";
-        std::cin >> choice;
+        cout << "\n=== System Control Menu ===\n";
+        cout << "1. Run Diagnostics\n";
+        cout << "2. View Error Logs\n";
+        cout << "3. Exit System\n";
+        cout << "Select an option (1-3): ";
+        cin >> choice;
     } while (choice < 1 || choice > 3);
 
-    std::cout << "You selected valid option #" << choice << '\n';
+    cout << "You selected valid option #" << choice << '\n';
     return 0;
 }
 ```
@@ -171,16 +177,18 @@ $$\mathbf{for\ (} \text{type variable} \mathbf{\ :\ } \text{collection} \mathbf{
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 int main() {
     int numbers[] = {12, 45, 68, 91, 33};
 
-    std::cout << "Iterating over array elements:\n";
+    cout << "Iterating over array elements:\n";
 
     // Read-only iteration using const reference (avoids copying elements)
     for (const auto& num : numbers) {
-        std::cout << num << " ";
+        cout << num << " ";
     }
-    std::cout << '\n';
+    cout << '\n';
 
     return 0;
 }
@@ -205,6 +213,8 @@ Immediately terminates the enclosing loop, transferring control to the first sta
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     // Searching for a target value
     int values[] = {10, 25, 42, 88, 99};
@@ -218,7 +228,7 @@ int main() {
         }
     }
 
-    std::cout << "Target found: " << std::boolalpha << found << '\n';
+    cout << "Target found: " << boolalpha << found << '\n';
     return 0;
 }
 ```
@@ -230,15 +240,17 @@ Skips the remainder of the _current_ iteration's body and jumps straight to the 
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     // Print all odd numbers between 1 and 10
     for (int i = 1; i <= 10; ++i) {
         if (i % 2 == 0) {
             continue; // Skip even numbers!
         }
-        std::cout << i << " ";
+        cout << i << " ";
     }
-    std::cout << '\n'; // Prints: 1 3 5 7 9
+    cout << '\n'; // Prints: 1 3 5 7 9
     return 0;
 }
 ```
@@ -271,14 +283,16 @@ A loop placed inside the body of another loop is called a **nested loop**. For e
 #include <iostream>
 #include <iomanip>
 
+using namespace std;
+
 int main() {
-    std::cout << "--- 5x5 Multiplication Grid ---\n\n";
+    cout << "--- 5x5 Multiplication Grid ---\n\n";
 
     for (int row = 1; row <= 5; ++row) {
         for (int col = 1; col <= 5; ++col) {
-            std::cout << std::setw(4) << (row * col);
+            cout << setw(4) << (row * col);
         }
-        std::cout << '\n'; // End row
+        cout << '\n'; // End row
     }
 
     return 0;
@@ -320,7 +334,7 @@ Using `<=` instead of `<` when indexing zero-based collections:
 int arr[5] = {10, 20, 30, 40, 50};
 // BUG: i goes up to 5, but valid indices are 0 to 4!
 for (int i = 0; i <= 5; ++i) {
-    std::cout << arr[i]; // Memory corruption on i = 5!
+    cout << arr[i]; // Memory corruption on i = 5!
 }
 ```
 
@@ -329,7 +343,7 @@ for (int i = 0; i <= 5; ++i) {
 ```cpp
 int i = 0;
 while (i < 10) {
-    std::cout << i << '\n';
+    cout << i << '\n';
     // BUG: Forgot ++i! i remains 0 forever!
 }
 ```

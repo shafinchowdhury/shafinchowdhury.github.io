@@ -106,10 +106,12 @@ To use `std::list`, include the `<list>` header.
 #include <iostream>
 #include <list>
 
-int main() {
-    std::list<int> numbers;
+using namespace std;
 
-    std::list<int> initializedList = {10, 20, 30};
+int main() {
+    list<int> numbers;
+
+    list<int> initializedList = {10, 20, 30};
 
     return 0;
 }
@@ -150,19 +152,21 @@ emplace()
 #include <iostream>
 #include <list>
 
+using namespace std;
+
 int main() {
-    std::list<int> numbers = {10, 20};
+    list<int> numbers = {10, 20};
 
     numbers.push_front(5);
     numbers.push_back(40);
 
     auto it = numbers.begin();
-    std::advance(it, 2);
+    advance(it, 2);
 
     numbers.insert(it, 15);
 
     for (int n : numbers)
-        std::cout << n << " ";
+        cout << n << " ";
 }
 ```
 
@@ -196,10 +200,10 @@ back()
 ## Example
 
 ```cpp
-std::list<int> numbers = {5, 10, 15, 20};
+list<int> numbers = {5, 10, 15, 20};
 
-std::cout << numbers.front();
-std::cout << numbers.back();
+cout << numbers.front();
+cout << numbers.back();
 ```
 
 Output:
@@ -228,12 +232,12 @@ Elements can be modified through references or iterators.
 ## Example
 
 ```cpp
-std::list<int> numbers = {5, 10, 15, 20};
+list<int> numbers = {5, 10, 15, 20};
 
 numbers.front() = 2;
 
 auto it = numbers.begin();
-std::advance(it, 2);
+advance(it, 2);
 
 *it = 18;
 ```
@@ -537,7 +541,7 @@ because a linked list has no concept of direct indexing.
 ## Common Method
 
 ```cpp
-std::find()
+find()
 ```
 
 ## Memory Operations
@@ -608,7 +612,7 @@ Nodes can be removed without shifting other elements.
 pop_front()
 pop_back()
 erase()
-std::erase()   // C++20
+erase()   // C++20
 ```
 
 ## Memory Operations
@@ -630,7 +634,7 @@ numbers.pop_front();
 numbers.pop_back();
 
 auto it = numbers.begin();
-std::advance(it, 1);
+advance(it, 1);
 
 numbers.erase(it);
 ```
@@ -640,9 +644,9 @@ numbers.erase(it);
 ## C++20 Uniform Erasure
 
 ```cpp
-std::list<int> numbers = {10,20,10,30};
+list<int> numbers = {10,20,10,30};
 
-std::erase(numbers, 10);
+erase(numbers, 10);
 ```
 
 Result:
@@ -824,8 +828,8 @@ These functions manipulate node pointers directly.
 Prefer:
 
 ```cpp
-std::erase(numbers, value);
-std::erase_if(numbers, predicate);
+erase(numbers, value);
+erase_if(numbers, predicate);
 ```
 
 instead of the traditional erase-remove idiom.
@@ -852,7 +856,7 @@ Heavy iteration workloads often run faster with `std::vector`.
 Functions such as:
 
 ```cpp
-std::lower_bound()
+lower_bound()
 ```
 
 still require linear iterator movement.

@@ -46,7 +46,7 @@ If the condition evaluates to `false`, the compiler skips the enclosed block and
 int batteryLevel = 15;
 
 if (batteryLevel < 20) {
-    std::cout << "Warning: Battery low. Please connect charger.\n";
+    cout << "Warning: Battery low. Please connect charger.\n";
 }
 ```
 
@@ -60,9 +60,9 @@ When you need to execute one branch if the condition is `true`, and an alternati
 int age = 17;
 
 if (age >= 18) {
-    std::cout << "Access Granted: Adult ticket issued.\n";
+    cout << "Access Granted: Adult ticket issued.\n";
 } else {
-    std::cout << "Notice: Minor passenger, parental consent required.\n";
+    cout << "Notice: Minor passenger, parental consent required.\n";
 }
 ```
 
@@ -77,21 +77,23 @@ When evaluating mutually exclusive conditions that span multiple criteria or num
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int score = 87;
 
-    std::cout << "Exam Score: " << score << "\nClassification: ";
+    cout << "Exam Score: " << score << "\nClassification: ";
 
     if (score >= 90) {
-        std::cout << "Grade A (Honors)\n";
+        cout << "Grade A (Honors)\n";
     } else if (score >= 80) {
-        std::cout << "Grade B (Above Average)\n";
+        cout << "Grade B (Above Average)\n";
     } else if (score >= 70) {
-        std::cout << "Grade C (Average)\n";
+        cout << "Grade C (Average)\n";
     } else if (score >= 60) {
-        std::cout << "Grade D (Passing)\n";
+        cout << "Grade D (Passing)\n";
     } else {
-        std::cout << "Grade F (Failing)\n";
+        cout << "Grade F (Failing)\n";
     }
 
     return 0;
@@ -116,6 +118,8 @@ Conditional statements can be nested inside other conditional blocks to test mul
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int a = 45, b = 78, c = 23;
     int largest = 0;
@@ -135,7 +139,7 @@ int main() {
         }
     }
 
-    std::cout << "The largest number is: " << largest << '\n';
+    cout << "The largest number is: " << largest << '\n';
     return 0;
 }
 ```
@@ -166,6 +170,8 @@ The variable exists **only** within the scope of that `if` and its associated `e
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int querySystemStatus() {
     return 404; // Simulated error code
 }
@@ -173,9 +179,9 @@ int querySystemStatus() {
 int main() {
     // 'statusCode' is created, evaluated, and scoped strictly to this decision
     if (int statusCode = querySystemStatus(); statusCode != 200) {
-        std::cout << "Connection failed with error code: " << statusCode << '\n';
+        cout << "Connection failed with error code: " << statusCode << '\n';
     } else {
-        std::cout << "System operational.\n";
+        cout << "System operational.\n";
     }
 
     // statusCode is NOT accessible here! Prevents namespace pollution.
@@ -215,32 +221,34 @@ switch (expression) {
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
-    std::cout << "--- Terminal Server Manager ---\n";
-    std::cout << "1. Start Service\n";
-    std::cout << "2. Stop Service\n";
-    std::cout << "3. Restart Service\n";
-    std::cout << "4. Exit\n";
-    std::cout << "Select an option (1-4): ";
+    cout << "--- Terminal Server Manager ---\n";
+    cout << "1. Start Service\n";
+    cout << "2. Stop Service\n";
+    cout << "3. Restart Service\n";
+    cout << "4. Exit\n";
+    cout << "Select an option (1-4): ";
 
     int choice = 0;
-    std::cin >> choice;
+    cin >> choice;
 
     switch (choice) {
         case 1:
-            std::cout << "Starting service daemon...\n";
+            cout << "Starting service daemon...\n";
             break;
         case 2:
-            std::cout << "Shutting down service gracefully...\n";
+            cout << "Shutting down service gracefully...\n";
             break;
         case 3:
-            std::cout << "Restarting service...\n";
+            cout << "Restarting service...\n";
             break;
         case 4:
-            std::cout << "Exiting manager. Goodbye.\n";
+            cout << "Exiting manager. Goodbye.\n";
             break;
         default:
-            std::cout << "Invalid choice! Please select 1 through 4.\n";
+            cout << "Invalid choice! Please select 1 through 4.\n";
             break;
     }
 
@@ -264,14 +272,14 @@ char keyPress = 'y';
 switch (keyPress) {
     case 'y':
     case 'Y':
-        std::cout << "Action confirmed.\n";
+        cout << "Action confirmed.\n";
         break;
     case 'n':
     case 'N':
-        std::cout << "Action cancelled.\n";
+        cout << "Action cancelled.\n";
         break;
     default:
-        std::cout << "Unrecognized key.\n";
+        cout << "Unrecognized key.\n";
         break;
 }
 ```
@@ -315,7 +323,7 @@ switch (logLevel) {
 int target = 0;
 // BUG: Assigns 5 to target! Evaluates to true, loop/branch always fires!
 if (target = 5) {
-    std::cout << "Target is five\n";
+    cout << "Target is five\n";
 }
 // FIX: Always use equality comparison ==
 if (target == 5) { /* ... */ }

@@ -129,12 +129,14 @@ Use a standard `for` loop when you need to know the index number during iteratio
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int grades[] = {88, 92, 79, 95, 84};
     const int count = sizeof(grades) / sizeof(grades[0]);
 
     for (int i = 0; i < count; ++i) {
-        std::cout << "Student #" << i + 1 << " Grade: " << grades[i] << '\n';
+        cout << "Student #" << i + 1 << " Grade: " << grades[i] << '\n';
     }
 
     return 0;
@@ -148,7 +150,7 @@ When you simply need to read or update every element, the range-based loop is cl
 ```cpp
 // Read-only traversal
 for (int grade : grades) {
-    std::cout << grade << " ";
+    cout << grade << " ";
 }
 
 // In-place modification using a reference (&):
@@ -169,9 +171,9 @@ int items[8];
 // Method 1: Traditional sizeof division
 size_t length1 = sizeof(items) / sizeof(items[0]); // 32 bytes / 4 bytes = 8
 
-// Method 2: Modern C++17 std::size (from <iterator>)
+// Method 2: Modern C++17 size() (from <iterator>)
 #include <iterator>
-size_t length2 = std::size(items); // 8
+size_t length2 = size(items); // 8
 ```
 
 ---
@@ -204,6 +206,8 @@ Linear Memory: [ 1 ][ 2 ][ 3 ][ 4 ] [ 5 ][ 6 ][ 7 ][ 8 ] [ 9 ][ 10 ][ 11 ][ 12 ]
 #include <iostream>
 #include <iomanip>
 
+using namespace std;
+
 int main() {
     const int ROWS = 3;
     const int COLS = 4;
@@ -215,9 +219,9 @@ int main() {
 
     for (int r = 0; r < ROWS; ++r) {
         for (int c = 0; c < COLS; ++c) {
-            std::cout << std::setw(5) << grid[r][c];
+            cout << setw(5) << grid[r][c];
         }
-        std::cout << '\n';
+        cout << '\n';
     }
 
     return 0;
@@ -235,6 +239,8 @@ When an array is passed as an argument to a function, it automatically **decays 
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 // These two parameter declarations are completely identical to the compiler:
 // void printArray(int arr[], int size)
 // void printArray(int* arr, int size)
@@ -242,9 +248,9 @@ void printArray(const int arr[], int size) {
     // WARNING: Inside this function, sizeof(arr) returns the size of a POINTER (8 bytes),
     // NOT the size of the original array!
     for (int i = 0; i < size; ++i) {
-        std::cout << arr[i] << " ";
+        cout << arr[i] << " ";
     }
-    std::cout << '\n';
+    cout << '\n';
 }
 
 int main() {
@@ -272,7 +278,7 @@ int numbers[3] = {10, 20, 30};
 
 // Valid indices are 0, 1, 2.
 // Reading or writing numbers[5] is an Out-Of-Bounds error!
-std::cout << numbers[5]; // Reading unowned memory!
+cout << numbers[5]; // Reading unowned memory!
 numbers[5] = 999;        // Memory corruption!
 ```
 
@@ -292,14 +298,16 @@ A modern, type-safe wrapper over fixed-size stack arrays:
 #include <array>
 #include <iostream>
 
+using namespace std;
+
 int main() {
-    std::array<int, 4> nums = {10, 20, 30, 40};
+    array<int, 4> nums = {10, 20, 30, 40};
 
     // Knows its own size without decaying:
-    std::cout << "Size: " << nums.size() << '\n';
+    cout << "Size: " << nums.size() << '\n';
 
-    // Optional bounds checking using .at() (throws std::out_of_range on invalid index):
-    std::cout << nums.at(2) << '\n';
+    // Optional bounds checking using .at() (throws out_of_range on invalid index):
+    cout << nums.at(2) << '\n';
 
     return 0;
 }
@@ -324,8 +332,8 @@ When you need an array that can grow or shrink dynamically at runtime, use `std:
 4. **Using Non-Constant Variables for Raw Array Sizes**: In standard C++, raw array dimensions must be compile-time constants:
    ```cpp
    int n;
-   std::cin >> n;
-   int arr[n]; // Non-standard Variable Length Array (VLA)! Use std::vector instead.
+   cin >> n;
+   int arr[n]; // Non-standard Variable Length Array (VLA)! Use vector instead.
    ```
 
 ---

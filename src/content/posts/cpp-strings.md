@@ -90,14 +90,16 @@ A `std::string` manages its own internal memory dynamically:
 #include <iostream>
 #include <string>
 
-int main() {
-    std::string s1;                     // Empty string: ""
-    std::string s2 = "Hello, C++";      // Copy initialization
-    std::string s3{"Modern Software"};  // Direct brace initialization
-    std::string s4(5, 'X');             // Fills with 5 copies: "XXXXX"
-    std::string s5{s2};                 // Copy of s2
+using namespace std;
 
-    std::cout << "s4: " << s4 << '\n';
+int main() {
+    string s1;                     // Empty string: ""
+    string s2 = "Hello, C++";      // Copy initialization
+    string s3{"Modern Software"};  // Direct brace initialization
+    string s4(5, 'X');             // Fills with 5 copies: "XXXXX"
+    string s5{s2};                 // Copy of s2
+
+    cout << "s4: " << s4 << '\n';
     return 0;
 }
 ```
@@ -111,9 +113,9 @@ int main() {
 The extraction operator reads non-whitespace characters and stops at the first space, tab, or newline:
 
 ```cpp
-std::string firstName;
-std::cout << "Enter your first name: ";
-std::cin >> firstName; // Reads "Shafin" even if user types "Shafin Chowdhury"
+string firstName;
+cout << "Enter your first name: ";
+cin >> firstName; // Reads "Shafin" even if user types "Shafin Chowdhury"
 ```
 
 ### 2. Full-Line Extraction (`std::getline`)
@@ -121,9 +123,9 @@ std::cin >> firstName; // Reads "Shafin" even if user types "Shafin Chowdhury"
 To read an entire line including spaces:
 
 ```cpp
-std::string address;
-std::cout << "Enter street address: ";
-std::getline(std::cin, address); // Reads entire line until user presses Enter
+string address;
+cout << "Enter street address: ";
+getline(cin, address); // Reads entire line until user presses Enter
 ```
 
 _(Remember to call `std::cin.ignore()` if preceding a `getline()` call with formatted `cin >>` extractions!)_
@@ -135,11 +137,11 @@ _(Remember to call `std::cin.ignore()` if preceding a `getline()` call with form
 ### 1. Checking Length and Emptiness
 
 ```cpp
-std::string title = "Computer Science";
+string title = "Computer Science";
 
-std::cout << "Length: " << title.length() << '\n'; // 16 characters
-std::cout << "Size:   " << title.size() << '\n';   // Identical to length()
-std::cout << "Empty?  " << std::boolalpha << title.empty() << '\n'; // false
+cout << "Length: " << title.length() << '\n'; // 16 characters
+cout << "Size:   " << title.size() << '\n';   // Identical to length()
+cout << "Empty?  " << boolalpha << title.empty() << '\n'; // false
 ```
 
 ### 2. Character Access: `[]` vs. `.at()`
@@ -147,10 +149,10 @@ std::cout << "Empty?  " << std::boolalpha << title.empty() << '\n'; // false
 You can access individual characters by index:
 
 ```cpp
-std::string word = "Code";
+string word = "Code";
 
 char first = word[0];      // 'C' (Fast, no bounds checking)
-char second = word.at(1);  // 'o' (Safe, throws std::out_of_range if out of bounds)
+char second = word.at(1);  // 'o' (Safe, throws out_of_range if out of bounds)
 ```
 
 > [!TIP]
@@ -164,12 +166,14 @@ Combine strings naturally using `+` or `+=`:
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 int main() {
-    std::string first = "Shafin";
-    std::string last = "Chowdhury";
+    string first = "Shafin";
+    string last = "Chowdhury";
 
     // Operator + combines strings:
-    std::string fullName = first + " " + last;
+    string fullName = first + " " + last;
 
     // Operator += appends in-place:
     fullName += " (Developer)";
@@ -177,7 +181,7 @@ int main() {
     // Append single character:
     fullName.push_back('!');
 
-    std::cout << fullName << '\n';
+    cout << fullName << '\n';
     return 0;
 }
 ```
@@ -187,14 +191,14 @@ int main() {
 `std::string` supports standard relational operators (`==`, `!=`, `<`, `>`, `<=`, `>=`) performing **lexicographical (dictionary) comparison**:
 
 ```cpp
-std::string user = "admin";
+string user = "admin";
 
 if (user == "admin") {
-    std::cout << "Authorization granted.\n";
+    cout << "Authorization granted.\n";
 }
 
-if (std::string("apple") < std::string("banana")) {
-    std::cout << "'apple' precedes 'banana' alphabetically.\n";
+if (string("apple") < string("banana")) {
+    cout << "'apple' precedes 'banana' alphabetically.\n";
 }
 ```
 
@@ -210,17 +214,19 @@ The `.substr(start_pos, count)` function extracts a sub-section of a string:
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 int main() {
-    std::string email = "student@university.edu";
+    string email = "student@university.edu";
 
     // Extract username (from index 0, length 7)
-    std::string username = email.substr(0, 7);
+    string username = email.substr(0, 7);
 
     // Extract domain (from index 8 to the end)
-    std::string domain = email.substr(8);
+    string domain = email.substr(8);
 
-    std::cout << "Username: " << username << '\n'; // "student"
-    std::cout << "Domain:   " << domain << '\n';   // "university.edu"
+    cout << "Username: " << username << '\n'; // "student"
+    cout << "Domain:   " << domain << '\n';   // "university.edu"
 
     return 0;
 }
@@ -234,16 +240,18 @@ The `.find()` function locates the first occurrence of a character or substring,
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 int main() {
-    std::string log = "[ERROR 404]: File not found on server.";
-    std::string query = "ERROR";
+    string log = "[ERROR 404]: File not found on server.";
+    string query = "ERROR";
 
     size_t foundIndex = log.find(query);
 
-    if (foundIndex != std::string::npos) {
-        std::cout << "Found query '" << query << "' at index: " << foundIndex << '\n';
+    if (foundIndex != string::npos) {
+        cout << "Found query '" << query << "' at index: " << foundIndex << '\n';
     } else {
-        std::cout << "Query not found.\n";
+        cout << "Query not found.\n";
     }
 
     return 0;
@@ -264,7 +272,7 @@ Found query 'ERROR' at index: 1
 
 ```cpp
 // COMPILE ERROR: Cannot add two pointers!
-std::string text = "Hello " + "World";
+string text = "Hello " + "World";
 ```
 
 In C++, `"Hello "` and `"World"` are not `std::string` objects—they are raw C-style string literals (`const char[N]`), which decay into pointers! You cannot use `+` on two raw pointers.
@@ -272,23 +280,23 @@ In C++, `"Hello "` and `"World"` are not `std::string` objects—they are raw C-
 **The Fix**: Ensure at least one operand is a `std::string`:
 
 ```cpp
-std::string text = std::string("Hello ") + "World";
+string text = string("Hello ") + "World";
 // Or in C++14 onwards using the 's' literal suffix:
 using namespace std::string_literals;
-std::string modern = "Hello "s + "World";
+string modern = "Hello "s + "World";
 ```
 
 ### 2. Passing `std::string` by Value to Functions
 
 ```cpp
 // SLOW: Creates a full copy of the string on every function call!
-void printMessage(std::string msg) {
-    std::cout << msg << '\n';
+void printMessage(string msg) {
+    cout << msg << '\n';
 }
 
 // FAST: Uses a const reference to inspect the string with zero copying overhead!
-void printMessage(const std::string& msg) {
-    std::cout << msg << '\n';
+void printMessage(const string& msg) {
+    cout << msg << '\n';
 }
 ```
 

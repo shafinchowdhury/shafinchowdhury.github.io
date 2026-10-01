@@ -98,6 +98,8 @@ A classic interview question asks how to swap two integers. With pass-by-value, 
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 void swapNumbers(int& a, int& b) {
     int temp = a;
     a = b;
@@ -108,9 +110,9 @@ int main() {
     int first = 10;
     int second = 20;
 
-    std::cout << "Before: first=" << first << ", second=" << second << '\n';
+    cout << "Before: first=" << first << ", second=" << second << '\n';
     swapNumbers(first, second);
-    std::cout << "After:  first=" << first << ", second=" << second << '\n';
+    cout << "After:  first=" << first << ", second=" << second << '\n';
 
     return 0;
 }
@@ -136,10 +138,12 @@ You pass by **`const` reference** (`const T&`):
 #include <string>
 #include <vector>
 
+using namespace std;
+
 // Zero-copy, read-only! Cannot accidentally mutate 'document' or 'keywords'.
-void analyzeText(const std::string& document, const std::vector<std::string>& keywords) {
-    std::cout << "Document character length: " << document.length() << '\n';
-    std::cout << "Searching for " << keywords.size() << " keywords...\n";
+void analyzeText(const string& document, const vector<string>& keywords) {
+    cout << "Document character length: " << document.length() << '\n';
+    cout << "Searching for " << keywords.size() << " keywords...\n";
 
     // document += " appended"; // COMPILE ERROR: Cannot modify const reference!
 }
@@ -159,9 +163,9 @@ By passing `const std::string&`, the compiler simply passes the memory address (
 Furthermore, unlike a non-const reference, a `const` reference can bind directly to temporary values and literals:
 
 ```cpp
-void printMessage(const std::string& msg);
+void printMessage(const string& msg);
 
-printMessage("System Ready"); // Legal! Binds to temporary std::string literal
+printMessage("System Ready"); // Legal! Binds to temporary string literal
 ```
 
 ---
@@ -176,12 +180,14 @@ Passing by pointer is still used when the argument is **optional**—that is, th
 #include <iostream>
 #include <string>
 
-void logEvent(const std::string& eventName, const int* errorCode = nullptr) {
-    std::cout << "[EVENT]: " << eventName;
+using namespace std;
+
+void logEvent(const string& eventName, const int* errorCode = nullptr) {
+    cout << "[EVENT]: " << eventName;
     if (errorCode != nullptr) {
-        std::cout << " (Error Code: " << *errorCode << ")";
+        cout << " (Error Code: " << *errorCode << ")";
     }
-    std::cout << '\n';
+    cout << '\n';
 }
 
 int main() {
@@ -258,16 +264,16 @@ _(If the argument is optional, pass by pointer `const T_`or modern`std::optional
 ### 1. Accidentally Copying Heavy Containers in Loops
 
 ```cpp
-std::vector<std::string> largeDataset = /* 100,000 strings */;
+vector<string> largeDataset = /* 100,000 strings */;
 
 // SLOW: Copies every single string during each loop iteration!
-for (std::string item : largeDataset) {
-    std::cout << item << '\n';
+for (string item : largeDataset) {
+    cout << item << '\n';
 }
 
 // FAST: Zero-copy read-only alias
-for (const std::string& item : largeDataset) {
-    std::cout << item << '\n';
+for (const string& item : largeDataset) {
+    cout << item << '\n';
 }
 ```
 

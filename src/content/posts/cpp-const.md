@@ -66,7 +66,7 @@ As explored in our parameter passing deep dive, a `const` reference creates an a
 int original = 42;
 const int& ref = original;
 
-std::cout << ref << '\n'; // Legal: Reading is fine
+cout << ref << '\n'; // Legal: Reading is fine
 
 // ref = 99; // COMPILE ERROR: assignment of read-only reference
 ```
@@ -74,7 +74,7 @@ std::cout << ref << '\n'; // Legal: Reading is fine
 `const` references are the gold standard for function parameters accepting non-trivial types (`std::string`, `std::vector`, complex classes) because they avoid expensive copying while ensuring the function cannot corrupt the caller's data:
 
 ```cpp
-void renderMesh(const std::vector<float>& vertices); // Safe & zero-copy
+void renderMesh(const vector<float>& vertices); // Safe & zero-copy
 ```
 
 ---
@@ -197,7 +197,7 @@ If you hold a `const` reference to an object, you are **only allowed to call `co
 
 ```cpp
 void printAccountInfo(const BankAccount& account) {
-    std::cout << "Balance: $" << account.getBalance() << '\n'; // Legal!
+    cout << "Balance: $" << account.getBalance() << '\n'; // Legal!
 
     // account.deposit(50.0); // COMPILE ERROR: Calling non-const method on const object!
 }
@@ -219,9 +219,11 @@ Introduced in C++11 and greatly expanded in C++14/17/20, **`constexpr`** (consta
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int getUserInput() {
     int val;
-    std::cin >> val;
+    cin >> val;
     return val;
 }
 

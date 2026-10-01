@@ -64,11 +64,13 @@ You can inspect the exact memory address where a variable lives using the **addr
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int score = 95;
 
-    std::cout << "Value of score:   " << score << '\n';
-    std::cout << "Address of score: " << &score << '\n';
+    cout << "Value of score:   " << score << '\n';
+    cout << "Address of score: " << &score << '\n';
 
     return 0;
 }
@@ -132,17 +134,19 @@ You use the **dereference operator** (`*`):
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int target = 50;
     int* ptr = &target;
 
-    std::cout << "Address held by ptr: " << ptr << '\n';
-    std::cout << "Value pointed to:     " << *ptr << '\n'; // Dereference (reads 50)
+    cout << "Address held by ptr: " << ptr << '\n';
+    cout << "Value pointed to:     " << *ptr << '\n'; // Dereference (reads 50)
 
     // Modifying target THROUGH the pointer:
     *ptr = 100;
 
-    std::cout << "Updated value of target: " << target << '\n'; // Now 100!
+    cout << "Updated value of target: " << target << '\n'; // Now 100!
     return 0;
 }
 ```
@@ -187,9 +191,9 @@ int* safePtr = nullptr; // Explicitly points to nothing (address 0)
 
 ```cpp
 if (safePtr != nullptr) {
-    std::cout << *safePtr << '\n';
+    cout << *safePtr << '\n';
 } else {
-    std::cout << "Pointer is null; cannot dereference.\n";
+    cout << "Pointer is null; cannot dereference.\n";
 }
 ```
 
@@ -216,17 +220,19 @@ $$\text{New Address} = \text{Current Address} + \left( n \times \text{sizeof}(T)
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     int arr[3] = {100, 200, 300};
     int* p = arr; // Points to arr[0]
 
-    std::cout << "Value at p:     " << *p << " (Address: " << p << ")\n";
+    cout << "Value at p:     " << *p << " (Address: " << p << ")\n";
 
     p++; // Advances by sizeof(int) = 4 bytes!
-    std::cout << "Value at p + 1: " << *p << " (Address: " << p << ")\n";
+    cout << "Value at p + 1: " << *p << " (Address: " << p << ")\n";
 
     p++; // Advances another 4 bytes to arr[2]
-    std::cout << "Value at p + 2: " << *p << " (Address: " << p << ")\n";
+    cout << "Value at p + 2: " << *p << " (Address: " << p << ")\n";
 
     return 0;
 }
@@ -243,6 +249,8 @@ Passing a pointer into a function allows the function to modify the caller's var
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 void swapNumbers(int* a, int* b) {
     if (a == nullptr || b == nullptr) return;
 
@@ -254,9 +262,9 @@ void swapNumbers(int* a, int* b) {
 int main() {
     int x = 10, y = 20;
 
-    std::cout << "Before swap: x=" << x << ", y=" << y << '\n';
+    cout << "Before swap: x=" << x << ", y=" << y << '\n';
     swapNumbers(&x, &y);
-    std::cout << "After swap:  x=" << x << ", y=" << y << '\n';
+    cout << "After swap:  x=" << x << ", y=" << y << '\n';
 
     return 0;
 }
@@ -273,7 +281,7 @@ int val = 42;
 int* p = &val;    // p points to val
 int** pp = &p;    // pp points to p
 
-std::cout << **pp; // Dereferences twice to reach 42!
+cout << **pp; // Dereferences twice to reach 42!
 ```
 
 ```text
@@ -298,11 +306,13 @@ In C++, memory is split into two primary runtime regions:
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 int main() {
     // 1. Allocate a single integer on the heap:
     int* heapInt = new int(42);
 
-    std::cout << "Heap value: " << *heapInt << '\n';
+    cout << "Heap value: " << *heapInt << '\n';
 
     // 2. Free the allocated heap memory:
     delete heapInt;
@@ -363,10 +373,12 @@ Instead, modern C++ relies on **RAII** (Resource Acquisition Is Initialization) 
 ```cpp
 #include <memory>
 
+using namespace std;
+
 void modernStyle() {
     // Automatically allocated on the heap and GUARANTEED to be freed
     // when myPtr leaves scope—even if an exception is thrown!
-    auto myPtr = std::make_unique<int>(100);
+    auto myPtr = make_unique<int>(100);
 } // Automatically deleted here! No memory leaks possible.
 ```
 
