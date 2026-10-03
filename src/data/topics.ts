@@ -195,7 +195,146 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
         ],
       },
     ],
-    relatedTopicSlugs: ["dsa", "mathematics"],
+    relatedTopicSlugs: ["cpp-oop", "dsa", "mathematics"],
+  },
+
+  "cpp-oop": {
+    slug: "cpp-oop",
+    name: "C++ OOP",
+    title: "C++ Object-Oriented Programming",
+    description:
+      "A complete curriculum on C++ Object-Oriented Programming: classes, constructors, encapsulation, inheritance, polymorphism, abstraction, copy semantics, and the Rule of Three, Five, and Zero.",
+    intro:
+      "Object-Oriented Programming in C++ combines zero-cost abstractions with precise hardware-level control over memory, object lifetimes, and runtime dispatch. This curriculum provides a rigorous, step-by-step learning path—starting with foundational class blueprints and memory encapsulation, progressing through inheritance and dynamic polymorphism, and culminating in resource management, copy semantics, and the Rule of Three, Five, and Zero.",
+    learningPath: [
+      {
+        step: 1,
+        title: "Classes and Objects in C++",
+        description:
+          "User-defined blueprints, object state and behavior, access specifiers, and the this pointer.",
+        postSlug: "cpp-classes-and-objects",
+        level: "Beginner",
+      },
+      {
+        step: 2,
+        title: "Constructors and Destructors in C++",
+        description:
+          "Default and parameterized constructors, member initializer lists, object lifecycle, and RAII foundations.",
+        postSlug: "cpp-constructors-and-destructors",
+        level: "Beginner",
+      },
+      {
+        step: 3,
+        title: "Encapsulation in C++",
+        description:
+          "Data hiding, getters and setters, maintaining invariants, and protecting internal state.",
+        postSlug: "cpp-encapsulation",
+        level: "Beginner",
+      },
+      {
+        step: 4,
+        title: "Inheritance in C++",
+        description:
+          "Base and derived classes, access levels, constructor call order, and modeling is-a relationships.",
+        postSlug: "cpp-inheritance",
+        level: "Intermediate",
+      },
+      {
+        step: 5,
+        title: "Polymorphism in C++",
+        description:
+          "Compile-time vs runtime polymorphism, virtual functions, dynamic dispatch, override, and virtual destructors.",
+        postSlug: "cpp-polymorphism",
+        level: "Intermediate",
+      },
+      {
+        step: 6,
+        title: "Abstraction in C++",
+        description:
+          "Abstract classes, pure virtual functions, building pure interfaces, and decoupling systems.",
+        postSlug: "cpp-abstraction",
+        level: "Intermediate",
+      },
+      {
+        step: 7,
+        title: "Function Overloading vs Function Overriding",
+        description:
+          "Compile-time signatures, runtime dynamic dispatch, comparison metrics, and derived-class name hiding.",
+        postSlug: "cpp-function-overloading-vs-overriding",
+        level: "Intermediate",
+      },
+      {
+        step: 8,
+        title: "Composition vs Inheritance",
+        description:
+          "Has-a vs is-a design trade-offs, coupling dynamics, fragile base classes, and reusability.",
+        postSlug: "cpp-composition-vs-inheritance",
+        level: "Intermediate",
+      },
+      {
+        step: 9,
+        title: "Copy Constructor in C++",
+        description:
+          "Object duplication mechanics, pass-by-value triggers, const reference parameters, and copy assignment contrast.",
+        postSlug: "cpp-copy-constructor",
+        level: "Advanced",
+      },
+      {
+        step: 10,
+        title: "Shallow Copy vs Deep Copy in C++",
+        description:
+          "Pointer aliasing traps, double-free crashes, memory ownership, and allocating dedicated heap resources.",
+        postSlug: "cpp-shallow-copy-vs-deep-copy",
+        level: "Advanced",
+      },
+      {
+        step: 11,
+        title: "Rule of Three, Five and Zero in C++",
+        description:
+          "Historical resource management progression, move semantics (rvalues), and modern RAII Rule-of-Zero design.",
+        postSlug: "cpp-rule-of-three-five-zero",
+        level: "Advanced",
+      },
+    ],
+    groups: [
+      {
+        name: "1. Foundations",
+        description:
+          "Core mental models, class blueprints, object lifecycle, and robust data protection.",
+        postSlugs: [
+          "cpp-classes-and-objects",
+          "cpp-constructors-and-destructors",
+          "cpp-encapsulation",
+        ],
+      },
+      {
+        name: "2. Reusing and Extending Classes",
+        description:
+          "Class hierarchies, access mechanics, base initialization, and architectural composition trade-offs.",
+        postSlugs: ["cpp-inheritance", "cpp-composition-vs-inheritance"],
+      },
+      {
+        name: "3. Polymorphism and Abstraction",
+        description:
+          "Static vs dynamic dispatch, virtual tables, pure interfaces, and overloading vs overriding.",
+        postSlugs: [
+          "cpp-polymorphism",
+          "cpp-abstraction",
+          "cpp-function-overloading-vs-overriding",
+        ],
+      },
+      {
+        name: "4. Object Copying and Resource Management",
+        description:
+          "Copy construction, memory ownership, shallow vs deep copies, and the modern Rule of Three, Five, and Zero.",
+        postSlugs: [
+          "cpp-copy-constructor",
+          "cpp-shallow-copy-vs-deep-copy",
+          "cpp-rule-of-three-five-zero",
+        ],
+      },
+    ],
+    relatedTopicSlugs: ["cpp", "dsa"],
   },
 
   python: {
