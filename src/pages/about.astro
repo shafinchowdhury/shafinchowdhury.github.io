@@ -9,6 +9,7 @@ import Footer from "@/components/Footer.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import config from "@/config";
+import { getPersonEntity, WEBSITE_ID } from "@/utils/structuredData";
 
 const about = await getEntry("pages", "about");
 
@@ -23,33 +24,18 @@ const locale = Astro.currentLocale ?? config.site.lang;
 
 const pageCanonicalURL =
   about.data.canonicalURL ?? new URL(Astro.url.pathname, Astro.site).href;
+const aboutMarkdownURL = new URL("/about.md", Astro.site ?? config.site.url)
+  .href;
 
 const profileStructuredData = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
-  mainEntity: {
-    "@type": "Person",
-    name: config.site.author,
-    alternateName: "Md. Shafin Mahmud Chowdhury",
-    jobTitle: "Software Developer & Computer Science Student",
-    affiliation: {
-      "@type": "EducationalOrganization",
-      name: "North South University",
-    },
-    url: pageCanonicalURL,
-    sameAs: [
-      "https://github.com/shafinchowdhury",
-      "https://www.linkedin.com/in/md-shafin-mahmud-chowdhury-11b732316/",
-    ],
-    knowsAbout: [
-      "C++",
-      "Python",
-      "Java",
-      "Data Structures and Algorithms",
-      "Software Development",
-      "Mathematics",
-    ],
-  },
+  "@id": `${pageCanonicalURL}#profilepage`,
+  url: pageCanonicalURL,
+  name: `${about.data.title} | ${config.site.title}`,
+  description: about.data.description,
+  isPartOf: { "@id": WEBSITE_ID },
+  mainEntity: getPersonEntity(),
 };
 ---
 
@@ -58,6 +44,7 @@ const profileStructuredData = {
   description={about.data.description}
   ogImage={about.data.ogImage}
   canonicalURL={pageCanonicalURL}
+  markdownURL={aboutMarkdownURL}
 >
   <Fragment slot="head">
     <script

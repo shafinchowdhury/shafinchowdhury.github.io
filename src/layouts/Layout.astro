@@ -15,6 +15,8 @@ type Props = {
   description?: string;
   ogImage?: string;
   canonicalURL?: string;
+  markdownURL?: string;
+  noindex?: boolean;
 };
 
 const { site } = config;
@@ -24,6 +26,8 @@ const {
   description = site.description,
   ogImage = resolveDefaultOgImagePath(config),
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  markdownURL,
+  noindex = false,
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.site ?? Astro.url);
@@ -45,6 +49,12 @@ const rssHref = getRelativeLocaleUrl(
     <link rel="icon" type="image/svg+xml" href={getAssetPath("favicon.svg")} />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
+    <meta
+      name="robots"
+      content={noindex
+        ? "noindex, nofollow"
+        : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"}
+    />
 
     <!-- Font -->
     <Font
@@ -80,13 +90,24 @@ const rssHref = getRelativeLocaleUrl(
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={socialImageURL} />
 
-    <!-- RSS autodiscovery -->
+    <!-- RSS & Agent Discovery -->
     <link
       rel="alternate"
       type="application/rss+xml"
       title={site.title}
       href={new URL(rssHref, Astro.site)}
     />
+    <link
+      rel="alternate"
+      type="text/plain"
+      title="LLMs.txt"
+      href={new URL("llms.txt", Astro.site)}
+    />
+    {
+      markdownURL && (
+        <link rel="alternate" type="text/markdown" href={markdownURL} />
+      )
+    }
 
     <!-- Filled at runtime by theme.ts to match the current background colour -->
     <meta name="theme-color" content="" />
@@ -115,6 +136,106 @@ const rssHref = getRelativeLocaleUrl(
         document.firstElementChild?.setAttribute("data-theme", theme);
         // Expose value so theme.ts can skip re-detection.
         window.__theme = { value: theme };
+      })();
+    </script>
+
+    <!-- WebMCP Imperative Tool Registration (W3C WebML CG draft) -->
+    <script type="module" is:inline>
+      (async function registerWebMCPTools() {
+        const mc = document.modelContext ?? navigator.modelContext;
+        if (!mc || typeof mc.registerTool !== "function") return;
+        const controller = new AbortController();
+        try {
+          await mc.registerTool(
+            {
+              name: "search_articles",
+              title: "Search Technical Articles",
+              description:
+                "Search published programming and computer science articles and topic hubs by keyword. Returns matching titles, descriptions, canonical URLs, and Markdown URLs.",
+              inputSchema: {
+                type: "object",
+                properties: {
+                  query: {
+                    type: "string",
+                    title: "Search Query",
+                    description:
+                      "Keywords or topic to search for (e.g., C++ pointers, Python lists, OOP)",
+                  },
+                },
+                required: ["query"],
+              },
+              annotations: { readOnlyHint: true },
+              async execute({ query }) {
+                const q = String(query ?? "")
+                  .trim()
+                  .toLowerCase();
+                const res = await fetch("/search-index.json");
+                const data = await res.json();
+                const matches = (data.articles ?? []).filter(
+                  item =>
+                    item.title.toLowerCase().includes(q) ||
+                    item.description.toLowerCase().includes(q) ||
+                    (item.tags ?? []).some(t => t.toLowerCase().includes(q))
+                );
+                return {
+                  content: [
+                    {
+                      type: "text",
+                      text: JSON.stringify(
+                        { query, count: matches.length, results: matches.slice(0, 10) },
+                        null,
+                        2
+                      ),
+                    },
+                  ],
+                };
+              },
+            },
+            { signal: controller.signal }
+          );
+
+          await mc.registerTool(
+            {
+              name: "list_topic_hubs",
+              title: "List Computer Science Topic Hubs",
+              description:
+                "List curated computer science and programming topic hubs and structured learning paths on shafinchowdhury.dev.",
+              inputSchema: {
+                type: "object",
+                properties: {
+                  topic: {
+                    type: "string",
+                    title: "Topic Slug Filter",
+                    description:
+                      "Optional topic slug filter (e.g., cpp, python, oop, dsa, math)",
+                  },
+                },
+              },
+              annotations: { readOnlyHint: true },
+              async execute({ topic } = {}) {
+                const res = await fetch("/search-index.json");
+                const data = await res.json();
+                const slug = String(topic ?? "")
+                  .trim()
+                  .toLowerCase();
+                const hubs = slug
+                  ? (data.topicHubs ?? []).filter(h => h.slug === slug)
+                  : (data.topicHubs ?? []);
+                return {
+                  content: [
+                    {
+                      type: "text",
+                      text: JSON.stringify({ topicHubs: hubs }, null, 2),
+                    },
+                  ],
+                };
+              },
+            },
+            { signal: controller.signal }
+          );
+        } catch {
+          // Ignore registration errors on unsupported browser versions
+        }
       })();
     </script>
 

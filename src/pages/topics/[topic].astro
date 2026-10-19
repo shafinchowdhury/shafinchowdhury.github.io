@@ -44,17 +44,42 @@ const relatedTopics = topicData.relatedTopicSlugs
 const pageTitle = `${topicData.title} | ${config.site.title}`;
 const pageDescription = topicData.description;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const markdownURL = new URL(
+  `/topics/${topicData.slug}.md`,
+  Astro.site ?? config.site.url
+).href;
+const siteOrigin = (Astro.site?.href ?? config.site.url).replace(/\/+$/, "");
 
 const schemaData = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
+  "@id": `${canonicalURL}#collection`,
   name: topicData.title,
   description: topicData.description,
   url: canonicalURL,
+  inLanguage: config.site.lang ?? "en",
+  author: {
+    "@type": "Person",
+    name: config.site.author,
+    url: `${siteOrigin}/about/`,
+  },
   publisher: {
     "@type": "Person",
     name: config.site.author,
-    url: config.site.url,
+    url: `${siteOrigin}/`,
+  },
+  mainEntity: {
+    "@type": "ItemList",
+    name: `${topicData.title} — Curated Learning Path`,
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    numberOfItems: topicData.learningPath.length,
+    itemListElement: topicData.learningPath.map(step => ({
+      "@type": "ListItem",
+      position: step.step,
+      name: step.title,
+      description: step.description,
+      url: `${siteOrigin}/posts/${step.postSlug}/`,
+    })),
   },
 };
 ---
@@ -63,6 +88,7 @@ const schemaData = {
   title={pageTitle}
   description={pageDescription}
   canonicalURL={canonicalURL}
+  markdownURL={markdownURL}
 >
   <Fragment slot="head">
     <script

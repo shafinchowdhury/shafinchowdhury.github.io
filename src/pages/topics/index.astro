@@ -9,6 +9,7 @@ import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { TOPIC_HUBS } from "@/data/topics";
 import { postFilter } from "@/utils/postFilter";
 import config from "@/config";
+import { PERSON_ID, SITE_URL, WEBSITE_ID } from "@/utils/structuredData";
 
 const posts = await getCollection("posts", postFilter);
 const locale = Astro.currentLocale ?? config.site.lang;
@@ -29,9 +30,45 @@ const topics = Object.values(TOPIC_HUBS).map(topic => {
 const pageTitle = `Topic Hubs & Learning Paths | ${config.site.title}`;
 const pageDescription =
   "Explore curated pillar pages and structured learning paths covering C++, Python, Java, Data Structures & Algorithms, and Mathematics.";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? config.site.url)
+  .href;
+const markdownURL = new URL("/topics.md", Astro.site ?? config.site.url).href;
+
+const topicsSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": `${canonicalURL}#collection`,
+  name: pageTitle,
+  description: pageDescription,
+  url: canonicalURL,
+  isPartOf: { "@id": WEBSITE_ID },
+  author: { "@id": PERSON_ID },
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: topics.map((t, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: t.title,
+      description: t.description,
+      url: `${SITE_URL}/topics/${t.slug}/`,
+    })),
+  },
+};
 ---
 
-<Layout title={pageTitle} description={pageDescription}>
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalURL={canonicalURL}
+  markdownURL={markdownURL}
+>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(topicsSchema)}
+    />
+  </Fragment>
   <Header />
 
   <Breadcrumb />
