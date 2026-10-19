@@ -5,6 +5,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import { resolveDefaultOgImagePath } from "@/utils/resolveDefaultOgImagePath";
 import { getAssetPath } from "@/utils/withBase";
 import config from "@/config";
+import GoogleAnalytics from "@/components/GoogleAnalytics.astro";
 import "@/styles/global.css";
 import "@/styles/animations.css";
 import "katex/dist/katex.min.css";
@@ -116,6 +117,8 @@ const rssHref = getRelativeLocaleUrl(
         window.__theme = { value: theme };
       })();
     </script>
+
+    <GoogleAnalytics />
 
     <ClientRouter />
   </head>

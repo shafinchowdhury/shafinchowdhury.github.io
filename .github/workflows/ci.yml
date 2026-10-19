@@ -44,3 +44,5 @@ jobs:
 
       - name: "🚀 Build the project"
         run: pnpm run build
+        env:
+          PUBLIC_GA_MEASUREMENT_ID: ${{ vars.PUBLIC_GA_MEASUREMENT_ID }}
