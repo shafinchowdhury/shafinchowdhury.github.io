@@ -19,7 +19,9 @@ function persist(): void {
 
 function reflect(): void {
   document.firstElementChild?.setAttribute("data-theme", themeValue);
-  document.querySelector("#theme-btn")?.setAttribute("aria-label", themeValue);
+  document
+    .querySelector("#theme-btn")
+    ?.setAttribute("aria-label", `Toggle theme (current: ${themeValue})`);
 
   // Fill <meta name="theme-color"> with the computed background colour so
   // Android's browser chrome matches the page background.

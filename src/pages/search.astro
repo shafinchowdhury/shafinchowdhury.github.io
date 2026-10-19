@@ -27,7 +27,10 @@ const pagefindBundlePath = getAssetPath("pagefind/");
 const t = useTranslations(locale);
 ---
 
-<Layout title={`${t.pages.searchTitle} | ${config.site.title}`}>
+<Layout
+  title={`${t.pages.searchTitle} | ${config.site.title}`}
+  description={t.pages.searchDesc}
+>
   <Header />
 
   <Breadcrumb />
@@ -39,6 +42,34 @@ const t = useTranslations(locale);
       data-backurl={backUrl}
       data-bundle-path={pagefindBundlePath}
     >
+      <form
+        id="static-search-form"
+        role="search"
+        action="/search/"
+        method="get"
+        toolname="search_site_articles"
+        tooldescription="Search programming and computer science articles by keyword on shafinchowdhury.dev"
+        class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center"
+      >
+        <label for="search-query-input" class="sr-only">
+          {t.a11y.searchPlaceholder}
+        </label>
+        <input
+          id="search-query-input"
+          name="q"
+          type="search"
+          placeholder={t.a11y.searchPlaceholder}
+          aria-label={t.a11y.searchPlaceholder}
+          toolparamdescription="Keywords or topic to search for (e.g., C++ pointers, Python lists, OOP)"
+          class="border-border bg-background text-foreground w-full rounded-md border px-3 py-2 text-sm"
+        />
+        <button
+          type="submit"
+          class="bg-accent text-accent-foreground shrink-0 rounded-md px-4 py-2 text-sm font-medium"
+        >
+          {t.nav.search}
+        </button>
+      </form>
     </div>
   </Main>
 
@@ -73,6 +104,9 @@ const t = useTranslations(locale);
           `;
       }
 
+      // Remove static fallback form before mounting PagefindUI to avoid duplicate forms
+      pageFindSearch.querySelector("#static-search-form")?.remove();
+
       // Init pagefind ui
       const search = new PagefindUI({
         element: "#pagefind-search",
@@ -91,6 +125,17 @@ const t = useTranslations(locale);
         },
       });
 
+      const pagefindForm = pageFindSearch.querySelector(".pagefind-ui__form");
+      if (pagefindForm) {
+        pagefindForm.setAttribute("action", "/search/");
+        pagefindForm.setAttribute("method", "get");
+        pagefindForm.setAttribute("toolname", "search_site_articles");
+        pagefindForm.setAttribute(
+          "tooldescription",
+          "Search Shafin Chowdhury's software engineering articles by keyword or topic."
+        );
+      }
+
       // If search param exists (eg: search?q=astro), trigger search
       const query = params.get("q");
       if (query) {
@@ -100,6 +145,14 @@ const t = useTranslations(locale);
       // Reset search param if search input is cleared
       const searchInput = document.querySelector(".pagefind-ui__search-input");
       const clearButton = document.querySelector(".pagefind-ui__search-clear");
+      if (searchInput) {
+        searchInput.setAttribute("name", "q");
+        searchInput.setAttribute("aria-label", "Search articles");
+        searchInput.setAttribute(
+          "toolparamdescription",
+          "Search query keyword or topic, such as C++, pointers, Java, or backend systems."
+        );
+      }
       searchInput?.addEventListener("input", resetSearchParam);
       clearButton?.addEventListener("click", resetSearchParam);
 
@@ -115,7 +168,8 @@ const t = useTranslations(locale);
     const pagefindSearch = document.querySelector("#pagefind-search");
 
     // if pagefind search form already exists, don't initialize search component
-    if (pagefindSearch && pagefindSearch.querySelector("form")) return;
+    if (pagefindSearch && pagefindSearch.querySelector(".pagefind-ui__form"))
+      return;
 
     initSearch();
   });

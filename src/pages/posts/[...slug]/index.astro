@@ -118,6 +118,12 @@ if (!ogImageUrl && config.features.dynamicOgImage) {
   ogImageUrl = `${postUrl}/index.png`;
 }
 
+const postSlug = getPostSlug(post.id, post.filePath);
+const markdownURL = new URL(
+  `/posts/${postSlug}.md`,
+  Astro.site ?? Astro.url.origin
+).href;
+
 const ogImage = ogImageUrl
   ? new URL(ogImageUrl, Astro.url.origin).href
   : undefined;
@@ -125,11 +131,14 @@ const ogImage = ogImageUrl
 
 <PostLayout
   title={`${title} | ${config.site.title}`}
+  articleTitle={title}
   description={description}
   ogImage={ogImage}
   canonicalURL={canonicalURL}
+  markdownURL={markdownURL}
   pubDatetime={pubDatetime}
   modDatetime={modDatetime}
+  tags={tags}
 >
   <Header />
 

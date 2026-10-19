@@ -21,6 +21,10 @@ const { imageUrl, imageAlt = "Md. Shafin Mahmud Chowdhury" } = Astro.props;
               <img
                 src={imageUrl}
                 alt={imageAlt}
+                width="384"
+                height="384"
+                fetchpriority="high"
+                decoding="async"
                 class="hero-image h-72 w-72 rounded-2xl object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.02] sm:h-80 sm:w-80 lg:h-96 lg:w-96"
               />
             </div>

@@ -35,9 +35,12 @@ const { page, tagName } = Astro.props;
 
 const locale = Astro.currentLocale ?? config.site.lang;
 const t = useTranslations(locale);
+const pageSuffix = page.currentPage > 1 ? ` (Page ${page.currentPage})` : "";
+const pageTitle = `${t.pages.tagTitle}: ${tagName}${pageSuffix} | ${config.site.title}`;
+const pageDesc = `${t.pages.tagDesc} "${tagName}"${pageSuffix}.`;
 ---
 
-<Layout title={`${t.pages.tagTitle}: ${tagName} | ${config.site.title}`}>
+<Layout title={pageTitle} description={pageDesc}>
   <Header />
 
   <Breadcrumb />

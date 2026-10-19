@@ -56,9 +56,41 @@ if (breadcrumbList[0] === "tags" && !isNaN(Number(breadcrumbList[2]))) {
     }`
   );
 }
+const rawSegments = currentUrlPath.split("/").slice(1).filter(Boolean);
+const siteOrigin = (Astro.site?.href ?? config.site.url).replace(/\/+$/, "");
+
+const breadcrumbSchemaItems = [
+  {
+    "@type": "ListItem",
+    position: 1,
+    name: t.nav.home,
+    item: `${siteOrigin}${getRelativeLocaleUrl(locale, "")}`,
+  },
+  ...rawSegments.map((seg, idx) => {
+    const pathSoFar = rawSegments.slice(0, idx + 1).join("/");
+    const label = navLabels[seg] ?? decodeSegment(seg);
+    return {
+      "@type": "ListItem",
+      position: idx + 2,
+      name: label,
+      item: `${siteOrigin}${getRelativeLocaleUrl(locale, pathSoFar)}`,
+    };
+  }),
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: breadcrumbSchemaItems,
+};
 ---
 
 <nav class="app-layout mt-8 mb-1" aria-label="breadcrumb">
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
   <ul
     class="font-light [&>li]:inline [&>li:not(:last-child)>a]:hover:opacity-100"
   >
