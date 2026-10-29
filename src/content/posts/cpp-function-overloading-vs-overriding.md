@@ -42,7 +42,7 @@ Overloading is an example of **compile-time (static) polymorphism**. When you in
 
 ### Requirements for Function Overloading
 
-1. The functions must exist in the **same scope** (e.g., both inside the same class or both in the global namespace).
+1. The functions must exist in the **same scope** (e.g., both inside the same class or both in the [global namespace](/posts/cpp-namespaces/)).
 2. The functions must have the **same name**.
 3. The parameter lists **must differ** in at least one of:
    - Number of parameters

@@ -244,7 +244,7 @@ When multiple operators appear in a single expression, **precedence** dictates w
 
 | Precedence Group    | Operators                                                           | Associativity     |
 | :------------------ | :------------------------------------------------------------------ | :---------------- |
-| 1. Scope Resolution | `::`                                                                | Left-to-Right     |
+| 1. [Scope Resolution](/posts/cpp-namespaces/) | `::`                                                                | Left-to-Right     |
 | 2. Postfix / Calls  | `()`, `[]`, `->`, `.`, `x++`, `x--`                                 | Left-to-Right     |
 | 3. Unary / Prefix   | `++x`, `--x`, `+`, `-`, `!`, `~`, `sizeof`, `*` (deref), `&` (addr) | **Right-to-Left** |
 | 4. Multiplicative   | `*`, `/`, `%`                                                       | Left-to-Right     |

@@ -83,6 +83,14 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
       },
       {
         step: 7,
+        title: "Namespaces & Scope Resolution",
+        description:
+          "Preventing name collisions, the scope resolution operator (::), using declarations vs directives, and anonymous namespaces.",
+        postSlug: "cpp-namespaces",
+        level: "Beginner",
+      },
+      {
+        step: 8,
         title: "Arrays & Memory Layout",
         description:
           "Contiguous memory layouts, zero-based indexing offsets, array decay, and modern std::array.",
@@ -90,7 +98,7 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
         level: "Beginner",
       },
       {
-        step: 8,
+        step: 9,
         title: "Strings: std::string vs C-Strings",
         description:
           "Dynamic string management, character indexing, concatenation, substring slicing, and find.",
@@ -98,7 +106,7 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
         level: "Beginner",
       },
       {
-        step: 9,
+        step: 10,
         title: "Pointers & Memory Addresses",
         description:
           "Address-of operator, dereferencing, nullptr, pointer arithmetic, and heap basics with new and delete.",
@@ -106,7 +114,7 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
         level: "Intermediate",
       },
       {
-        step: 10,
+        step: 11,
         title: "References & Aliases",
         description:
           "Direct aliases, immutable bindings, const references, temporary binding, and reference vs pointer comparisons.",
@@ -114,7 +122,7 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
         level: "Intermediate",
       },
       {
-        step: 11,
+        step: 12,
         title: "Pass by Value vs Pass by Reference",
         description:
           "Call stack mechanics, CPU hardware registers, const T& read-only performance, and parameter decision trees.",
@@ -122,7 +130,7 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
         level: "Intermediate",
       },
       {
-        step: 12,
+        step: 13,
         title: "const Correctness & constexpr",
         description:
           "Immutability contracts, decoding pointer constness variations, const member functions, and compile-time constexpr.",
@@ -130,7 +138,7 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
         level: "Intermediate",
       },
       {
-        step: 13,
+        step: 14,
         title: "Dynamic Memory Allocation & Heap Mechanics",
         description:
           "Deep dive into heap lifecycle, raw new/delete allocation patterns, memory leaks, and segmentation faults.",
@@ -138,7 +146,7 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
         level: "Intermediate",
       },
       {
-        step: 14,
+        step: 15,
         title: "Mastering std::list & STL Linked Containers",
         description:
           "Doubly-linked node architecture, iterator invalidation rules, and cache-locality trade-offs.",
@@ -146,7 +154,7 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
         level: "Advanced",
       },
       {
-        step: 15,
+        step: 16,
         title: "Algorithmic Optimization & Raw Arithmetic",
         description:
           "Eliminating memory allocation overhead and replacing string conversions with arithmetic digit operations.",
@@ -170,8 +178,13 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
       {
         name: "Modular Code & Data Sequences",
         description:
-          "Function prototypes, stack frames, fixed-size arrays, and dynamic strings.",
-        postSlugs: ["cpp-functions", "cpp-arrays", "cpp-strings"],
+          "Function prototypes, namespaces, stack frames, fixed-size arrays, and dynamic strings.",
+        postSlugs: [
+          "cpp-functions",
+          "cpp-namespaces",
+          "cpp-arrays",
+          "cpp-strings",
+        ],
       },
       {
         name: "Pointers, References & Const Correctness",

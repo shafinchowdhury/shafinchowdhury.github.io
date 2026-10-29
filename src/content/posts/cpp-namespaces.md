@@ -516,5 +516,5 @@ Namespace demo finished cleanly!
 ## Continue Learning C++
 
 - **Previous Article:** [Functions in C++: Declaration, Scope, Overloading, and Parameters](/posts/cpp-functions/)
-- **Next Article:** [C++ Classes and Objects: A Beginner's Guide](/posts/cpp-classes-and-objects/)
+- **Next Article:** [Arrays in C++: Memory Layout, Indexing, and Modern Alternatives](/posts/cpp-arrays/)
 - **Explore Topic Hub:** [C++ Programming & Systems Engineering](/topics/cpp/)

@@ -359,7 +359,7 @@ When you need an array that can grow or shrink dynamically at runtime, use `std:
 
 ## Continue Learning C++
 
-- **Previous Article:** [Functions in C++: Declaration, Scope, Overloading, and Parameters](/posts/cpp-functions/)
+- **Previous Article:** [Namespaces in C++: Scope Resolution, Name Collisions, and Best Practices](/posts/cpp-namespaces/)
 - **Next Article:** [Strings in C++: std::string vs C-Style Strings and Practical Operations](/posts/cpp-strings/)
 - **Explore Topic Hub:** [C++ Programming & Systems Engineering](/topics/cpp/)
 - **Related Advanced Container:** [Mastering std::list in Modern C++](/posts/list-in-cpp/)

@@ -96,8 +96,8 @@ In C++, `malloc()` is declared within the standard library header `<cstdlib>`.
 
 In older C code, memory functions lived in `<stdlib.h>`. In C++, the ISO committee established `<c...>` wrappers for all inherited C headers:
 
-- `<stdlib.h>` declares `malloc`, `free`, `calloc`, and `realloc` in the **global namespace** (`::malloc`).
-- `<cstdlib>` declares these functions inside the **`std` namespace** (`std::malloc`, `std::free`), and compilers may optionally also declare them in the global namespace.
+- `<stdlib.h>` declares `malloc`, `free`, `calloc`, and `realloc` in the **[global namespace](/posts/cpp-namespaces/)** (`::malloc`).
+- `<cstdlib>` declares these functions inside the **[`std` namespace](/posts/cpp-namespaces/)** (`std::malloc`, `std::free`), and compilers may optionally also declare them in the global namespace.
 
 ### Best Practice in Modern C++
 
@@ -1462,6 +1462,7 @@ Use AddressSanitizer (`-fsanitize=address -g`) with Clang/GCC, or run your progr
 Now that you understand low-level memory allocation with `malloc()`, continue your journey through modern C++ memory management:
 
 - Deepen your understanding of pointers in our comprehensive [Pointers in C++ Guide](/posts/cpp-pointers/).
+- Understand how C++ organizes standard library functions inside `std::` in [Namespaces in C++](/posts/cpp-namespaces/).
 - Explore how the C++ standard library structures contiguous memory in [C++ Arrays](/posts/cpp-arrays/).
 - Learn why automatic resource management prevents leaks in our guide to [C++ Constructors and Destructors](/posts/cpp-constructors-and-destructors/).
 - Discover how pointer copying triggers double-free crashes in [Shallow Copy vs. Deep Copy in C++](/posts/cpp-shallow-copy-vs-deep-copy/).
