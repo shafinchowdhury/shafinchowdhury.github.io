@@ -40,6 +40,32 @@ function remarkEnsureSingleH1() {
   };
 }
 
+/**
+ * Rehype plugin to open all Markdown links (except same-page # anchors) in a new tab.
+ */
+function rehypeLinksNewTab() {
+  return (tree: any) => {
+    function visit(node: any) {
+      if (node.type === "element" && node.tagName === "a") {
+        const href = node.properties?.href;
+        if (typeof href === "string" && !href.startsWith("#")) {
+          node.properties = {
+            ...node.properties,
+            target: "_blank",
+            rel: "noopener noreferrer",
+          };
+        }
+      }
+      if (node.children) {
+        for (const child of node.children) {
+          visit(child);
+        }
+      }
+    }
+    visit(tree);
+  };
+}
+
 export default defineConfig({
   site: "https://shafinchowdhury.dev",
   integrations: [
@@ -63,7 +89,7 @@ export default defineConfig({
       remarkMath,
       remarkEnsureSingleH1,
     ],
-    rehypePlugins: [rehypeKatex],
+    rehypePlugins: [rehypeKatex, rehypeLinksNewTab],
     shikiConfig: {
       themes: { light: "min-light", dark: "night-owl" },
       defaultColor: false,

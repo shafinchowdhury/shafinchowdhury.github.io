@@ -11,7 +11,7 @@ description: "This article is a comprehensive, publication-ready educational gui
 
 ### What is a Queue?
 
-A queue is a linear data structure designed to store elements sequentially. Unlike a stack, which operates on a Last-In, First-Out (LIFO) framework, a queue enforces a **FIFO (First-In, First-Out)** protocol. Data insertion occurs at one designated end, and data extraction occurs at the opposite end.
+A queue is a linear data structure designed to store elements sequentially. Unlike a [stack](/posts/understanding-stack-in-cpp/), which operates on a Last-In, First-Out (LIFO) framework, a queue enforces a **FIFO (First-In, First-Out)** protocol. Data insertion occurs at one designated end, and data extraction occurs at the opposite end.
 
 - **Enqueue (Insertion):** The structural process of adding a new element to the back of the queue.
 - **Dequeue (Deletion):** The structural process of removing an element from the front of the queue.
