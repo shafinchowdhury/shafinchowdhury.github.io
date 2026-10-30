@@ -13,15 +13,16 @@ const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 const { title, description, ...props } = data;
 ---
 
-<li class="my-6">
+<li class="group relative -mx-3 my-4 cursor-pointer rounded-lg p-3 transition-colors hover:bg-muted/20">
   <a
     href={getPostUrl(id, filePath, Astro.currentLocale)}
     class:list={[
       "text-accent inline-block text-lg font-medium",
-      "decoration-dashed underline-offset-4 hover:underline",
+      "decoration-dashed underline-offset-4 group-hover:underline",
       "focus-visible:no-underline focus-visible:underline-offset-0",
     ]}
   >
+    <span class="absolute inset-0" aria-hidden="true" />
     <Heading transition:name={slugifyStr(title.replaceAll(".", "-"))}>
       {title}
     </Heading>
