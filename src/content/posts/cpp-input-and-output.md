@@ -37,7 +37,7 @@ In C++, a **stream** is an abstraction that represents a continuous sequence of 
 - **Output Stream**: Data flows from your program's variables into the stream.
 - **Input Stream**: Data flows from an external source through the stream into your program's variables.
 
-The standard header `<iostream>` provides four predefined stream objects in the `std` namespace:
+The standard header `<iostream>` provides four predefined stream objects in the [`std` namespace](/posts/cpp-namespaces/):
 
 | Stream Object | Purpose         | Default Destination / Source | Buffered?                 |
 | :------------ | :-------------- | :--------------------------- | :------------------------ |

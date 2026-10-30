@@ -281,7 +281,7 @@ Failing to mark inspection/getter methods as `const` prevents those objects from
 
 ## Summary of the C++ Fundamentals Series
 
-Congratulations! You have completed the 12-part C++ Fundamentals curriculum:
+Congratulations! You have completed the 13-part C++ Fundamentals curriculum:
 
 1. **Variables & Data Types**: Memory representation, primitive types, and `sizeof`.
 2. **Input and Output**: Streams, `cin`, `cout`, `getline`, and `<iomanip>` formatting.
@@ -289,12 +289,13 @@ Congratulations! You have completed the 12-part C++ Fundamentals curriculum:
 4. **Conditional Statements**: `if`, `else if`, modern C++17 initializers, and `switch` fallthrough.
 5. **Loops**: `for`, `while`, `do-while`, and modern range-based iteration.
 6. **Functions**: Signatures, declarations, overloading, scope, and pass-by-value.
-7. **Arrays**: Contiguous memory, zero-based indexing, array decay, and `std::array`.
-8. **Strings**: Legacy C-strings vs. modern, dynamic `std::string`.
-9. **Pointers**: Memory addresses, dereferencing, `nullptr`, pointer arithmetic, and heap allocation.
-10. **References**: Aliases, immutability of binding, and pointer comparisons.
-11. **Pass by Value vs. Pass by Reference**: Call stack mechanics, register performance, and the parameter decision matrix.
-12. **`const` Correctness**: Immutability contracts, pointer constness, class methods, and `constexpr`.
+7. **[Namespaces](/posts/cpp-namespaces/)**: Scope resolution (`::`), preventing name collisions, `using` declarations, and anonymous namespaces.
+8. **Arrays**: Contiguous memory, zero-based indexing, array decay, and `std::array`.
+9. **Strings**: Legacy C-strings vs. modern, dynamic `std::string`.
+10. **Pointers**: Memory addresses, dereferencing, `nullptr`, pointer arithmetic, and heap allocation.
+11. **References**: Aliases, immutability of binding, and pointer comparisons.
+12. **Pass by Value vs. Pass by Reference**: Call stack mechanics, register performance, and the parameter decision matrix.
+13. **`const` Correctness**: Immutability contracts, pointer constness, class methods, and `constexpr`.
 
 With these fundamental principles firmly mastered, you are prepared to explore advanced systems programming, dynamic memory internals, and the Standard Template Library.
 

@@ -252,7 +252,7 @@ public:
 
 For larger codebases, declaring member functions inside the class and providing their definitions outside the class separates the class interface from its implementation.
 
-You connect the external function body to its class using the **scope resolution operator (`::`)**:
+You connect the external function body to its class using the **[scope resolution operator (`::`)](/posts/cpp-namespaces/)**:
 
 ```text
 ReturnType ClassName::FunctionName(Parameters) {

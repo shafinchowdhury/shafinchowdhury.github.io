@@ -364,5 +364,5 @@ int main() {
 ## Continue Learning C++
 
 - **Previous Article:** [Loops in C++: for, while, do-while, and Range-Based Iteration](/posts/cpp-loops/)
-- **Next Article:** [Arrays in C++: Memory Layout, Indexing, and Modern Alternatives](/posts/cpp-arrays/)
+- **Next Article:** [Namespaces in C++: Scope Resolution, Name Collisions, and Best Practices](/posts/cpp-namespaces/)
 - **Explore Topic Hub:** [C++ Programming & Systems Engineering](/topics/cpp/)
