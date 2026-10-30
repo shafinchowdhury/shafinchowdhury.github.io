@@ -208,7 +208,84 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
         ],
       },
     ],
-    relatedTopicSlugs: ["cpp-oop", "dsa", "mathematics"],
+    relatedTopicSlugs: ["cpp-oop", "stack", "dsa", "mathematics"],
+  },
+
+  stack: {
+    slug: "stack",
+    name: "C++ Stack",
+    title: "Stack in C++: Complete Beginner-to-Advanced Guide",
+    description:
+      "Master the Stack data structure in C++ from LIFO fundamentals and STL std::stack to custom Vector, Array, and Linked List implementations and the top 5 competitive programming Stack problems.",
+    intro:
+      "The Stack is one of the most foundational linear data structures in computer science. Governed by the Last-In, First-Out (LIFO) principle, stacks power function call execution, recursion, expression evaluation, undo history, and linear-time monotonic stack algorithms. Follow this progressive 5-part curriculum from core concepts to three from-scratch C++ implementations and classic competitive programming problems.",
+    learningPath: [
+      {
+        step: 1,
+        title: "Understanding Stack in C++",
+        description:
+          "What a Stack is, how LIFO works, core operations (push, pop, top, empty, size), C++ STL std::stack, real-world applications, and complexity.",
+        postSlug: "understanding-stack-in-cpp",
+        level: "Beginner",
+      },
+      {
+        step: 2,
+        title: "Stack Using Vector in C++",
+        description:
+          "How std::vector works as a dynamic array and how to build a complete Stack class using push_back(), pop_back(), and back().",
+        postSlug: "stack-using-vector-in-cpp",
+        level: "Beginner",
+      },
+      {
+        step: 3,
+        title: "Stack Using Array in C++",
+        description:
+          "Building a fixed-size Stack from scratch without STL, understanding top = -1, handling Stack Overflow and Underflow, and dry runs.",
+        postSlug: "stack-using-array-in-cpp",
+        level: "Intermediate",
+      },
+      {
+        step: 4,
+        title: "Stack Using Linked List in C++",
+        description:
+          "Dynamic node allocation on the heap using new and delete, head-as-top pointer mechanics, destructor cleanup, and Array vs Linked List trade-offs.",
+        postSlug: "stack-using-linked-list-in-cpp",
+        level: "Intermediate",
+      },
+      {
+        step: 5,
+        title: "Top 5 Famous Stack Problems in Competitive Programming",
+        description:
+          "Solve Valid Parentheses, Min Stack, Next Greater Element, Daily Temperatures, and Largest Rectangle in Histogram with monotonic stack patterns.",
+        postSlug: "top-5-stack-problems-in-cpp",
+        level: "Advanced",
+      },
+    ],
+    groups: [
+      {
+        name: "1. Core Concepts & C++ STL",
+        description:
+          "LIFO fundamentals, abstract data type rules, std::stack usage, and real-world system applications.",
+        postSlugs: ["understanding-stack-in-cpp"],
+      },
+      {
+        name: "2. Custom Stack Implementations in C++",
+        description:
+          "Step-by-step class implementations using dynamic vectors, fixed-size arrays, and pointer-based singly linked lists.",
+        postSlugs: [
+          "stack-using-vector-in-cpp",
+          "stack-using-array-in-cpp",
+          "stack-using-linked-list-in-cpp",
+        ],
+      },
+      {
+        name: "3. Competitive Programming & Monotonic Stacks",
+        description:
+          "Classic interview and contest problems mastering bracket matching, O(1) prefix minimums, and monotonic stacks.",
+        postSlugs: ["top-5-stack-problems-in-cpp"],
+      },
+    ],
+    relatedTopicSlugs: ["cpp", "cpp-oop", "dsa"],
   },
 
   "cpp-oop": {
@@ -504,8 +581,15 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
       {
         name: "Linear Data Structures",
         description:
-          "Queues, lists, and node-based sequential representations.",
-        postSlugs: ["queue", "list-in-cpp"],
+          "Stacks, queues, lists, and node-based sequential representations.",
+        postSlugs: [
+          "understanding-stack-in-cpp",
+          "stack-using-vector-in-cpp",
+          "stack-using-array-in-cpp",
+          "stack-using-linked-list-in-cpp",
+          "queue",
+          "list-in-cpp",
+        ],
       },
       {
         name: "Memory & Pointers",
@@ -515,11 +599,15 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
       {
         name: "Algorithmic Problem Solving",
         description:
-          "Techniques for runtime reduction, digit manipulation, and radix arithmetic.",
-        postSlugs: ["efficient-palindrome-code", "binary-number-conversions"],
+          "Techniques for runtime reduction, monotonic stacks, digit manipulation, and radix arithmetic.",
+        postSlugs: [
+          "top-5-stack-problems-in-cpp",
+          "efficient-palindrome-code",
+          "binary-number-conversions",
+        ],
       },
     ],
-    relatedTopicSlugs: ["cpp", "mathematics"],
+    relatedTopicSlugs: ["stack", "cpp", "mathematics"],
   },
 
   mathematics: {
