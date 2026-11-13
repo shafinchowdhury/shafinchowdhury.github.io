@@ -3,7 +3,7 @@ export interface LearningPathStep {
   title: string;
   description: string;
   postSlug: string;
-  level: "Beginner" | "Intermediate" | "Advanced";
+  level: "Beginner" | "Beginner to Intermediate" | "Intermediate" | "Advanced";
 }
 
 export interface ArticleGroup {
@@ -286,6 +286,91 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
       },
     ],
     relatedTopicSlugs: ["cpp", "cpp-oop", "dsa"],
+  },
+
+  queue: {
+    slug: "queue",
+    name: "C++ Queue",
+    title: "Queue in C++: Complete Beginner-to-Advanced Guide",
+    description:
+      "Master the Queue data structure in C++ from FIFO fundamentals and STL std::queue to custom Array, Vector, and Linked List implementations, famous competitive programming Queue problems, and Queue vs Stack comparisons.",
+    intro:
+      "The Queue is a fundamental linear data structure in computer science governed by the First-In, First-Out (FIFO) principle, where the earliest element inserted is the very first one processed. Queues play a critical role in task scheduling, Breadth-First Search (BFS), CPU scheduling, asynchronous request handling, buffer management, and both large-scale real-world systems and competitive programming. Follow this progressive 6-part learning path from core FIFO concepts and C++ STL std::queue to from-scratch Array, Vector, and Linked List implementations, famous competitive programming problems, and a practical Queue vs Stack comparison.",
+    learningPath: [
+      {
+        step: 1,
+        title: "Understanding Queue in C++",
+        description:
+          "What a Queue is, the FIFO (First-In, First-Out) principle, real-world examples, core operations (enqueue, dequeue, front, rear, empty, size), std::queue in C++ STL, basic code examples, and time complexity.",
+        postSlug: "understanding-queue-in-cpp",
+        level: "Beginner",
+      },
+      {
+        step: 2,
+        title: "Queue Implementation Using Array",
+        description:
+          "Implementing a Queue from scratch using a fixed-size array, front and rear pointers/indexes, enqueue and dequeue operations, Queue Overflow and Underflow, dry-run examples, linear Queue limitations, and Circular Queue improvements.",
+        postSlug: "queue-using-array-in-cpp",
+        level: "Beginner to Intermediate",
+      },
+      {
+        step: 3,
+        title: "Queue Implementation Using Vector",
+        description:
+          "Using std::vector to build a custom Queue class with push_back(), erase(), and front(), why vector.erase(vector.begin()) is O(n), and faster alternative implementation strategies.",
+        postSlug: "queue-using-vector-in-cpp",
+        level: "Intermediate",
+      },
+      {
+        step: 4,
+        title: "Queue Implementation Using Linked List",
+        description:
+          "Node structure, front and rear pointers, dynamic memory allocation using new and delete, empty Queue handling, destructor memory management, visual pointer diagrams, and Array vs Linked List comparison.",
+        postSlug: "queue-using-linked-list-in-cpp",
+        level: "Intermediate",
+      },
+      {
+        step: 5,
+        title: "Most Famous Queue Problems in Competitive Programming",
+        description:
+          "Solve Implement Queue Using Stacks, Number of Recent Calls, Binary Tree Level Order Traversal, Rotten Oranges (BFS), and Sliding Window Maximum (Deque) with step-by-step dry runs and C++ solutions.",
+        postSlug: "top-5-queue-problems-in-cpp",
+        level: "Advanced",
+      },
+      {
+        step: 6,
+        title: "Queue vs Stack in C++",
+        description:
+          "Compare Stack (LIFO) and Queue (FIFO) in C++: insertion and deletion differences, accessible elements, std::stack vs std::queue in STL, visual diagrams, comparison table, and when to use each.",
+        postSlug: "queue-vs-stack-in-cpp",
+        level: "Beginner to Intermediate",
+      },
+    ],
+    groups: [
+      {
+        name: "1. Core Concepts & C++ STL",
+        description:
+          "Introduction to Queue, FIFO fundamentals, core operations, and std::queue.",
+        postSlugs: ["understanding-queue-in-cpp"],
+      },
+      {
+        name: "2. Custom Queue Implementations in C++",
+        description:
+          "Array-based, vector-based, and linked-list-based Queue implementations.",
+        postSlugs: [
+          "queue-using-array-in-cpp",
+          "queue-using-vector-in-cpp",
+          "queue-using-linked-list-in-cpp",
+        ],
+      },
+      {
+        name: "3. Competitive Programming & Queue Algorithms",
+        description:
+          "Famous Queue problems, BFS applications, Deque techniques, and Queue vs Stack comparisons.",
+        postSlugs: ["top-5-queue-problems-in-cpp", "queue-vs-stack-in-cpp"],
+      },
+    ],
+    relatedTopicSlugs: ["cpp", "cpp-oop", "dsa", "stack"],
   },
 
   "cpp-oop": {
@@ -587,6 +672,11 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
           "stack-using-vector-in-cpp",
           "stack-using-array-in-cpp",
           "stack-using-linked-list-in-cpp",
+          "understanding-queue-in-cpp",
+          "queue-using-array-in-cpp",
+          "queue-using-vector-in-cpp",
+          "queue-using-linked-list-in-cpp",
+          "queue-vs-stack-in-cpp",
           "queue",
           "list-in-cpp",
         ],
@@ -599,15 +689,16 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
       {
         name: "Algorithmic Problem Solving",
         description:
-          "Techniques for runtime reduction, monotonic stacks, digit manipulation, and radix arithmetic.",
+          "Techniques for runtime reduction, monotonic stacks, BFS queues, digit manipulation, and radix arithmetic.",
         postSlugs: [
           "top-5-stack-problems-in-cpp",
+          "top-5-queue-problems-in-cpp",
           "efficient-palindrome-code",
           "binary-number-conversions",
         ],
       },
     ],
-    relatedTopicSlugs: ["stack", "cpp", "mathematics"],
+    relatedTopicSlugs: ["stack", "queue", "cpp", "mathematics"],
   },
 
   mathematics: {
