@@ -15,8 +15,6 @@ description: "Learn how to implement a Queue from scratch using a fixed-size arr
 
 In [Step 1: Understanding Queue in C++](/posts/understanding-queue-in-cpp/), we learned how `std::queue` manages FIFO operations behind the scenes. Now it is time to open the hood and build a **Queue from scratch using a fixed-size C++ array**.
 
-In this tutorial, you will learn how the `frontIndex` and `rearIndex` variables coordinate insertions and removals, how to handle **Queue Overflow** and **Queue Underflow**, why a simple linear array Queue eventually wastes vacated slots, and how a **Circular Queue** solves that limitation completely.
-
 > **Part of the Queue Series:** This article is **Step 2** of our [Queue in C++: Complete Beginner-to-Advanced Guide](/topics/queue/).
 
 ---

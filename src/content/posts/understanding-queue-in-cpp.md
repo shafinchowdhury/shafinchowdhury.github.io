@@ -13,8 +13,6 @@ tags:
 description: "Learn the Queue data structure in C++ from scratch. Understand the FIFO (First-In, First-Out) principle, core Queue operations (enqueue, dequeue, front, rear, empty, size), std::queue in C++ STL, real-world examples, and time complexity."
 ---
 
-In this guide, we will break down what a Queue is, how the **First-In, First-Out (FIFO)** principle works, what core operations a Queue supports, and how to use the built-in C++ Standard Template Library (`std::queue`) in your own programs.
-
 > **Part of the Queue Series:** This article is **Step 1** of our [Queue in C++: Complete Beginner-to-Advanced Guide](/topics/queue/).
 
 ---
@@ -70,26 +68,7 @@ If we insert `10`, then `20`, and then `30` into a Queue, `10` sits at the Front
 
 ---
 
-## 3. Real-World Examples of a Queue
-
-Queues mirror how fair waiting lines work in both everyday life and computer systems:
-
-### Everyday Physical Examples
-
-1. **A Ticket Counter Waiting Line:** The first customer to join the line stands at the front of the window, gets their ticket first, and leaves first. New arrivals must join at the back of the line.
-2. **Vehicles in a Single-Lane Drive-Thru or Toll Booth:** Cars enter the lane from the rear and exit through the booth at the front in strict arrival order.
-
-### Computer Science & Systems Engineering Examples
-
-1. **CPU & Operating System Task Scheduling:** When multiple processes request CPU time at the same priority level, the OS places them into a **Ready Queue** so each process gets executed in fair FIFO order.
-2. **Breadth-First Search (BFS):** Graph and tree algorithms use a Queue to explore nodes level by level—visiting all distance-1 neighbors before distance-2 neighbors. (We solve classic BFS problems in [Step 5: Most Famous Queue Problems](/posts/top-5-queue-problems-in-cpp/)!)
-3. **Printer Spooler Queue:** If you send five PDF documents to an office printer, they are buffered in a print queue so Document 1 finishes printing before Document 2 starts.
-4. **Web Server Request Handling & Message Queues:** High-traffic web servers place incoming HTTP requests into a request queue so worker threads can process them sequentially without dropping traffic during spikes.
-5. **I/O Buffer Management:** Keyboard keystrokes, network packets, and audio/video streaming buffers store incoming bytes in a FIFO ring buffer so data is read in the exact order it was transmitted.
-
----
-
-## 4. How a Queue Works Internally
+## 3. How a Queue Works Internally
 
 Internally, a Queue needs three pieces of state:
 
@@ -136,7 +115,7 @@ Notice that **no middle element is ever accessed or shifted** during standard Qu
 
 ---
 
-## 5. Fundamental Queue Operations
+## 4. Fundamental Queue Operations
 
 Every Queue implementation revolves around six core operations. Note that textbook terminology (`enqueue`, `dequeue`, `rear`) and C++ STL terminology (`push`, `pop`, `back`) refer to the exact same concepts:
 
@@ -204,7 +183,7 @@ cout << "Queue length: " << q.size() << endl;
 
 ---
 
-## 6. Introduction to `std::queue` in C++ STL
+## 5. Introduction to `std::queue` in C++ STL
 
 For everyday development and competitive programming, C++ provides `std::queue` inside the `<queue>` header.
 
@@ -272,7 +251,7 @@ The queue is now completely empty.
 
 ---
 
-## 7. Practical Example: Task Scheduler Simulation
+## 6. Practical Example: Task Scheduler Simulation
 
 Let's look at a second practical example using `queue<string>` to simulate a CPU print/task spooler that processes tasks in the exact order they were submitted:
 
@@ -323,7 +302,7 @@ Last task in line: 4. Deploy to server
 
 ---
 
-## 8. Queue Implementation Approaches in C++
+## 7. Queue Implementation Approaches in C++
 
 Depending on your requirements, there are four primary ways to work with a Queue in C++:
 
@@ -336,7 +315,7 @@ Depending on your requirements, there are four primary ways to work with a Queue
 
 ---
 
-## 9. Time and Space Complexity of Queue Operations
+## 8. Time and Space Complexity of Queue Operations
 
 In a properly implemented Queue (such as `std::queue`, a Circular Array Queue, or a Linked-List Queue), every core operation touches **only the `front` or `rear` boundary** and never loops through the elements in between:
 
@@ -350,6 +329,25 @@ In a properly implemented Queue (such as `std::queue`, a Circular Array Queue, o
 | **`size()`**                 |   **$O(1)$**    | Returns the maintained count of elements.                        |
 
 - **Space Complexity:** **$O(n)$**, where $n$ is the number of elements stored in the queue.
+
+---
+
+## 9. Real-World Examples of a Queue
+
+Queues mirror how fair waiting lines work in both everyday life and computer systems:
+
+### Everyday Physical Examples
+
+1. **A Ticket Counter Waiting Line:** The first customer to join the line stands at the front of the window, gets their ticket first, and leaves first. New arrivals must join at the back of the line.
+2. **Vehicles in a Single-Lane Drive-Thru or Toll Booth:** Cars enter the lane from the rear and exit through the booth at the front in strict arrival order.
+
+### Computer Science & Systems Engineering Examples
+
+1. **CPU & Operating System Task Scheduling:** When multiple processes request CPU time at the same priority level, the OS places them into a **Ready Queue** so each process gets executed in fair FIFO order.
+2. **Breadth-First Search (BFS):** Graph and tree algorithms use a Queue to explore nodes level by level—visiting all distance-1 neighbors before distance-2 neighbors. (We solve classic BFS problems in [Step 5: Most Famous Queue Problems](/posts/top-5-queue-problems-in-cpp/)!)
+3. **Printer Spooler Queue:** If you send five PDF documents to an office printer, they are buffered in a print queue so Document 1 finishes printing before Document 2 starts.
+4. **Web Server Request Handling & Message Queues:** High-traffic web servers place incoming HTTP requests into a request queue so worker threads can process them sequentially without dropping traffic during spikes.
+5. **I/O Buffer Management:** Keyboard keystrokes, network packets, and audio/video streaming buffers store incoming bytes in a FIFO ring buffer so data is read in the exact order it was transmitted.
 
 ---
 
