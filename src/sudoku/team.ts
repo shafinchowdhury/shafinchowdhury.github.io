@@ -8,11 +8,13 @@ import {
   capitalize,
   drawBoard,
   formatTime,
+  heartsHtml,
   NAME_KEY,
   noteBit,
   segmented,
   setHints,
   setupHeader,
+  showLives,
   sfx,
   store,
   teamUrl,
@@ -168,9 +170,6 @@ function showEnd() {
 
 // ---------- rendering ----------
 
-const heartsHtml = (lives: number) =>
-  [0, 1, 2].map(k => `<i class="${k < lives ? "full" : ""}">♥</i>`).join("");
-
 function renderPlayers(s: RoomView) {
   const list = $("players");
   list.replaceChildren(
@@ -225,8 +224,7 @@ function render() {
   $("progress-text").textContent = `${solved} / ${empty} cells solved`;
   $("diff-label").textContent = capitalize(s.difficulty);
   const lives = me()?.lives ?? 0;
-  $("my-hearts").innerHTML = heartsHtml(lives);
-  $("my-hearts").setAttribute("aria-label", `${lives} lives left`);
+  showLives($("my-hearts"), lives);
   $("game").classList.toggle("is-out", s.status === "playing" && !lives);
   setHints(MAX_HINTS - (me()?.hints ?? 0), playing());
   tick();

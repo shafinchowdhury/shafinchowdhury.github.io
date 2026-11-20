@@ -114,6 +114,21 @@ export function setHints(left: number, usable = true) {
   b.disabled = !usable || left <= 0;
 }
 
+export const heartsHtml = (lives: number, max = 3) =>
+  Array.from(
+    { length: max },
+    (_, k) => `<i class="${k < lives ? "full" : ""}">♥</i>`
+  ).join("");
+
+/** Updates a hearts row and its screen-reader label. */
+export function showLives(el: HTMLElement, lives: number) {
+  el.innerHTML = heartsHtml(lives);
+  el.setAttribute(
+    "aria-label",
+    `${lives} ${lives === 1 ? "life" : "lives"} left`
+  );
+}
+
 export const capitalize = (s: string) => s[0].toUpperCase() + s.slice(1);
 
 export const noteBit = (n: number) => 1 << (n - 1);
