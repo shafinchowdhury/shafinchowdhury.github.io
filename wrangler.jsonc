@@ -1,8 +1,17 @@
 {
   "name": "personal-site",
+  "main": "./worker/index.ts",
   "compatibility_date": "2026-06-01",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
-  }
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    // Only the game API runs code; every other request is served as a static file.
+    "run_worker_first": ["/api/*"]
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "ROOMS", "class_name": "Room" }]
+  },
+  // SQLite-backed Durable Objects are included in the Workers Free plan.
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }]
 }

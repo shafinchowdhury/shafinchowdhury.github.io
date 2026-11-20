@@ -13,7 +13,10 @@
     "astro": "astro",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node --test src/sudoku/*.test.ts",
+    "check:worker": "wrangler types worker/worker-configuration.d.ts > /dev/null && tsc -p worker",
+    "dev:api": "wrangler dev"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.6",
@@ -46,7 +49,8 @@
     "prettier": "3.8.3",
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.165.0"
   },
   "packageManager": "pnpm@11.3.0"
 }

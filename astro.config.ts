@@ -104,6 +104,10 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    // In dev, the game API runs in `pnpm dev:api` (wrangler, port 8787).
+    server: {
+      proxy: { "/api": { target: "http://localhost:8787", ws: true } },
+    },
   },
   fonts: [
     {

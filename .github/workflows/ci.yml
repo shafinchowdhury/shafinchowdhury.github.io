@@ -39,6 +39,12 @@ jobs:
       - name: "🔎 Lint code"
         run: pnpm run lint
 
+      - name: "🧪 Sudoku engine and room tests"
+        run: pnpm test
+
+      - name: "🔎 Type check the game server"
+        run: pnpm check:worker
+
       - name: "📝 Checking code format"
         run: pnpm run format:check
 

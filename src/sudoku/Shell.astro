@@ -1,0 +1,95 @@
+---
+// Page frame shared by the Solo and Team pages: head, theme bootstrap and header.
+import "@/sudoku/sudoku.css";
+
+type Props = { title?: string; description?: string; noindex?: boolean };
+const {
+  title = "Sudoku Together",
+  description = "Play Sudoku alone or solve the same puzzle together with friends. No sign-up.",
+  noindex = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Same storage key as the blog, so the theme carries over. -->
+    <script is:inline>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("theme") ??
+          (matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+      } catch {
+        document.documentElement.dataset.theme = "dark";
+      }
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a class="brand" href="/sudoku" id="home-link">
+          <span class="logo" aria-hidden="true"
+            >{Array.from({ length: 9 }, () => <i />)}</span
+          >
+          Sudoku Together
+        </a>
+        <div class="tools">
+          <a
+            class="icon-btn"
+            href="/"
+            title="Back to blog"
+            aria-label="Back to blog"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M15 18l-6-6 6-6"></path></svg
+            >
+          </a>
+          <button
+            class="icon-btn"
+            id="sound"
+            aria-pressed="true"
+            aria-label="Sound"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><path d="M11 5L6 9H2v6h4l5 4z"></path><path
+                id="wave"
+                d="M15.5 8.5a5 5 0 010 7M19 5a10 10 0 010 14"></path></svg
+            >
+          </button>
+          <button class="icon-btn" id="theme" aria-label="Toggle theme">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"></path></svg
+            >
+          </button>
+        </div>
+      </header>
+      <slot />
+    </div>
+    <slot name="after" />
+  </body>
+</html>
