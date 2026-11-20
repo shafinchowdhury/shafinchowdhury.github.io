@@ -1,0 +1,76 @@
+---
+// Number pad, 9x9 board and control buttons, shared by Solo and Team.
+const edges = (i: number) => {
+  const r = Math.floor(i / 9);
+  const c = i % 9;
+  return [c % 3 === 2 && c < 8 && "bx", r % 3 === 2 && r < 8 && "by"];
+};
+const icon = {
+  undo: "M9 14L4 9l5-5M4 9h11a5 5 0 010 10h-3",
+  redo: "M15 14l5-5-5-5M20 9H9a5 5 0 000 10h3",
+  erase: "M20 20H8l-5-5 10-10 8 8-6 6",
+  notes: "M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z",
+  hint: "M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2z",
+  pause: "M8 5v14M16 5v14",
+};
+const { controls } = Astro.props as { controls: (keyof typeof icon)[] };
+const labels = {
+  undo: "Undo",
+  redo: "Redo",
+  erase: "Erase",
+  notes: "Notes",
+  hint: "Hint",
+  pause: "Pause",
+};
+---
+
+<div class="play">
+  <div class="pad" id="pad" aria-label="Number pad">
+    {
+      [1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => (
+        <button data-n={n} aria-label={`Enter ${n}`}>
+          {n}
+        </button>
+      ))
+    }
+  </div>
+  <div class="board-wrap">
+    <div class="board" id="board" role="grid" aria-label="Sudoku board">
+      {
+        Array.from({ length: 81 }, (_, i) => (
+          <button
+            class:list={["cell", ...edges(i)]}
+            data-i={i}
+            aria-label={`Row ${Math.floor(i / 9) + 1}, column ${(i % 9) + 1}`}
+          >
+            <span class="v" />
+          </button>
+        ))
+      }
+    </div>
+    <div class="pause-cover" id="pause-cover" hidden>
+      <button class="btn btn-primary" id="resume">Resume</button>
+    </div>
+  </div>
+</div>
+<div class="controls">
+  {
+    controls.map(id => (
+      <button
+        class="ctl"
+        id={id}
+        aria-pressed={id === "notes" ? "false" : undefined}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d={icon[id]} />
+        </svg>
+        <span>{labels[id]}</span>
+      </button>
+    ))
+  }
+</div>

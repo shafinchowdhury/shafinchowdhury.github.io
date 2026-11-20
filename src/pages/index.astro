@@ -56,7 +56,8 @@ const topicList = Object.values(TOPIC_HUBS).map(topic => {
 });
 
 const homePath = getRelativeLocaleUrl(locale, "");
-const homeMarkdownURL = new URL("/index.md", Astro.site ?? config.site.url).href;
+const homeMarkdownURL = new URL("/index.md", Astro.site ?? config.site.url)
+  .href;
 
 const homeStructuredData = {
   "@context": "https://schema.org",

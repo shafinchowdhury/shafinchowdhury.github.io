@@ -182,7 +182,11 @@ const rssHref = getRelativeLocaleUrl(
                     {
                       type: "text",
                       text: JSON.stringify(
-                        { query, count: matches.length, results: matches.slice(0, 10) },
+                        {
+                          query,
+                          count: matches.length,
+                          results: matches.slice(0, 10),
+                        },
                         null,
                         2
                       ),

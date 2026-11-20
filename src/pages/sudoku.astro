@@ -1,0 +1,166 @@
+---
+import Shell from "@/sudoku/Shell.astro";
+import Board from "@/sudoku/Board.astro";
+---
+
+<Shell>
+  <main id="home">
+    <section class="hero">
+      <h1>Challenge Your Mind.<br /><span>Play Together.</span></h1>
+      <p class="sub">
+        Enjoy Sudoku alone or solve puzzles together with friends.
+      </p>
+    </section>
+
+    <section class="modes">
+      <div class="card">
+        <h2>Solo Play</h2>
+        <p>Pick a difficulty and jump straight into a fresh puzzle.</p>
+        <div class="seg" role="group" aria-label="Difficulty" id="solo-diff">
+          <button data-d="easy" aria-pressed="true">Easy</button>
+          <button data-d="medium" aria-pressed="false">Medium</button>
+          <button data-d="hard" aria-pressed="false">Hard</button>
+        </div>
+        <div class="row">
+          <button class="btn btn-primary" id="start-solo">Start Playing</button>
+          <button class="btn btn-ghost" id="continue-solo" hidden
+            >Continue</button
+          >
+        </div>
+      </div>
+      <div class="card">
+        <h2>Team Play</h2>
+        <p>Solve the same board together in real time. No sign-up needed.</p>
+        <div class="row">
+          <button class="btn btn-primary" id="create-team">Create Team</button>
+          <button class="btn btn-ghost" id="join-team">Join Team</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <main id="game" class="game" hidden>
+    <div>
+      <div class="stats">
+        <span id="diff-label">Easy</span>
+        <span>Mistakes <b id="mistakes">0</b></span>
+        <span>Time <b id="timer">00:00</b></span>
+      </div>
+      <Board controls={["undo", "redo", "erase", "notes", "hint", "pause"]} />
+    </div>
+
+    <aside class="side">
+      <div class="card">
+        <p class="section-title">Progress</p>
+        <div class="progress">
+          <i id="progress-bar" style="width:0"></i>
+        </div>
+        <p class="muted" id="progress-text">0 / 0 cells solved</p>
+      </div>
+      <div class="card row">
+        <button class="btn btn-ghost" id="reset">Reset Game</button>
+        <button class="btn btn-ghost" id="new-game">New Game</button>
+      </div>
+    </aside>
+  </main>
+
+  <Fragment slot="after">
+    <dialog id="new-dialog">
+      <h2>Start a new puzzle?</h2>
+      <p>Your current puzzle will be replaced.</p>
+      <div class="seg" role="group" aria-label="Difficulty" id="new-diff">
+        <button data-d="easy" aria-pressed="true">Easy</button>
+        <button data-d="medium" aria-pressed="false">Medium</button>
+        <button data-d="hard" aria-pressed="false">Hard</button>
+      </div>
+      <form method="dialog" class="row">
+        <button class="btn btn-ghost" value="cancel">Cancel</button>
+        <button class="btn btn-primary" value="ok">New Game</button>
+      </form>
+    </dialog>
+
+    <dialog id="reset-dialog">
+      <h2>Reset this puzzle?</h2>
+      <p>All your entries, notes, mistakes and the timer will be cleared.</p>
+      <form method="dialog" class="row">
+        <button class="btn btn-ghost" value="cancel">Cancel</button>
+        <button class="btn btn-primary" value="ok">Reset</button>
+      </form>
+    </dialog>
+
+    <dialog id="done-dialog">
+      <h2>Solved!</h2>
+      <p id="done-text"></p>
+      <form method="dialog" class="row">
+        <button class="btn btn-ghost" value="home">Home</button>
+        <button class="btn btn-primary" value="new">New Game</button>
+      </form>
+    </dialog>
+
+    <dialog id="create-dialog">
+      <h2>Create a team</h2>
+      <p>You'll get a code and link to share with friends.</p>
+      <form id="create-form">
+        <label class="field"
+          >Your name
+          <input
+            name="name"
+            required
+            maxlength="20"
+            autocomplete="nickname"
+          /></label
+        >
+        <div class="seg" role="group" aria-label="Difficulty" id="team-diff">
+          <button type="button" data-d="easy" aria-pressed="true">Easy</button>
+          <button type="button" data-d="medium" aria-pressed="false"
+            >Medium</button
+          >
+          <button type="button" data-d="hard" aria-pressed="false">Hard</button>
+        </div>
+        <p class="form-error" role="alert"></p>
+        <div class="row">
+          <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+          <button class="btn btn-primary">Create Team</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="join-dialog">
+      <h2>Join a team</h2>
+      <p>Enter the 6-letter code your friend shared.</p>
+      <form id="join-form">
+        <label class="field"
+          >Your name
+          <input
+            name="name"
+            required
+            maxlength="20"
+            autocomplete="nickname"
+          /></label
+        >
+        <label class="field"
+          >Room code
+          <input
+            name="code"
+            required
+            pattern="[A-Za-z0-9]{6}"
+            maxlength="6"
+            autocomplete="off"
+            autocapitalize="characters"
+            spellcheck="false"
+            class="code-input"
+          /></label
+        >
+        <div class="row">
+          <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+          <button class="btn btn-primary">Join Team</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script>
+      import "@/sudoku/solo";
+      import "@/sudoku/lobby";
+    </script>
+  </Fragment>
+</Shell>

@@ -296,6 +296,7 @@ int top() {
     return arr[topIndex];
 }
 ```
+
 First checks `isEmpty()`. If the stack is not empty, it directly returns the value sitting at `arr[topIndex]` without changing `topIndex`.
 
 ### 2. `size()` — Counting Active Elements
@@ -306,6 +307,7 @@ int size() {
     return topIndex + 1;
 }
 ```
+
 Because C++ array indices start at `0`, the number of elements in the stack is always `topIndex + 1`. (When empty, `-1 + 1 = 0`; when `topIndex` is `2`, `2 + 1 = 3` elements.)
 
 ### 3. `display()` — Printing from Top to Bottom
@@ -324,6 +326,7 @@ void display() {
     cout << endl;
 }
 ```
+
 Starts a loop variable `i` at `topIndex` (the newest element) and counts **downward** to `0` (the oldest element at the bottom), printing only the active stack elements.
 
 ---

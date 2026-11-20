@@ -12,9 +12,10 @@ tags:
 description: "Understand namespaces in C++ the easy way. Learn how to prevent name collisions, use the scope resolution operator (::), navigate nested and anonymous namespaces, and why 'using namespace std;' is dangerous in headers."
 ---
 
-Imagine you have a file on your computer named `notes.txt` on your desktop. If you try to save another file named `notes.txt` directly to your desktop, your operating system stops you with an error: *"A file with this name already exists."*
+Imagine you have a file on your computer named `notes.txt` on your desktop. If you try to save another file named `notes.txt` directly to your desktop, your operating system stops you with an error: _"A file with this name already exists."_
 
 How do you solve this? You create folders:
+
 - `Work/notes.txt`
 - `Personal/notes.txt`
 
@@ -72,7 +73,7 @@ error: redefinition of 'void draw()'
 note: previous definition was here
 ```
 
-Because both functions live in the same **global namespace**, the compiler has no way to tell which `draw()` function you want to call. 
+Because both functions live in the same **global namespace**, the compiler has no way to tell which `draw()` function you want to call.
 
 Without namespaces, developers in early C had to resort to messy prefixing schemes like `mygame_renderer_draw()` and `physlib_debug_draw()`. C++ introduced **namespaces** to solve this elegantly.
 
@@ -102,10 +103,12 @@ A **namespace** is a declarative region that provides a scope to the identifiers
 ### The Surname Metaphor
 
 Think of namespaces like people's first and last names:
-- In a room full of people, yelling *"Alex!"* creates confusion if there are three people named Alex.
-- But if you say *"Alex Smith"* or *"Alex Johnson"*, everyone instantly knows who you are addressing.
+
+- In a room full of people, yelling _"Alex!"_ creates confusion if there are three people named Alex.
+- But if you say _"Alex Smith"_ or _"Alex Johnson"_, everyone instantly knows who you are addressing.
 
 In C++:
+
 - `Alex` is the function or variable name.
 - `Smith` or `Johnson` is the namespace.
 - The double colon `::` connects the surname to the first name: `Smith::Alex`.
@@ -210,7 +213,7 @@ using std::endl;
 
 int main() {
     cout << "Now I can use cout without std::!" << endl;
-    
+
     // std::cin still requires the std:: prefix because we didn't import it!
     int x;
     std::cin >> x;
@@ -267,7 +270,7 @@ Consider this innocent-looking code:
 using namespace std;
 
 // You define your own variable to track items
-int count = 0; 
+int count = 0;
 
 int main() {
     cout << count << '\n'; // COMPILE ERROR!
@@ -276,6 +279,7 @@ int main() {
 ```
 
 The compiler will fail:
+
 ```text
 error: reference to 'count' is ambiguous
 note: candidates are: 'int count'
@@ -285,6 +289,7 @@ note:                 'template<class _InputIterator, class _Tp> ... std::count(
 Because `<algorithm>` (or an internal header included by `<iostream>`) defines `std::count`, the compiler cannot determine whether you meant your integer variable or the standard algorithm function!
 
 Similar collisions routinely happen with:
+
 - `data` (collides with `std::data`)
 - `size` (collides with `std::size`)
 - `byte` (collides with `std::byte` in C++17)
@@ -294,7 +299,7 @@ Similar collisions routinely happen with:
 
 > [!CAUTION]
 > **NEVER write `using namespace ...;` inside a header file (`.h` or `.hpp`)!**
-> 
+>
 > When someone includes your header file with `#include "my_header.h"`, the preprocessor literally copies and pastes the entire header into their source file. If your header has `using namespace std;`, you force that namespace pollution onto every single file that includes your header—breaking their code and causing hard-to-trace bugs.
 
 ---
@@ -375,7 +380,7 @@ int main() {
 }
 ```
 
-An **anonymous namespace** gives its members **internal linkage**. 
+An **anonymous namespace** gives its members **internal linkage**.
 
 This means whatever you declare inside an unnamed namespace can only be accessed within that specific file (`.cpp` file). No other file in the entire project can link to or see them.
 
@@ -406,12 +411,12 @@ This is exactly how the standard library works: `<iostream>`, `<vector>`, and `<
 
 ## Comparison Matrix: Methods to Access Namespaces
 
-| Approach | Syntax Example | When to Use | Risk Level |
-| :--- | :--- | :--- | :--- |
-| **Fully Qualified** | `std::cout << "Hi";` | Production code, header files, libraries | **Zero risk** (Safest) |
-| **`using` Declaration** | `using std::cout;` | Inside `.cpp` files for frequently used items | **Low risk** (Targeted) |
-| **`using` Directive** | `using namespace std;` | Small demo scripts, local function blocks | **High risk** (Pollutes scope) |
-| **Namespace Alias** | `namespace Gfx = Long::Path;` | Shortening deeply nested namespaces | **Zero risk** (Clean & safe) |
+| Approach                | Syntax Example                 | When to Use                                      | Risk Level                       |
+| :---------------------- | :----------------------------- | :----------------------------------------------- | :------------------------------- |
+| **Fully Qualified**     | `std::cout << "Hi";`           | Production code, header files, libraries         | **Zero risk** (Safest)           |
+| **`using` Declaration** | `using std::cout;`             | Inside `.cpp` files for frequently used items    | **Low risk** (Targeted)          |
+| **`using` Directive**   | `using namespace std;`         | Small demo scripts, local function blocks        | **High risk** (Pollutes scope)   |
+| **Namespace Alias**     | `namespace Gfx = Long::Path;`  | Shortening deeply nested namespaces              | **Zero risk** (Clean & safe)     |
 | **Anonymous Namespace** | `namespace { void helper(); }` | Helper functions private to a single `.cpp` file | **Zero risk** (Prevents clashes) |
 
 ---
