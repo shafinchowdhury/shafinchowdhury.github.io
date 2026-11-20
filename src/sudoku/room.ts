@@ -4,12 +4,14 @@ import { type Difficulty, generate, type Grid } from "./engine.ts";
 
 export const MAX_LIVES = 3;
 export const MAX_PLAYERS = 8;
+export const MAX_HINTS = 1; // per player, per game
 
 export type Player = {
   id: string;
   name: string;
   lives: number;
   solved: number;
+  hints?: number; // optional: rooms saved before hint limits lack it
 };
 export type Status = "playing" | "solved" | "failed";
 export type RoomState = {
@@ -40,7 +42,8 @@ const fresh = (s: RoomState, now: number) => {
   s.startedAt = now;
   s.endedAt = null;
   s.status = "playing";
-  for (const p of s.players) Object.assign(p, { lives: MAX_LIVES, solved: 0 });
+  for (const p of s.players)
+    Object.assign(p, { lives: MAX_LIVES, solved: 0, hints: 0 });
 };
 
 export function newRoom(difficulty: Difficulty, now: number): RoomState {
@@ -114,7 +117,9 @@ export function place(
 
 /** Reveals cell i if it's empty, otherwise a random empty cell. Returns the revealed cell. */
 export function hint(s: RoomState, id: string, i: number, now: number) {
-  if (!canAct(s, id)) return null;
+  const p = canAct(s, id);
+  if (!p || (p.hints ?? 0) >= MAX_HINTS) return null;
+  p.hints = (p.hints ?? 0) + 1;
   const open = s.cells.flatMap((c, k) => (c ? [] : [k]));
   const target = s.cells[i] ? open[Math.floor(Math.random() * open.length)] : i;
   s.cells[target] = s.solution[target];

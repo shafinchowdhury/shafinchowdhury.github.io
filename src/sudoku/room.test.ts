@@ -65,10 +65,19 @@ test("hints reveal the chosen empty cell, or another one if it's filled", () => 
   const i = emptyCell(s);
   assert.equal(hint(s, "a", i, 1), i);
   assert.ok(s.hinted[i]);
-  const j = hint(s, "a", i, 1)!;
+  const j = hint(s, "b", i, 1)!;
   assert.notEqual(j, i);
   assert.equal(s.cells[j], s.solution[j]);
   assert.equal(s.hints, 2);
+});
+
+test("each player gets one hint per game, restored on restart", () => {
+  const s = room();
+  assert.notEqual(hint(s, "a", emptyCell(s), 1), null);
+  assert.equal(hint(s, "a", emptyCell(s), 1), null);
+  assert.notEqual(hint(s, "b", emptyCell(s), 1), null);
+  restart(s, 2);
+  assert.notEqual(hint(s, "a", emptyCell(s), 3), null);
 });
 
 test("filling every cell solves the room and stops the clock", () => {
