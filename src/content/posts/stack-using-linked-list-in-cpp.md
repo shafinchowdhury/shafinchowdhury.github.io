@@ -29,6 +29,7 @@ In this guide, we will build a Linked-List Stack in C++ from scratch, trace ever
 Unlike an array, which stores all elements in one contiguous block of memory, a **Linked List** stores elements inside independent building blocks called **Nodes** scattered across the heap.
 
 Each node holds two things:
+
 1. **`data`**: The actual value stored (for example, an `int`).
 2. **`next`**: A [pointer](/posts/cpp-pointers/) that stores the memory address of the next node in the chain.
 
@@ -72,6 +73,7 @@ public:
 ```
 
 Let's break this down:
+
 - **`int data;`**: Stores the integer value inside the node.
 - **`Node* next;`**: A pointer to another `Node`. Initially set to `nullptr` inside the constructor.
 - **`Node(int value)`**: A [constructor](/posts/cpp-constructors-and-destructors/) that initializes `data` with `value` and sets `next = nullptr` whenever we create a new node.
@@ -114,6 +116,7 @@ Here is the most important design decision when building a Stack with a Singly L
 - If we put `top` at the **Head (front)** of the singly linked list, both inserting a new node before the head and removing the current head node take **$O(1)$ constant time**!
 
 Therefore, in a linked-list Stack:
+
 - Our stack's `topNode` pointer **always points to the Head (first node)** of the linked list.
 - Each node's `next` pointer points to the **node directly underneath it** in the stack!
 
@@ -143,12 +146,15 @@ topNode ──► +-------------+
 Because we don't know in advance how many nodes the user will push, we create nodes on the **Heap** using [dynamic memory allocation](/posts/dynamic-memory-allocation/):
 
 ### Allocating a Node on `push()` with `new`
+
 ```cpp
 Node* newNode = new Node(value);
 ```
+
 The `new` keyword asks the system heap for enough memory to hold one `Node`, runs the `Node(value)` constructor, and returns its memory address into the pointer `newNode`.
 
 ### Deallocating a Node on `pop()` with `delete`
+
 Unlike Java or Python, C++ does not have automatic garbage collection for raw pointers. When we pop a node off the stack, simply moving the `topNode` pointer away is not enough—the popped node would remain stranded in RAM, causing a **memory leak**.
 
 ```cpp
@@ -158,6 +164,7 @@ delete temp;                // 3. Free the old node's memory back to the OS
 ```
 
 ### Automatic Cleanup in the Destructor (`~Stack`)
+
 What if a `Stack` object still contains nodes when `main()` finishes? We write a [destructor](/posts/cpp-constructors-and-destructors/) that pops every remaining node automatically:
 
 ```cpp
@@ -444,12 +451,12 @@ int main() {
 20 pushed onto the stack.
 30 pushed onto the stack.
 ---
-Stack elements (Top to Bottom): 30 20 10 
+Stack elements (Top to Bottom): 30 20 10
 Current Top element: 30
 Current Stack size: 3
 ---
 30 popped from the stack.
-Stack elements (Top to Bottom): 20 10 
+Stack elements (Top to Bottom): 20 10
 New Top element: 20
 ---
 20 popped from the stack.
@@ -464,18 +471,22 @@ Stack Underflow! Cannot pop from an empty stack.
 Let's examine every function in `class Stack` line by line:
 
 ### 1. Constructor `Stack()`
+
 Sets `topNode = nullptr` and `currentSize = 0`. A `nullptr` in `topNode` means the stack does not point to any node yet.
 
 ### 2. `isEmpty()`
+
 Checks `if (topNode == nullptr)`. Whenever `topNode` is `nullptr`, there are zero nodes in the chain, so `isEmpty()` returns `true`.
 
 ### 3. `push(int value)`
+
 1. `Node* newNode = new Node(value);` — Allocates a fresh node on the heap holding `value`.
 2. `newNode->next = topNode;` — Connects the new node's `next` pointer to whatever node was previously at the top (even if `topNode` was `nullptr`).
 3. `topNode = newNode;` — Updates `topNode` so the new node is officially the new top of the stack.
 4. `currentSize++;` — Increments our element counter.
 
 ### 4. `pop()`
+
 1. Checks `if (isEmpty())` first to prevent dereferencing a null pointer.
 2. `Node* temp = topNode;` — Saves the address of the current top node so we don't lose track of it.
 3. `topNode = topNode->next;` — Moves `topNode` down to the next node in the stack.
@@ -483,12 +494,15 @@ Checks `if (topNode == nullptr)`. Whenever `topNode` is `nullptr`, there are zer
 5. `currentSize--;` — Decrements our element counter.
 
 ### 5. `top()`
+
 Checks `if (isEmpty())`. If not empty, returns `topNode->data`, which is the integer stored inside the topmost node.
 
 ### 6. `display()`
+
 Creates a traversal pointer `Node* current = topNode;` and walks down the chain using `current = current->next;` until `current` hits `nullptr`, printing each node's `data` along the way.
 
 ### 7. Destructor `~Stack()`
+
 What if a programmer pushes 100 elements onto `myStack` and then `main()` ends without popping them? The destructor `~Stack()` automatically runs when `myStack` goes out of scope and calls `pop()` in a `while (!isEmpty())` loop until every single heap-allocated `Node` is properly deleted!
 
 ---
@@ -497,28 +511,28 @@ What if a programmer pushes 100 elements onto `myStack` and then `main()` ends w
 
 Let's trace the exact state of `topNode` and the linked list across a sequence of operations:
 
-| Step | Operation | Action on Pointers | Linked List Chain (`topNode` $\rightarrow$ ...) | `currentSize` |
-| :--- | :--- | :--- | :--- | :---: |
-| **1** | `Stack s;` | `topNode = nullptr` | `nullptr` | `0` |
-| **2** | `s.push(10);` | `newNode(10)->next = nullptr`, `topNode = newNode(10)` | `[10] -> nullptr` | `1` |
-| **3** | `s.push(20);` | `newNode(20)->next = [10]`, `topNode = newNode(20)` | `[20] -> [10] -> nullptr` | `2` |
-| **4** | `s.top();` | Read `topNode->data` (`20`) | `[20] -> [10] -> nullptr` | `2` |
-| **5** | `s.pop();` | `temp = [20]`, `topNode = [10]`, `delete [20]` | `[10] -> nullptr` | `1` |
-| **6** | `s.pop();` | `temp = [10]`, `topNode = nullptr`, `delete [10]` | `nullptr` (Empty!) | `0` |
-| **7** | `s.pop();` | `topNode == nullptr` $\rightarrow$ Underflow message | `nullptr` | `0` |
+| Step  | Operation     | Action on Pointers                                     | Linked List Chain (`topNode` $\rightarrow$ ...) | `currentSize` |
+| :---- | :------------ | :----------------------------------------------------- | :---------------------------------------------- | :-----------: |
+| **1** | `Stack s;`    | `topNode = nullptr`                                    | `nullptr`                                       |      `0`      |
+| **2** | `s.push(10);` | `newNode(10)->next = nullptr`, `topNode = newNode(10)` | `[10] -> nullptr`                               |      `1`      |
+| **3** | `s.push(20);` | `newNode(20)->next = [10]`, `topNode = newNode(20)`    | `[20] -> [10] -> nullptr`                       |      `2`      |
+| **4** | `s.top();`    | Read `topNode->data` (`20`)                            | `[20] -> [10] -> nullptr`                       |      `2`      |
+| **5** | `s.pop();`    | `temp = [20]`, `topNode = [10]`, `delete [20]`         | `[10] -> nullptr`                               |      `1`      |
+| **6** | `s.pop();`    | `temp = [10]`, `topNode = nullptr`, `delete [10]`      | `nullptr` (Empty!)                              |      `0`      |
+| **7** | `s.pop();`    | `topNode == nullptr` $\rightarrow$ Underflow message   | `nullptr`                                       |      `0`      |
 
 ---
 
 ## 10. Time and Space Complexity
 
-| Operation | Time Complexity | Explanation |
-| :--- | :--- | :--- |
-| **`push(value)`** | **$O(1)$** | Allocates one node and updates two pointers at the head. Never copies existing elements. |
-| **`pop()`** | **$O(1)$** | Updates `topNode = topNode->next` and frees one node. |
-| **`top()`** | **$O(1)$** | Reads `topNode->data` directly. |
-| **`isEmpty()`** | **$O(1)$** | Checks `topNode == nullptr`. |
-| **`size()`** | **$O(1)$** | Returns the maintained `currentSize` counter. |
-| **`display()`** | **$O(n)$** | Traverses all $n$ nodes from `topNode` to `nullptr`. |
+| Operation         | Time Complexity | Explanation                                                                              |
+| :---------------- | :-------------- | :--------------------------------------------------------------------------------------- |
+| **`push(value)`** | **$O(1)$**      | Allocates one node and updates two pointers at the head. Never copies existing elements. |
+| **`pop()`**       | **$O(1)$**      | Updates `topNode = topNode->next` and frees one node.                                    |
+| **`top()`**       | **$O(1)$**      | Reads `topNode->data` directly.                                                          |
+| **`isEmpty()`**   | **$O(1)$**      | Checks `topNode == nullptr`.                                                             |
+| **`size()`**      | **$O(1)$**      | Returns the maintained `currentSize` counter.                                            |
+| **`display()`**   | **$O(n)$**      | Traverses all $n$ nodes from `topNode` to `nullptr`.                                     |
 
 - **Space Complexity:** **$O(n)$**, where $n$ is the exact number of elements currently in the stack. Note that each node uses extra bytes to store its `Node* next` pointer (typically 8 bytes on a 64-bit system).
 
@@ -527,11 +541,13 @@ Let's trace the exact state of `topNode` and the linked list across a sequence o
 ## 11. Advantages and Disadvantages
 
 ### Advantages
+
 - **No Fixed Capacity Limit:** Grows and shrinks seamlessly at runtime without ever overflowing (unless system RAM is completely exhausted).
 - **No Reallocation Spikes:** Unlike `std::vector`, pushing a new element never triggers an $O(n)$ array copy. Every `push()` is strictly $O(1)$.
 - **Memory Efficient for Fluctuating Sizes:** Immediately returns memory to the system when elements are popped.
 
 ### Disadvantages
+
 - **Extra Memory Per Element:** Every single node must store an extra `next` pointer alongside its data.
 - **Slower CPU Cache Performance:** Because nodes are allocated individually at different heap addresses, jumping from `current` to `current->next` can cause CPU cache misses.
 - **Manual Memory Management Required:** Forgetting `delete temp;` in `pop()` or omitting the destructor causes memory leaks.
@@ -540,26 +556,29 @@ Let's trace the exact state of `topNode` and the linked list across a sequence o
 
 ## 12. Comparison: Array Stack vs. Linked-List Stack
 
-| Feature | [Stack Using Fixed Array](/posts/stack-using-array-in-cpp/) | Stack Using Linked List |
-| :--- | :--- | :--- |
-| **Memory Layout** | Contiguous block in memory | Scattered heap nodes connected by pointers |
-| **Maximum Size** | Fixed at compile time (`MAX_SIZE`) | Dynamic (grows until RAM is full) |
-| **Memory per Element** | Only the data (`sizeof(int)`) | Data + `next` pointer (`sizeof(int) + sizeof(Node*)`) |
-| **Stack Overflow Risk** | High if elements exceed `MAX_SIZE` | Almost none |
-| **CPU Cache Locality** | Excellent (elements sit side by side) | Lower (pointer chasing across heap) |
-| **`push()` / `pop()` Speed** | $O(1)$ (fastest raw speed) | $O(1)$ (slightly slower due to `new`/`delete` calls) |
+| Feature                      | [Stack Using Fixed Array](/posts/stack-using-array-in-cpp/) | Stack Using Linked List                               |
+| :--------------------------- | :---------------------------------------------------------- | :---------------------------------------------------- |
+| **Memory Layout**            | Contiguous block in memory                                  | Scattered heap nodes connected by pointers            |
+| **Maximum Size**             | Fixed at compile time (`MAX_SIZE`)                          | Dynamic (grows until RAM is full)                     |
+| **Memory per Element**       | Only the data (`sizeof(int)`)                               | Data + `next` pointer (`sizeof(int) + sizeof(Node*)`) |
+| **Stack Overflow Risk**      | High if elements exceed `MAX_SIZE`                          | Almost none                                           |
+| **CPU Cache Locality**       | Excellent (elements sit side by side)                       | Lower (pointer chasing across heap)                   |
+| **`push()` / `pop()` Speed** | $O(1)$ (fastest raw speed)                                  | $O(1)$ (slightly slower due to `new`/`delete` calls)  |
 
 ---
 
 ## 13. Frequently Asked Questions (FAQ)
 
 ### Why don't we need an `isFull()` function in a Linked-List Stack?
+
 Because a linked list allocates nodes dynamically on the heap one by one, there is no preset size limit to fill up. Memory only runs out if the entire computer's heap is exhausted.
 
 ### What happens if I forget to write `delete temp;` inside `pop()`?
+
 The node is detached from the stack (`topNode` moves past it), so your stack still behaves correctly, **but the detached node stays in RAM forever** until the program exits. In long-running software, this memory leak can eventually crash the system.
 
 ### Why did we keep a `currentSize` variable instead of counting nodes inside `size()`?
+
 Counting nodes with a `while` loop inside `size()` would take $O(n)$ time. By incrementing `currentSize` in `push()` and decrementing it in `pop()`, `size()` returns the answer in $O(1)$ constant time.
 
 ---
@@ -581,4 +600,3 @@ Congratulations! You now know how to use `std::stack` and how to build a Stack i
 - **Topic Hub:** [Stack in C++: Complete Beginner-to-Advanced Guide](/topics/stack/)
 - **Previous Article (Step 3):** [Stack Using Array in C++: Fixed-Size Implementation & Dry Run](/posts/stack-using-array-in-cpp/)
 - **Next Article (Step 5):** [Top 5 Famous Stack Problems in Competitive Programming](/posts/top-5-stack-problems-in-cpp/)
-

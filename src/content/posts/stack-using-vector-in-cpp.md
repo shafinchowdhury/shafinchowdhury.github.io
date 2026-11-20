@@ -39,6 +39,7 @@ Like a normal [C++ array](/posts/cpp-arrays/), a `vector` stores elements side b
 ## 2. Why Can We Use a Vector to Implement a Stack?
 
 Recall what a Stack requires:
+
 - We must insert new elements at one end (**Top**).
 - We must remove elements from that same end (**Top**).
 - We must inspect the newest element at that end (**Top**).
@@ -72,13 +73,13 @@ Vector Elements:  |  10 | |  20 | |  30 | |  40 | <-- Back of Vector = TOP of St
 
 Before writing the class, let's see how each Stack operation translates into a `std::vector` member function:
 
-| Stack Operation | Vector Function Used | What It Does |
-| :--- | :--- | :--- |
-| **`push(value)`** | `elements.push_back(value)` | Appends `value` to the end of the vector. |
-| **`pop()`** | `elements.pop_back()` | Removes the last element from the vector (does **not** return it). |
-| **`top()`** | `elements.back()` | Returns the last element in the vector without removing it. |
-| **`empty()`** | `elements.empty()` | Returns `true` if the vector has 0 elements, otherwise `false`. |
-| **`size()`** | `elements.size()` | Returns the total number of elements currently in the vector. |
+| Stack Operation   | Vector Function Used        | What It Does                                                       |
+| :---------------- | :-------------------------- | :----------------------------------------------------------------- |
+| **`push(value)`** | `elements.push_back(value)` | Appends `value` to the end of the vector.                          |
+| **`pop()`**       | `elements.pop_back()`       | Removes the last element from the vector (does **not** return it). |
+| **`top()`**       | `elements.back()`           | Returns the last element in the vector without removing it.        |
+| **`empty()`**     | `elements.empty()`          | Returns `true` if the vector has 0 elements, otherwise `false`.    |
+| **`size()`**      | `elements.size()`           | Returns the total number of elements currently in the vector.      |
 
 ---
 
@@ -338,13 +339,13 @@ int main() {
 10 pushed onto the stack.
 20 pushed onto the stack.
 30 pushed onto the stack.
-Stack elements (Top to Bottom): 30 20 10 
+Stack elements (Top to Bottom): 30 20 10
 Current Top element: 30
 Current Stack size: 3
 ---
 30 popped from the stack.
 Top element after one pop: 20
-Stack elements (Top to Bottom): 20 10 
+Stack elements (Top to Bottom): 20 10
 ---
 20 popped from the stack.
 10 popped from the stack.
@@ -353,42 +354,47 @@ Confirmed: Stack is now empty.
 ```
 
 ### How the `display()` Function Works
+
 Look closely at the `for` loop inside `display()`:
+
 ```cpp
 for (int i = elements.size() - 1; i >= 0; i--)
 ```
+
 Because the newest element is at the end of the vector (`elements.size() - 1`) and the oldest element is at `index 0`, counting **backwards** from `elements.size() - 1` down to `0` prints the stack from **Top to Bottom**.
 
 ---
 
 ## 6. STL `std::stack` vs. Manually Implemented Vector Stack
 
-You might wonder: *"If `std::stack` already exists in STL, why build a Stack with `std::vector`?"*
+You might wonder: _"If `std::stack` already exists in STL, why build a Stack with `std::vector`?"_
 
-| Feature | STL `std::stack<T>` | Manual Vector-Based `Stack` |
-| :--- | :--- | :--- |
-| **Default Underlying Container** | `std::deque<T>` (can also be configured as `std::stack<int, vector<int>>`) | `std::vector<T>` |
-| **Inspecting All Elements (`display`)** | Not allowed (strictly hides everything except `.top()`) | Easy! You can loop through the internal `vector` for debugging or printing. |
-| **Underflow Safety** | Calling `.pop()` on an empty `std::stack` crashes with undefined behavior. | You can add beginner-friendly `if (empty())` checks and error messages. |
-| **Memory Layout** | Chunked blocks (`deque`) by default | Single contiguous block of memory (great CPU cache locality). |
+| Feature                                 | STL `std::stack<T>`                                                        | Manual Vector-Based `Stack`                                                 |
+| :-------------------------------------- | :------------------------------------------------------------------------- | :-------------------------------------------------------------------------- |
+| **Default Underlying Container**        | `std::deque<T>` (can also be configured as `std::stack<int, vector<int>>`) | `std::vector<T>`                                                            |
+| **Inspecting All Elements (`display`)** | Not allowed (strictly hides everything except `.top()`)                    | Easy! You can loop through the internal `vector` for debugging or printing. |
+| **Underflow Safety**                    | Calling `.pop()` on an empty `std::stack` crashes with undefined behavior. | You can add beginner-friendly `if (empty())` checks and error messages.     |
+| **Memory Layout**                       | Chunked blocks (`deque`) by default                                        | Single contiguous block of memory (great CPU cache locality).               |
 
 In fact, you can even tell `std::stack` to use `std::vector` internally by writing:
+
 ```cpp
 stack<int, vector<int>> customStlStack;
 ```
+
 Building the class yourself removes the magic and proves that a container adapter is simply a clean wrapper around an existing data structure!
 
 ---
 
 ## 7. Time and Space Complexity
 
-| Operation | Time Complexity | Explanation |
-| :--- | :--- | :--- |
+| Operation       | Time Complexity      | Explanation                                                                                                                |
+| :-------------- | :------------------- | :------------------------------------------------------------------------------------------------------------------------- |
 | **`push(val)`** | **$O(1)$ Amortized** | Instantaneous almost every time. Occasionally takes $O(n)$ when the vector resizes, averaging out to $O(1)$ per insertion. |
-| **`pop()`** | **$O(1)$** | Decrements the internal vector size by 1 without moving any other elements. |
-| **`top()`** | **$O(1)$** | Directly reads `elements[size - 1]`. |
-| **`empty()`** | **$O(1)$** | Checks whether `size == 0`. |
-| **`size()`** | **$O(1)$** | Returns the vector's stored size counter. |
+| **`pop()`**     | **$O(1)$**           | Decrements the internal vector size by 1 without moving any other elements.                                                |
+| **`top()`**     | **$O(1)$**           | Directly reads `elements[size - 1]`.                                                                                       |
+| **`empty()`**   | **$O(1)$**           | Checks whether `size == 0`.                                                                                                |
+| **`size()`**    | **$O(1)$**           | Returns the vector's stored size counter.                                                                                  |
 
 - **Space Complexity:** **$O(n)$**, where $n$ is the number of elements in the stack.
 
@@ -397,11 +403,13 @@ Building the class yourself removes the magic and proves that a container adapte
 ## 8. Advantages and Disadvantages
 
 ### Advantages
+
 - **No Fixed Size Limit:** Unlike a fixed-size array, a vector grows automatically as long as RAM is available.
 - **Automatic Memory Management:** You do not need to write `new` or `delete`—`std::vector` cleans up its own heap memory automatically when the `Stack` object goes out of scope (following [RAII principles](/posts/cpp-constructors-and-destructors/)).
 - **Cache-Friendly Performance:** Because all elements sit next to each other in contiguous memory, the CPU cache reads them much faster than scattered linked-list nodes.
 
 ### Disadvantages
+
 - **Occasional Reallocation Pause:** When the vector needs more space, allocating a larger block and copying elements causes a brief $O(n)$ pause.
 - **Unused Capacity Overhead:** Reserved capacity may briefly exceed the exact number of elements currently stored.
 
@@ -410,12 +418,15 @@ Building the class yourself removes the magic and proves that a container adapte
 ## 9. Frequently Asked Questions (FAQ)
 
 ### What is the difference between `vector::back()` and `vector::pop_back()`?
+
 `vector::back()` **returns** a reference to the last element without removing it (equivalent to `top()`). `vector::pop_back()` **removes** the last element from the vector and returns `void` (nothing).
 
 ### Does `elements.pop_back()` shrink the vector's allocated memory capacity?
+
 No. Calling `pop_back()` reduces the vector's `size` by 1, but its `capacity` stays the same so future `push_back()` calls can reuse that memory without reallocating.
 
 ### Why is `push_back()` called "amortized" $O(1)$?
+
 Suppose you push $1{,}000$ items. Almost all pushes take 1 step, while resizing happens only at powers of two ($1, 2, 4, 8, 16, \dots, 512$). The total work across $n$ pushes is roughly $2n$ operations, which averages out to a constant $O(1)$ cost per push.
 
 ---
@@ -439,4 +450,3 @@ Now that you know how to build a Stack using `std::vector`, what if you are in a
 - **Next Article (Step 3):** [Stack Using Array in C++: Fixed-Size Implementation & Dry Run](/posts/stack-using-array-in-cpp/)
 - **Step 4:** [Stack Using Linked List in C++: Dynamic Node Implementation](/posts/stack-using-linked-list-in-cpp/)
 - **Step 5:** [Top 5 Famous Stack Problems in Competitive Programming](/posts/top-5-stack-problems-in-cpp/)
-

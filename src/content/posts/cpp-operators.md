@@ -242,23 +242,23 @@ When multiple operators appear in a single expression, **precedence** dictates w
 
 ### Precedence Hierarchy (Highest to Lowest)
 
-| Precedence Group    | Operators                                                           | Associativity     |
-| :------------------ | :------------------------------------------------------------------ | :---------------- |
+| Precedence Group                              | Operators                                                           | Associativity     |
+| :-------------------------------------------- | :------------------------------------------------------------------ | :---------------- |
 | 1. [Scope Resolution](/posts/cpp-namespaces/) | `::`                                                                | Left-to-Right     |
-| 2. Postfix / Calls  | `()`, `[]`, `->`, `.`, `x++`, `x--`                                 | Left-to-Right     |
-| 3. Unary / Prefix   | `++x`, `--x`, `+`, `-`, `!`, `~`, `sizeof`, `*` (deref), `&` (addr) | **Right-to-Left** |
-| 4. Multiplicative   | `*`, `/`, `%`                                                       | Left-to-Right     |
-| 5. Additive         | `+`, `-`                                                            | Left-to-Right     |
-| 6. Bitwise Shifts   | `<<`, `>>`                                                          | Left-to-Right     |
-| 7. Relational       | `<`, `<=`, `>`, `>=`                                                | Left-to-Right     |
-| 8. Equality         | `==`, `!=`                                                          | Left-to-Right     |
-| 9. Bitwise AND      | `&`                                                                 | Left-to-Right     |
-| 10. Bitwise XOR     | `^`                                                                 | Left-to-Right     |
-| 11. Bitwise OR      | `\|`                                                                | Left-to-Right     |
-| 12. Logical AND     | `&&`                                                                | Left-to-Right     |
-| 13. Logical OR      | `\|\|`                                                              | Left-to-Right     |
-| 14. Conditional     | `?:`                                                                | **Right-to-Left** |
-| 15. Assignment      | `=`, `+=`, `-=`, `*=`, `/=`, etc.                                   | **Right-to-Left** |
+| 2. Postfix / Calls                            | `()`, `[]`, `->`, `.`, `x++`, `x--`                                 | Left-to-Right     |
+| 3. Unary / Prefix                             | `++x`, `--x`, `+`, `-`, `!`, `~`, `sizeof`, `*` (deref), `&` (addr) | **Right-to-Left** |
+| 4. Multiplicative                             | `*`, `/`, `%`                                                       | Left-to-Right     |
+| 5. Additive                                   | `+`, `-`                                                            | Left-to-Right     |
+| 6. Bitwise Shifts                             | `<<`, `>>`                                                          | Left-to-Right     |
+| 7. Relational                                 | `<`, `<=`, `>`, `>=`                                                | Left-to-Right     |
+| 8. Equality                                   | `==`, `!=`                                                          | Left-to-Right     |
+| 9. Bitwise AND                                | `&`                                                                 | Left-to-Right     |
+| 10. Bitwise XOR                               | `^`                                                                 | Left-to-Right     |
+| 11. Bitwise OR                                | `\|`                                                                | Left-to-Right     |
+| 12. Logical AND                               | `&&`                                                                | Left-to-Right     |
+| 13. Logical OR                                | `\|\|`                                                              | Left-to-Right     |
+| 14. Conditional                               | `?:`                                                                | **Right-to-Left** |
+| 15. Assignment                                | `=`, `+=`, `-=`, `*=`, `/=`, etc.                                   | **Right-to-Left** |
 
 ### The Golden Rule of Precedence: Use Parentheses
 
