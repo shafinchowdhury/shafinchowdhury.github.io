@@ -18,6 +18,8 @@
   --wrong: #f87171;
   --wrong-bg: rgba(248, 113, 113, 0.14);
   --ok: #4ade80;
+  --hint: #fbbf24;
+  --hint-bg: rgba(251, 191, 36, 0.16);
 }
 [data-theme="light"] {
   --bg: #f7f5ee;
@@ -38,6 +40,8 @@
   --wrong: #dc2626;
   --wrong-bg: rgba(220, 38, 38, 0.1);
   --ok: #15803d;
+  --hint: #b45309;
+  --hint-bg: rgba(217, 119, 6, 0.14);
 }
 * {
   box-sizing: border-box;
@@ -539,8 +543,10 @@ details summary::-webkit-details-marker {
 [hidden] {
   display: none !important;
 }
+/* Amber so revealed cells never look like digits a player solved. */
 .cell.hinted {
-  color: var(--accent-2);
+  color: var(--hint);
+  background: var(--hint-bg);
   font-weight: 700;
 }
 .cell.flash {
