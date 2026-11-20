@@ -107,6 +107,13 @@ export const formatTime = (ms: number) => {
   return h ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
 };
 
+/** Hint button shows how many are left and greys out at zero. */
+export function setHints(left: number, usable = true) {
+  const b = document.getElementById("hint") as HTMLButtonElement;
+  b.querySelector("span")!.textContent = `Hint (${left})`;
+  b.disabled = !usable || left <= 0;
+}
+
 export const capitalize = (s: string) => s[0].toUpperCase() + s.slice(1);
 
 export const noteBit = (n: number) => 1 << (n - 1);

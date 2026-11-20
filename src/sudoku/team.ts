@@ -3,7 +3,7 @@
 // notes and the player's own wrong guesses locally.
 import type { Difficulty } from "./engine";
 import { PEERS } from "./engine";
-import type { RoomView } from "./room";
+import { MAX_HINTS, type RoomView } from "./room";
 import {
   capitalize,
   drawBoard,
@@ -11,6 +11,7 @@ import {
   NAME_KEY,
   noteBit,
   segmented,
+  setHints,
   setupHeader,
   sfx,
   store,
@@ -227,7 +228,7 @@ function render() {
   $("my-hearts").innerHTML = heartsHtml(lives);
   $("my-hearts").setAttribute("aria-label", `${lives} lives left`);
   $("game").classList.toggle("is-out", s.status === "playing" && !lives);
-  ($("hint") as HTMLButtonElement).disabled = !playing();
+  setHints(MAX_HINTS - (me()?.hints ?? 0), playing());
   tick();
   renderPlayers(s);
 }

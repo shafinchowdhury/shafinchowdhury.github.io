@@ -12,6 +12,7 @@ import {
   formatTime,
   noteBit,
   segmented,
+  setHints,
   setupHeader,
   sfx,
   store,
@@ -32,6 +33,8 @@ type Game = {
 };
 
 const SAVE_KEY = "sudoku-solo";
+const MAX_HINTS = 2;
+const hintsUsed = (g: Game) => g.cells.filter(c => c.hinted).length;
 const $ = (id: string) => document.getElementById(id)!;
 
 let game: Game | null = null;
@@ -199,7 +202,7 @@ function erase() {
 
 function hint() {
   const g = game;
-  if (!g || g.done || isPaused()) return;
+  if (!g || g.done || isPaused() || hintsUsed(g) >= MAX_HINTS) return;
   const wrongOrEmpty = (i: number) => g.cells[i].v !== g.solution[i];
   let target = wrongOrEmpty(sel) ? sel : -1;
   if (target < 0) {
@@ -291,6 +294,7 @@ function render() {
   $("timer").textContent = formatTime(elapsed());
   ($("undo") as HTMLButtonElement).disabled = !g.undo.length;
   ($("redo") as HTMLButtonElement).disabled = !g.redo.length;
+  setHints(MAX_HINTS - hintsUsed(g));
 }
 
 // ---------- wiring ----------
