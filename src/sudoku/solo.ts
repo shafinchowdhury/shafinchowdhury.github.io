@@ -6,10 +6,12 @@ import {
   PEERS,
   toString,
 } from "./engine";
+import { MAX_LIVES } from "./room";
 import {
   capitalize,
   drawBoard,
   formatTime,
+  showLives,
   noteBit,
   segmented,
   setHints,
@@ -187,6 +189,7 @@ function input(n: number) {
     } else {
       g.mistakes++;
       sfx.wrong();
+      if (g.mistakes >= MAX_LIVES) lose();
     }
   }
   afterMove();
@@ -234,6 +237,25 @@ function step(from: "undo" | "redo") {
   }
 }
 
+function showResult(title: string, text: string, canRetry: boolean) {
+  $("done-title").textContent = title;
+  $("done-text").textContent = text;
+  $("done-retry").hidden = !canRetry;
+  ($("done-dialog") as HTMLDialogElement).showModal();
+}
+
+/** Third mistake ends the game; the board stays visible but locked. */
+function lose() {
+  const g = game!;
+  stopClock();
+  g.done = true;
+  showResult(
+    "Out of lives",
+    `That was your third mistake on this ${g.difficulty} puzzle. Try it again, or start a new one.`,
+    true
+  );
+}
+
 function afterMove() {
   const g = game!;
   if (g.cells.every((c, i) => c.v === g.solution[i])) {
@@ -241,11 +263,13 @@ function afterMove() {
     g.done = true;
     sfx.win();
     const hints = g.cells.filter(c => c.hinted).length;
-    $("done-text").textContent =
+    showResult(
+      "Solved!",
       `${capitalize(g.difficulty)} puzzle solved in ${formatTime(g.elapsed)}` +
-      ` with ${g.mistakes} mistake${g.mistakes === 1 ? "" : "s"}` +
-      (hints ? ` and ${hints} hint${hints === 1 ? "" : "s"}.` : ".");
-    ($("done-dialog") as HTMLDialogElement).showModal();
+        ` with ${g.mistakes} mistake${g.mistakes === 1 ? "" : "s"}` +
+        (hints ? ` and ${hints} hint${hints === 1 ? "" : "s"}.` : "."),
+      false
+    );
   }
   save();
   render();
@@ -290,7 +314,7 @@ function render() {
   $("progress-bar").style.width = `${(solved / empty) * 100}%`;
   $("progress-text").textContent = `${solved} / ${empty} cells solved`;
   $("diff-label").textContent = capitalize(g.difficulty);
-  $("mistakes").textContent = String(g.mistakes);
+  showLives($("my-hearts"), Math.max(0, MAX_LIVES - g.mistakes));
   $("timer").textContent = formatTime(elapsed());
   ($("undo") as HTMLButtonElement).disabled = !g.undo.length;
   ($("redo") as HTMLButtonElement).disabled = !g.redo.length;
@@ -304,6 +328,8 @@ const soloDiff = segmented("solo-diff");
 const newDiff = segmented("new-diff");
 
 game = load();
+// Saves from before lives existed may already have 3+ mistakes.
+if (game && game.mistakes >= MAX_LIVES) game.done = true;
 if (game) {
   soloDiff.set(game.difficulty);
   $("continue-solo").hidden = game.done;
@@ -357,6 +383,7 @@ $("reset-dialog").addEventListener("close", e => {
 $("done-dialog").addEventListener("close", e => {
   const v = (e.target as HTMLDialogElement).returnValue;
   if (v === "new") $("new-game").click();
+  else if (v === "retry") resetGame();
   else showHome();
 });
 

@@ -43,7 +43,12 @@ import Board from "@/sudoku/Board.astro";
     <div>
       <div class="stats">
         <span id="diff-label">Easy</span>
-        <span>Mistakes <b id="mistakes">0</b></span>
+        <span
+          >Lives <span class="hearts" id="my-hearts" aria-label="3 lives left"
+            ><i class="full">♥</i><i class="full">♥</i><i class="full">♥</i
+            ></span
+          ></span
+        >
         <span>Time <b id="timer">00:00</b></span>
       </div>
       <Board controls={["undo", "redo", "erase", "notes", "hint", "pause"]} />
@@ -81,7 +86,10 @@ import Board from "@/sudoku/Board.astro";
 
     <dialog id="reset-dialog">
       <h2>Reset this puzzle?</h2>
-      <p>All your entries, notes, mistakes and the timer will be cleared.</p>
+      <p>
+        All your entries, notes and the timer will be cleared, and you get 3
+        lives again.
+      </p>
       <form method="dialog" class="row">
         <button class="btn btn-ghost" value="cancel">Cancel</button>
         <button class="btn btn-primary" value="ok">Reset</button>
@@ -89,10 +97,13 @@ import Board from "@/sudoku/Board.astro";
     </dialog>
 
     <dialog id="done-dialog">
-      <h2>Solved!</h2>
+      <h2 id="done-title">Solved!</h2>
       <p id="done-text"></p>
       <form method="dialog" class="row">
         <button class="btn btn-ghost" value="home">Home</button>
+        <button class="btn btn-ghost" value="retry" id="done-retry" hidden
+          >Try again</button
+        >
         <button class="btn btn-primary" value="new">New Game</button>
       </form>
     </dialog>
