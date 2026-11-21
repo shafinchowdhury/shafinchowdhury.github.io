@@ -243,7 +243,7 @@ setInterval(tick, 500);
 setupHeader();
 const newDiff = segmented("new-diff");
 
-if (!/^[A-Z0-9]{6}$/.test(code)) location.replace("/sudoku");
+if (!/^[A-Z0-9]{6}$/.test(code)) location.replace("/sudoku/");
 $("room-code").textContent = code;
 
 $("copy").addEventListener("click", async () => {

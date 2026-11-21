@@ -179,6 +179,42 @@ h1 span {
     border-color 0.2s,
     box-shadow 0.2s;
 }
+/* SEO guide under the mode cards: plain reading column, kept below the game. */
+.guide {
+  max-width: 720px;
+  margin: 0 auto 64px;
+  line-height: 1.65;
+}
+.guide section {
+  margin-bottom: 36px;
+}
+.guide h2 {
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+.guide h3 {
+  font-size: 17px;
+  margin: 20px 0 4px;
+}
+.guide p,
+.guide li {
+  color: var(--muted);
+}
+.guide p {
+  margin: 0 0 12px;
+}
+.guide ul {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+.guide a {
+  color: var(--accent);
+}
+.guide-more {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
 .modes .card:hover {
   transform: translateY(-3px);
   border-color: var(--accent);

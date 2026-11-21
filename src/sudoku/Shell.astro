@@ -8,6 +8,11 @@ const {
   description = "Play Sudoku alone or solve the same puzzle together with friends. No sign-up.",
   noindex = false,
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL("/assets/games/sudoku-og.png", Astro.site).href;
+const ogImageAlt =
+  "Sudoku Together: a 3×3 grid logo next to the words Free Online Sudoku, play solo or with friends";
 ---
 
 <!doctype html>
@@ -17,7 +22,29 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex" />}
+    <meta
+      name="robots"
+      content={noindex
+        ? "noindex, follow"
+        : "index, follow, max-image-preview:large, max-snippet:-1"}
+    />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Shafin Chowdhury" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+    <meta name="theme-color" content="#0c1612" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,11 +64,12 @@ const {
         document.documentElement.dataset.theme = "dark";
       }
     </script>
+    <slot name="head" />
   </head>
   <body>
     <div class="wrap">
       <header>
-        <a class="brand" href="/sudoku" id="home-link">
+        <a class="brand" href="/sudoku/" id="home-link">
           <span class="logo" aria-hidden="true"
             >{Array.from({ length: 9 }, () => <i />)}</span
           >
