@@ -29,7 +29,7 @@
 }
 
 @utility active-nav {
-  @apply underline decoration-wavy decoration-2 underline-offset-8;
+  @apply text-accent bg-accent/10 rounded-md;
 }
 
 :target {
