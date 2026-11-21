@@ -72,7 +72,10 @@ export default defineConfig({
     mdx(),
     sitemap({
       filter: page =>
-        config.features?.showArchives !== false || !page.endsWith("/archives/"),
+        // Team rooms are private, per-invite pages (noindex), so keep them out.
+        !page.endsWith("/sudoku/team/") &&
+        (config.features?.showArchives !== false ||
+          !page.endsWith("/archives/")),
     }),
   ],
   i18n: {

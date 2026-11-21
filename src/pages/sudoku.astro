@@ -1,12 +1,82 @@
 ---
 import Shell from "@/sudoku/Shell.astro";
 import Board from "@/sudoku/Board.astro";
+import {
+  getPersonEntity,
+  getWebsiteEntity,
+  PERSON_ID,
+  SITE_URL,
+  WEBSITE_ID,
+} from "@/utils/structuredData";
+
+const title = "Free Online Sudoku: Play With Friends | Sudoku Together";
+const description =
+  "Play free online Sudoku in your browser with no sign-up. Pick Easy, Medium or Hard, or share a room link and solve the same grid with friends in real time.";
+const pageURL = `${SITE_URL}/sudoku/`;
+
+// Only facts the game actually supports: no ratings, prices or install claims.
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    getWebsiteEntity(),
+    getPersonEntity(),
+    {
+      "@type": "WebApplication",
+      "@id": `${pageURL}#app`,
+      name: "Sudoku Together",
+      url: pageURL,
+      description,
+      applicationCategory: "GameApplication",
+      genre: "Puzzle",
+      operatingSystem: "Any",
+      browserRequirements:
+        "Requires JavaScript. Team play requires WebSockets.",
+      isAccessibleForFree: true,
+      inLanguage: "en",
+      image: `${SITE_URL}/assets/games/sudoku-og.png`,
+      author: { "@id": PERSON_ID },
+      isPartOf: { "@id": WEBSITE_ID },
+      featureList: [
+        "Solo play with Easy, Medium and Hard puzzles",
+        "Real-time team play for up to 8 players",
+        "Join with a 6-letter room code, no account needed",
+        "Pencil notes, hints, undo and redo",
+        "Light and dark themes",
+      ],
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${pageURL}#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: `${SITE_URL}/`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Games",
+          item: `${SITE_URL}/games/`,
+        },
+        { "@type": "ListItem", position: 3, name: "Sudoku", item: pageURL },
+      ],
+    },
+  ],
+};
 ---
 
-<Shell>
+<Shell title={title} description={description}>
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(structuredData)}
+  />
   <main id="home">
     <section class="hero">
-      <h1>Challenge Your Mind.<br /><span>Play Together.</span></h1>
+      <h1>Challenge Your Mind<br /><span>Play Together</span></h1>
       <p class="sub">
         Enjoy Sudoku alone or solve puzzles together with friends.
       </p>
@@ -37,6 +107,120 @@ import Board from "@/sudoku/Board.astro";
         </div>
       </div>
     </section>
+
+    <article class="guide">
+      <section aria-labelledby="about-heading">
+        <h2 id="about-heading">Free online Sudoku, no sign-up</h2>
+        <p>
+          Sudoku Together is a free online Sudoku game that runs right in your
+          browser on a phone, tablet or computer. There's no account to create
+          and nothing to install: choose a difficulty above and a fresh puzzle
+          is ready in a second. Every puzzle is generated on the spot and has
+          exactly one solution.
+        </p>
+      </section>
+
+      <section aria-labelledby="rules-heading">
+        <h2 id="rules-heading">How to play Sudoku</h2>
+        <p>
+          The board is a 9×9 grid split into nine 3×3 boxes, with some numbers
+          already filled in. Your goal is to fill every empty cell so that:
+        </p>
+        <ul>
+          <li>each row contains the digits 1 to 9 exactly once,</li>
+          <li>each column contains the digits 1 to 9 exactly once, and</li>
+          <li>each 3×3 box contains the digits 1 to 9 exactly once.</li>
+        </ul>
+        <p>
+          Tap a cell, then tap a number to place it. Switch on Notes to pencil
+          in candidates while you narrow things down. A wrong number costs one
+          of your 3 lives. If you get stuck, a hint fills in a cell for you, and
+          in solo play you can undo and redo moves. Your solo game is saved in
+          this browser, so you can come back and continue later.
+        </p>
+      </section>
+
+      <section aria-labelledby="friends-heading">
+        <h2 id="friends-heading">Play Sudoku with friends</h2>
+        <p>
+          Team play turns Sudoku into a cooperative game. Create a team, share
+          the 6-letter room code or invite link, and up to 8 players solve the
+          same board together in real time. You see each other's numbers appear
+          as they're placed, so it works just as well as Sudoku for two players
+          on the sofa as it does for a group spread across cities.
+        </p>
+        <p>
+          Everyone has their own 3 lives and 1 hint. A wrong guess costs only
+          your life and never lands on the shared board, so no one can spoil the
+          puzzle for the rest of the team. If you run out of lives you can keep
+          watching while your teammates finish.
+        </p>
+      </section>
+
+      <section aria-labelledby="levels-heading">
+        <h2 id="levels-heading">Sudoku difficulty levels</h2>
+        <p>
+          Puzzles are graded by the solving techniques they need, not just by
+          how many numbers are given.
+        </p>
+        <h3>Easy</h3>
+        <p>
+          Every step can be found with singles: a cell with only one possible
+          digit, or a digit that fits in only one place in a row, column or box.
+          A good place to start if you're new, or want a relaxed game.
+        </p>
+        <h3>Medium</h3>
+        <p>
+          You'll also need pairs and pointing or box-line patterns, where
+          candidates in one area rule out the same digits somewhere else.
+        </p>
+        <h3>Hard</h3>
+        <p>
+          These need techniques beyond the medium set. Expect to rely on notes
+          and to think several steps ahead.
+        </p>
+      </section>
+
+      <section aria-labelledby="faq-heading">
+        <h2 id="faq-heading">Frequently asked questions</h2>
+        <h3>Is Sudoku Together free?</h3>
+        <p>
+          Yes. Solo and team play are both free, with no sign-up, download or
+          account.
+        </p>
+        <h3>How many people can play together?</h3>
+        <p>
+          A team room holds up to 8 players. Two is enough for a cooperative
+          game.
+        </p>
+        <h3>How do my friends join?</h3>
+        <p>
+          Send them the invite link, or have them press Join Team and type the
+          6-letter room code. They pick a name and they're in.
+        </p>
+        <h3>What happens if I make a mistake?</h3>
+        <p>
+          A wrong number costs one life. When you've used all 3, the game is
+          over in solo play. In team play the team keeps going as long as
+          someone still has lives.
+        </p>
+        <h3>Does it work on my phone?</h3>
+        <p>
+          Yes. The board and number pad adapt to small screens, and it runs in
+          any modern mobile browser.
+        </p>
+        <h3>How long does a team room last?</h3>
+        <p>
+          A room is deleted automatically after a day with no moves, so start a
+          new one whenever you want to play again.
+        </p>
+      </section>
+
+      <p class="guide-more">
+        Looking for something else? See all <a href="/games/">games</a> or read the
+        <a href="/posts/">programming articles</a> on the blog.
+      </p>
+    </article>
   </main>
 
   <main id="game" class="game" hidden>
