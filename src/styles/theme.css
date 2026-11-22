@@ -7,7 +7,7 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
-  --font-app: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-app: var(--font-inter);
 }
 
 /* Light theme values */

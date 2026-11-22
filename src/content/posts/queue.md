@@ -1,12 +1,12 @@
 ---
-title: "Data-Stracture in C: Queue"
+title: "Data Structure in C: Queue"
 author: "Shafin Chowdhury"
 pubDatetime: 2026-06-02T03:27:00Z
 featured: true
 draft: false
 tags:
   - queue
-description: "This article is a comprehensive, publication-ready educational guide designed to teach developers and computer science students the Queue data structure using the C programming language. It transitions smoothly from foundational conceptual definitions to concrete, production-grade source code."
+description: "Learn the queue data structure in C: FIFO order, front and rear, enqueue and dequeue, the types of queues, and a complete array-based implementation."
 ---
 
 ### What is a Queue?
@@ -25,7 +25,7 @@ Imagine a line of people waiting at a train ticket counter.
 
 Because the person who arrives first gets served first, this perfectly mirrors the mechanics of a software queue.
 
-![image](https://cdn.shafinchowdhury.dev/blogs/data-structures/queue/_732cdc24-6589-4d8c-9d5c-b618ff6709d5.jpeg)
+![People waiting in line at a train ticket counter, a real-life example of a queue](https://cdn.shafinchowdhury.dev/blogs/data-structures/queue/_732cdc24-6589-4d8c-9d5c-b618ff6709d5.jpeg)
 
 ### 1. The Dual-Pointer Mechanism
 

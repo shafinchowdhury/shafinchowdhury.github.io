@@ -41,14 +41,15 @@ function remarkEnsureSingleH1() {
 }
 
 /**
- * Rehype plugin to open all Markdown links (except same-page # anchors) in a new tab.
+ * Rehype plugin to open external Markdown links in a new tab.
+ * Internal links stay in the same tab so readers keep moving through the site.
  */
 function rehypeLinksNewTab() {
   return (tree: any) => {
     function visit(node: any) {
       if (node.type === "element" && node.tagName === "a") {
         const href = node.properties?.href;
-        if (typeof href === "string" && !href.startsWith("#")) {
+        if (typeof href === "string" && /^https?:\/\//.test(href)) {
           node.properties = {
             ...node.properties,
             target: "_blank",
@@ -112,7 +113,19 @@ export default defineConfig({
       proxy: { "/api": { target: "http://localhost:8787", ws: true } },
     },
   },
+  // Article images live on this CDN; allowing it lets Astro resize them,
+  // convert to WebP and add width/height (no layout shift) at build time.
+  image: { domains: ["cdn.shafinchowdhury.dev"] },
   fonts: [
+    {
+      name: "Inter",
+      cssVariable: "--font-inter",
+      provider: fontProviders.google(),
+      fallbacks: ["ui-sans-serif", "system-ui", "sans-serif"],
+      weights: [400, 500, 600, 700],
+      styles: ["normal"],
+      subsets: ["latin"],
+    },
     {
       name: "Google Sans Code",
       cssVariable: "--font-google-sans-code",

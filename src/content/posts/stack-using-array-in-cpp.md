@@ -1,7 +1,10 @@
 ---
-title: "Stack Using Array: Fixed-Size Implementation, Overflow & Dry Run"
+title: "Stack Using Array in C++: Fixed-Size Implementation, Overflow & Dry Run"
+seoTitle: "Stack Using Array in C++: Push, Pop, Overflow & Dry Run"
+keyword: "stack using array in C++"
 author: "Shafin Chowdhury"
 pubDatetime: 2026-10-30T12:00:00+06:00
+modDatetime: 2026-11-22T12:00:00+06:00
 featured: false
 draft: false
 tags:
@@ -10,8 +13,15 @@ tags:
   - stack
   - arrays
   - beginners
-description: "Learn how to implement a Stack using a fixed-size array in C++ without STL. Understand why top starts at -1, how push and pop work, Stack Overflow and Underflow, visual dry runs, and why pop() doesn't erase physical memory."
+description: "Implement a stack using an array in C++: why top starts at -1, push and pop, overflow and underflow checks, full code with output, and a step-by-step dry run."
+related:
+  - stack-using-vector-in-cpp
+  - stack-using-linked-list-in-cpp
+  - understanding-stack-in-cpp
+  - queue-using-array-in-cpp
 ---
+
+A **stack using an array in C++** stores its elements in a fixed-size array and keeps one integer, `topIndex`, pointing at the newest element. `push()` checks for overflow, moves `topIndex` up by one and writes the value. `pop()` checks for underflow and moves `topIndex` down by one. Both run in $O(1)$ time; the trade-off is that the array's capacity is fixed when the stack is created.
 
 In our previous tutorial on [Stack Using Vector in C++](/posts/stack-using-vector-in-cpp/), `vector` handled all the index tracking and memory resizing for us behind the scenes.
 
@@ -27,7 +37,7 @@ Building a Stack on top of a fixed-size C++ array gives you three major benefits
 
 1. **You Learn the True Mechanics:** Without STL helper functions like `push_back()`, you control the exact array index where the top of the stack lives.
 2. **Zero Dynamic Memory Overhead:** A fixed-size array reserves all of its memory up front. There are no slow heap allocations or resizing pauses during execution.
-3. **Maximum Hardware Speed:** Array elements sit in contiguous memory slots, making array-based stacks the fastest possible implementation when the maximum number of elements is known ahead of time.
+3. **Maximum Hardware Speed:** Array elements sit in contiguous memory slots, which usually makes an array-based stack the fastest option when the maximum number of elements is known ahead of time.
 
 ---
 
@@ -550,6 +560,17 @@ Because C++ arrays use **0-based indexing**. An array of size `5` has indices `0
 
 The number of elements is always `topIndex + 1`. When the stack is empty (`topIndex = -1`), `-1 + 1 = 0`. When `arr[0]` through `arr[3]` are filled (`topIndex = 3`), `3 + 1 = 4` elements.
 
+### Is "Stack Overflow" here the same as a stack overflow crash?
+
+No. In this article, Stack Overflow is a condition our own class detects: `push()` sees that the array is full, prints a message and refuses to write. A stack overflow _crash_ happens when your program's **call stack** (the memory that holds function calls and local variables) runs out, usually because of runaway recursion. Different stack, same idea: trying to push past a fixed capacity.
+
+### Should I use an array, a vector, a linked list, or `std::stack`?
+
+- **Array:** when the maximum size is known and small, and you want predictable memory.
+- **[Vector](/posts/stack-using-vector-in-cpp/):** when the stack must grow; it resizes for you.
+- **[Linked list](/posts/stack-using-linked-list-in-cpp/):** when it must grow one node at a time without ever copying the whole stack.
+- **[`std::stack`](/posts/understanding-stack-in-cpp/):** in real projects and competitive programming. Building your own is for learning how stacks work.
+
 ### Can we implement two stacks inside a single array?
 
 Yes! This is a classic interview problem: start `Stack 1` at the left end (`top1 = -1`, growing rightward) and `Stack 2` at the right end (`top2 = MAX_SIZE`, growing leftward). Both stacks can grow freely until `top1 + 1 == top2`.
@@ -571,6 +592,8 @@ Yes! This is a classic interview problem: start `Stack 1` at the left end (`top1
 Ready to remove the fixed-size limitation and learn how pointer-based stacks work? Move on to Step 4!
 
 - **Topic Hub:** [Stack in C++: Complete Beginner-to-Advanced Guide](/topics/stack/)
+- **Step 1:** [Understanding Stack in C++: LIFO Operations and `std::stack`](/posts/understanding-stack-in-cpp/)
 - **Previous Article (Step 2):** [Stack Using Vector in C++: Step-by-Step Implementation](/posts/stack-using-vector-in-cpp/)
 - **Next Article (Step 4):** [Stack Using Linked List in C++: Dynamic Node Implementation](/posts/stack-using-linked-list-in-cpp/)
 - **Step 5:** [Top 5 Famous Stack Problems in Competitive Programming](/posts/top-5-stack-problems-in-cpp/)
+- **Same idea for queues:** [Queue Implementation Using Array in C++](/posts/queue-using-array-in-cpp/), which needs two indices instead of one

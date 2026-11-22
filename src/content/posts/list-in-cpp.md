@@ -66,7 +66,7 @@ Because nodes are [dynamically allocated on the heap](/posts/dynamic-memory-allo
 
 ### Node-Based Storage
 
-![image](https://cdn.shafinchowdhury.dev/blogs/data-structures/list/0_chiZd2LxZXoXWL52.jpg)
+![A linked list of four nodes holding 11, 40, 34 and 65, each storing its data and the address of the next node, from head to a null tail](https://cdn.shafinchowdhury.dev/blogs/data-structures/list/0_chiZd2LxZXoXWL52.jpg)
 
 Every element resides inside an individual heap-allocated node.
 

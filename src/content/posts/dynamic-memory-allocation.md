@@ -10,7 +10,7 @@ tags:
   - c
   - memory-handaling
   - memory-with-no-limitation
-description: "Proper view of memory allocation dynamicly."
+description: "Dynamic memory allocation in C explained: how malloc(), calloc(), realloc() and free() from <stdlib.h> work, with syntax and runnable code examples."
 ---
 
 > _Part of learning C with Shafin_

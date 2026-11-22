@@ -28,7 +28,7 @@ A binary number is converted into a decimal number by multiplying each binary di
 1. Write the given binary number and assign powers of 2 from right to left (starting from 0).
 2. Multiply each binary digit by its corresponding power of 2.
 3. Add all the products together to get the final decimal number.
-   ![image](https://cdn.shafinchowdhury.dev/blogs/number-system/decimal_to_binary_conversio.png)
+   ![Converting 45 to binary by dividing by 2 repeatedly and reading the remainders from bottom to top, giving 101101](https://cdn.shafinchowdhury.dev/blogs/number-system/decimal_to_binary_conversio.png)
 
 **Solved Examples:**
 
@@ -99,7 +99,7 @@ Binary numbers have a base of 2, while octal numbers have a base of 8 ($2^3 = 8$
 1. Divide the binary number into groups of three digits starting from right to left (LSB to MSB).
 2. If the leftmost group has fewer than three digits, pad it with leading zeros.
 3. Convert each 3-digit group into its equivalent octal digit.
-   ![image](https://cdn.shafinchowdhury.dev/blogs/number-system/1_vgtJh1NVWEqa3b9OsuRXSQ.jpg)
+   ![Table of the numbers 0 to 16 in decimal, binary, octal and hexadecimal](https://cdn.shafinchowdhury.dev/blogs/number-system/1_vgtJh1NVWEqa3b9OsuRXSQ.jpg)
 
 **Solved Examples:**
 
