@@ -17,6 +17,7 @@ type Props = {
   canonicalURL?: string;
   markdownURL?: string;
   noindex?: boolean;
+  ogType?: "website" | "article";
 };
 
 const { site } = config;
@@ -28,6 +29,7 @@ const {
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
   markdownURL,
   noindex = false,
+  ogType = "website",
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.site ?? Astro.url);
@@ -61,11 +63,9 @@ const rssHref = getRelativeLocaleUrl(
       cssVariable="--font-google-sans-code"
       preload={[{ subset: "latin", weight: 400, style: "normal" }]}
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
+    <Font
+      cssVariable="--font-inter"
+      preload={[{ subset: "latin", weight: 400, style: "normal" }]}
     />
 
     <!-- Primary meta -->
@@ -76,19 +76,21 @@ const rssHref = getRelativeLocaleUrl(
     <link rel="sitemap" href={getAssetPath("sitemap-index.xml")} />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.title} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:alt" content={title} />
 
     <!-- Twitter / X -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={socialImageURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
+    <meta name="twitter:image:alt" content={title} />
 
     <!-- RSS & Agent Discovery -->
     <link

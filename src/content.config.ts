@@ -13,6 +13,12 @@ const posts = defineCollection({
       pubDatetime: z.date(),
       modDatetime: z.date().optional().nullable(),
       title: z.string(),
+      // <title> tag when the H1 is too long or lacks the search phrase; aim for <= 60 chars.
+      seoTitle: z.string().optional(),
+      // The main search phrase this article targets; checked by `pnpm seo:check`.
+      keyword: z.string().optional(),
+      // Slugs of hand-picked related posts, shown before the automatic picks.
+      related: z.array(z.string()).optional(),
       featured: z.boolean().optional(),
       popularity: z.number().optional(),
       draft: z.boolean().optional(),

@@ -19,66 +19,52 @@ const locale = Astro.currentLocale ?? config.site.lang;
 const allPosts = await getCollection("posts", postFilter);
 const otherPosts = allPosts.filter(p => p.id !== currentPost.id);
 
-const currentSlug = currentPost.id.replace(/\.(md|mdx)$/, "").toLowerCase();
+const slugOf = (post: CollectionEntry<"posts">) =>
+  post.id.replace(/\.(md|mdx)$/, "").toLowerCase();
+
+const currentSlug = slugOf(currentPost);
 const currentTags = new Set(
   (currentPost.data.tags ?? []).map(t => t.toLowerCase())
 );
 
-// Find topic hubs the current post belongs to
-const currentTopics = Object.values(TOPIC_HUBS).filter(topic =>
-  topic.groups.some(g => g.postSlugs.some(s => s.toLowerCase() === currentSlug))
+// Topic-hub groups are hand-curated series (e.g. "Custom Stack Implementations"),
+// so sharing a group is a stronger signal than sharing a hub.
+const groups = Object.values(TOPIC_HUBS).flatMap(topic =>
+  topic.groups.map(g => ({
+    hub: topic.slug,
+    slugs: new Set(g.postSlugs.map(s => s.toLowerCase())),
+  }))
 );
-const currentTopicSlugs = new Set(currentTopics.map(t => t.slug));
+const currentGroups = groups.filter(g => g.slugs.has(currentSlug));
+const currentHubs = new Set(currentGroups.map(g => g.hub));
 
-// Score each candidate post
 const scoredPosts = otherPosts
   .map(post => {
-    const postSlug = post.id.replace(/\.(md|mdx)$/, "").toLowerCase();
-    const postTags = (post.data.tags ?? []).map(t => t.toLowerCase());
-
+    const postSlug = slugOf(post);
     let score = 0;
 
-    // 1. Tag overlap (3 points per tag)
-    for (const tag of postTags) {
-      if (currentTags.has(tag)) {
-        score += 3;
-      }
-    }
+    for (const tag of post.data.tags ?? [])
+      if (currentTags.has(tag.toLowerCase())) score += 3;
 
-    // 2. Topic Hub overlap (5 points)
-    const postInSameTopic = Object.values(TOPIC_HUBS).some(
-      topic =>
-        currentTopicSlugs.has(topic.slug) &&
-        topic.groups.some(g =>
-          g.postSlugs.some(s => s.toLowerCase() === postSlug)
-        )
-    );
-    if (postInSameTopic) {
+    if (currentGroups.some(g => g.slugs.has(postSlug))) score += 8;
+    else if (groups.some(g => currentHubs.has(g.hub) && g.slugs.has(postSlug)))
       score += 5;
-    }
 
-    // 3. Series matching (e.g. "Part 1", "Part 2", or "Python:")
-    const curTitleLower = currentPost.data.title.toLowerCase();
-    const postTitleLower = post.data.title.toLowerCase();
-
-    if (
-      (curTitleLower.includes("part ") && postTitleLower.includes("part ")) ||
-      (curTitleLower.includes("python") && postTitleLower.includes("python")) ||
-      (curTitleLower.includes("java") && postTitleLower.includes("java")) ||
-      (curTitleLower.includes("memory") && postTitleLower.includes("memory"))
-    ) {
-      score += 8;
-    }
-
-    // 4. Slight recency weight for ties
-    const ageBonus = new Date(post.data.pubDatetime).getTime() / 1000000000000;
-    score += ageBonus;
+    // Tiny recency weight to break ties.
+    score += post.data.pubDatetime.getTime() / 1e13;
 
     return { post, score };
   })
   .sort((a, b) => b.score - a.score);
 
-const relatedPosts = scoredPosts.slice(0, maxPosts).map(item => item.post);
+// Hand-picked `related` slugs from frontmatter come first, in their given order.
+const picked = (currentPost.data.related ?? [])
+  .map(slug => otherPosts.find(p => slugOf(p) === slug.toLowerCase()))
+  .filter(p => p !== undefined);
+const relatedPosts = [
+  ...picked,
+  ...scoredPosts.map(item => item.post).filter(p => !picked.includes(p)),
+].slice(0, Math.max(maxPosts, picked.length));
 ---
 
 {

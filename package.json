@@ -15,6 +15,7 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "test": "node --test src/sudoku/*.test.ts",
+    "seo:check": "node scripts/seo-check.mjs",
     "check:worker": "wrangler types worker/worker-configuration.d.ts > /dev/null && tsc -p worker",
     "dev:api": "wrangler dev"
   },

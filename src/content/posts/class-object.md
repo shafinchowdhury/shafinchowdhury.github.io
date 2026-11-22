@@ -6,7 +6,7 @@ featured: true
 draft: false
 tags:
   - java
-description: "Proper view of Object-Oriented Programming through a series"
+description: "Build your first Java class: create objects, access fields and methods, initialize them with constructors, and use this and static members correctly."
 ---
 
 # Part 2: Classes and Objects — Building Your First Java Class
@@ -26,7 +26,7 @@ By the end of this chapter, you'll know how to:
 
 # Step 1: Creating a Class
 
-![image](https://cdn.shafinchowdhury.dev/blogs/oop/4efed01c-5b2c-4361-80d4-b6b91d4dc663.jpeg)
+![A house blueprint on a desk with the finished houses built from it outside the window, an analogy for one class and many objects](https://cdn.shafinchowdhury.dev/blogs/oop/4efed01c-5b2c-4361-80d4-b6b91d4dc663.jpeg)
 
 Imagine an architect drawing the blueprint of a house.
 
@@ -38,7 +38,7 @@ The blueprint describes:
 - The electrical wiring
 
 From that single blueprint, builders can construct hundreds of houses. Every house follows the same design, but each one is completely independent. Painting one house blue doesn't change the others.
-![image](https://cdn.shafinchowdhury.dev/blogs/oop/Gemini_Generated_Image_48xiua48xiua48xi.png)
+![A Dog class blueprint listing properties and getter methods, and a Tommy object created from it with its own property values](https://cdn.shafinchowdhury.dev/blogs/oop/Gemini_Generated_Image_48xiua48xiua48xi.png)
 
 Java works exactly the same way.
 
@@ -130,7 +130,7 @@ When Java executes this line, it performs four steps automatically:
 
 Initially, the object looks something like this:
 
-![image](https://cdn.shafinchowdhury.dev/blogs/oop/Gemini_Generated_Image_pq1lffpq1lffpq1l.png)
+![The object student1 with its default field values: name = null, age = 0, gpa = 0.0](https://cdn.shafinchowdhury.dev/blogs/oop/Gemini_Generated_Image_pq1lffpq1lffpq1l.png)
 
 Every object gets its own separate copy of these variables.
 

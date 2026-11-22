@@ -11,8 +11,7 @@ tags:
   - java-beginner
   - clean-code
   - java-core
-description: >
-  This blog makes Java encapsulation super easy to understand. You will learn how to wrap your data and code together inside a single unit to keep it safe from outside mistakes. By using simple examples, you will quickly master how to use "getters" and "setters" to build better, cleaner programs.
+description: "Encapsulation in Java, step by step: access modifiers, why fields start private, getters and setters, and when a domain method beats a setter."
 ---
 
 In the previous chapter, [Part 2: Classes and Objects — Building Your First Java Class](/posts/class-object/), we learned how to design blueprints and instantiate objects. If you are starting fresh, begin with [Part 1: OOP in Java](/posts/oop/).

@@ -6,7 +6,7 @@ featured: true
 draft: false
 tags:
   - java
-description: "Proper view of Object-Oriented Programming through a series"
+description: "What object-oriented programming is and why it exists: the trouble with procedural code, objects as real-world models, and the four pillars of OOP in Java."
 ---
 
 # Object-Oriented Programming in Java: A Complete Story for Students

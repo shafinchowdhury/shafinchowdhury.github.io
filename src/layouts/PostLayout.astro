@@ -4,6 +4,7 @@ import config from "@/config";
 import { resolveDefaultOgImagePath } from "@/utils/resolveDefaultOgImagePath";
 import {
   getPersonEntity,
+  getWebsiteEntity,
   PERSON_ID,
   SITE_URL,
   WEBSITE_ID,
@@ -19,6 +20,7 @@ type Props = {
   pubDatetime?: Date;
   modDatetime?: Date | null;
   tags?: string[];
+  wordCount?: number;
 };
 
 const { site } = config;
@@ -33,6 +35,7 @@ const {
   pubDatetime,
   modDatetime,
   tags = [],
+  wordCount,
 } = Astro.props;
 
 const resolvedCanonicalURL =
@@ -48,10 +51,12 @@ const modifiedISO = (modDatetime ?? pubDatetime)?.toISOString();
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
+    getWebsiteEntity(),
     getPersonEntity(),
     {
       "@type": "BlogPosting",
       "@id": `${resolvedCanonicalURL}#article`,
+      url: resolvedCanonicalURL,
       headline: headlineText,
       description: description ?? site.description,
       image: [resolvedImageURL],
@@ -64,6 +69,7 @@ const structuredData = {
       ...(publishedISO && { datePublished: publishedISO }),
       ...(modifiedISO && { dateModified: modifiedISO }),
       ...(tags.length > 0 && { keywords: tags.join(", ") }),
+      ...(wordCount && { wordCount }),
       author: { "@id": PERSON_ID },
       publisher: { "@id": PERSON_ID },
     },
@@ -101,10 +107,11 @@ const structuredData = {
   {ogImage}
   canonicalURL={resolvedCanonicalURL}
   {markdownURL}
+  ogType="article"
 >
   <Fragment slot="head">
-    <!-- Override og:type for article pages -->
-    <meta property="og:type" content="article" />
+    <meta property="article:author" content={`${SITE_URL}/about/`} />
+    {tags.map(tag => <meta property="article:tag" content={tag} />)}
 
     {
       publishedISO && (

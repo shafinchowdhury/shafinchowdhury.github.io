@@ -9,7 +9,11 @@ import Footer from "@/components/Footer.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import config from "@/config";
-import { getPersonEntity, WEBSITE_ID } from "@/utils/structuredData";
+import {
+  getPersonEntity,
+  getWebsiteEntity,
+  WEBSITE_ID,
+} from "@/utils/structuredData";
 
 const about = await getEntry("pages", "about");
 
@@ -27,8 +31,7 @@ const pageCanonicalURL =
 const aboutMarkdownURL = new URL("/about.md", Astro.site ?? config.site.url)
   .href;
 
-const profileStructuredData = {
-  "@context": "https://schema.org",
+const profilePage = {
   "@type": "ProfilePage",
   "@id": `${pageCanonicalURL}#profilepage`,
   url: pageCanonicalURL,
@@ -36,6 +39,10 @@ const profileStructuredData = {
   description: about.data.description,
   isPartOf: { "@id": WEBSITE_ID },
   mainEntity: getPersonEntity(),
+};
+const profileStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [getWebsiteEntity(), profilePage],
 };
 ---
 

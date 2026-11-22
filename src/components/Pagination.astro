@@ -13,6 +13,9 @@ type Props = {
 const { page } = Astro.props;
 
 const t = useTranslations(Astro.currentLocale);
+// Paginated URLs come without a trailing slash; the host would 307-redirect them.
+const withSlash = (url?: string) =>
+  url && !url.endsWith("/") ? `${url}/` : (url as string);
 ---
 
 {
@@ -24,7 +27,7 @@ const t = useTranslations(Astro.currentLocale);
     >
       <LinkButton
         disabled={!page.url.prev}
-        href={page.url.prev as string}
+        href={withSlash(page.url.prev)}
         class:list={["select-none", { "opacity-50": !page.url.prev }]}
         aria-label={t.a11y.goToPreviousPage}
       >
@@ -34,7 +37,7 @@ const t = useTranslations(Astro.currentLocale);
       {page.currentPage} / {page.lastPage}
       <LinkButton
         disabled={!page.url.next}
-        href={page.url.next as string}
+        href={withSlash(page.url.next)}
         class:list={["select-none", { "opacity-50": !page.url.next }]}
         aria-label={t.a11y.goToNextPage}
       >
