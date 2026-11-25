@@ -18,6 +18,8 @@ export interface TopicHub {
   title: string;
   description: string;
   intro: string;
+  /** Optional visual roadmap that covers this hub's subject. */
+  roadmapHref?: string;
   learningPath: LearningPathStep[];
   groups: ArticleGroup[];
   relatedTopicSlugs: string[];
@@ -26,6 +28,7 @@ export interface TopicHub {
 export const TOPIC_HUBS: Record<string, TopicHub> = {
   cpp: {
     slug: "cpp",
+    roadmapHref: "/cpp-roadmap/",
     name: "C++",
     title: "C++ Programming & Systems Engineering",
     description:
@@ -375,6 +378,7 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
 
   "cpp-oop": {
     slug: "cpp-oop",
+    roadmapHref: "/cpp-roadmap/#stage-oop",
     name: "C++ OOP",
     title: "C++ Object-Oriented Programming",
     description:
