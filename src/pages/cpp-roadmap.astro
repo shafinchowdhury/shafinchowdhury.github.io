@@ -1,0 +1,990 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Footer from "@/components/Footer.astro";
+import { postFilter } from "@/utils/postFilter";
+import { getPostSlug, getPostUrl } from "@/utils/getPostPaths";
+import { getSeoTitle } from "@/utils/seo";
+import {
+  getPersonEntity,
+  getWebsiteEntity,
+  PERSON_ID,
+  SITE_URL,
+  WEBSITE_ID,
+} from "@/utils/structuredData";
+import {
+  LEVEL_LABEL,
+  STAGES,
+  SEQUENCE,
+  TIERS,
+  TOPICS,
+  type Topic,
+} from "@/data/cppRoadmap";
+
+const title = "C++ Roadmap: Learn C++ Step by Step";
+const description =
+  "Follow this interactive C++ roadmap to learn programming fundamentals, OOP, STL, data structures, algorithms, and advanced C++ concepts step by step.";
+const pageURL = `${SITE_URL}/cpp-roadmap/`;
+
+// Resolve article slugs to real posts; a typo or deleted post fails the build.
+const posts = await getCollection("posts", postFilter);
+const postBySlug = new Map(
+  posts.map(p => [getPostSlug(p.id, p.filePath).slice(1), p])
+);
+const topicById = new Map(TOPICS.map(t => [t.id, t]));
+const stageById = new Map(STAGES.map((s, i) => [s.id, { ...s, n: i + 1 }]));
+// Learning order of each stage: tier, then position within the sequence tier.
+const tierOf = new Map(
+  TIERS.flatMap((ids, tier) =>
+    ids.map((id, k) => [id, tier + (ids === SEQUENCE ? k / 10 : 0)] as const)
+  )
+);
+
+for (const [i, t] of TOPICS.entries()) {
+  if (!stageById.has(t.stage))
+    throw new Error(`Roadmap: ${t.id} has unknown stage ${t.stage}`);
+  for (const slug of t.posts ?? [])
+    if (!postBySlug.has(slug))
+      throw new Error(`Roadmap: ${t.id} links missing post "${slug}"`);
+  for (const p of t.prereqs) {
+    const pre = topicById.get(p);
+    if (!pre) throw new Error(`Roadmap: ${t.id} has unknown prereq ${p}`);
+    // A prerequisite must sit in a lower tier, or earlier in the same stage.
+    const ok =
+      pre.stage === t.stage
+        ? TOPICS.indexOf(pre) < i
+        : tierOf.get(pre.stage)! < tierOf.get(t.stage)!;
+    if (!ok)
+      throw new Error(`Roadmap: ${t.id} needs ${p}, which comes after it`);
+  }
+}
+
+const nextOf = (id: string) => TOPICS.filter(t => t.prereqs.includes(id));
+const topicsIn = (stageId: string) => TOPICS.filter(t => t.stage === stageId);
+const articles = (t: Topic) =>
+  (t.posts ?? []).map(slug => {
+    const post = postBySlug.get(slug)!;
+    return { title: post.data.title, href: getPostUrl(post.id, post.filePath) };
+  });
+
+const faqs = [
+  {
+    q: "How long does it take to learn C++?",
+    a: "It depends on how much you practise. With regular practice, most beginners get comfortable with the first three stages in a few months. The later stages are something you keep improving at for years, usually while building real projects.",
+  },
+  {
+    q: "Do I need to learn C before C++?",
+    a: "No. C++ can be your first language. Learning C first teaches habits, like manual memory handling everywhere, that modern C++ replaces with safer tools such as std::string, std::vector and smart pointers.",
+  },
+  {
+    q: "Do I have to finish every stage?",
+    a: "No. Stages 1 to 5 are the foundation almost everyone needs. After that, the three branches can be learned in any order, and the right mix depends on your goal. Competitive programmers lean on data structures and algorithms, while backend and systems developers need more of the modern C++ and practical development branches.",
+  },
+  {
+    q: "Which compiler and editor should I use?",
+    a: "Any modern compiler works: GCC or Clang on Linux and macOS, or MSVC with Visual Studio on Windows. VS Code with the C++ extension is a popular free editor on every platform.",
+  },
+  {
+    q: "Where is my progress saved?",
+    a: "In your browser's local storage on this device. There is no account and nothing is sent to a server. Clearing your browser's site data, or using a different browser, starts you from zero.",
+  },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    getWebsiteEntity(),
+    getPersonEntity(),
+    {
+      "@type": "WebPage",
+      "@id": `${pageURL}#webpage`,
+      url: pageURL,
+      name: title,
+      description,
+      inLanguage: "en",
+      isPartOf: { "@id": WEBSITE_ID },
+      author: { "@id": PERSON_ID },
+      about: { "@type": "Thing", name: "C++ programming language" },
+    },
+  ],
+};
+---
+
+<Layout title={getSeoTitle(title)} {description}>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(structuredData)}
+    />
+  </Fragment>
+  <Header />
+  <Breadcrumb />
+
+  <main id="main-content" class="app-layout rm pb-8">
+    <div class="mt-6 mb-8 max-w-3xl">
+      <h1 class="text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
+        C++ Roadmap: Learn C++ Step by Step
+      </h1>
+      <p class="text-muted-foreground mt-3 leading-relaxed sm:text-lg">
+        A map of what to learn in C++, in what order, and how the pieces
+        connect. Start at Stage 1 at the top, work down through the core
+        concepts, then branch out toward the direction that fits your goals.
+      </p>
+      <ul class="text-muted-foreground mt-4 list-disc space-y-1 ps-5 text-sm">
+        <li>Your progress stays in this browser, no sign-up needed.</li>
+        <li>
+          Prefer a reading list? The <a
+            class="text-accent underline"
+            href="/topics/cpp/">C++ topic hub</a
+          >
+          collects every C++ article on this site.
+        </li>
+      </ul>
+    </div>
+
+    <h2 class="sr-only">Interactive roadmap</h2>
+
+    <div class="rm-bar" data-js hidden>
+      <div class="rm-progress" aria-live="polite">
+        <p>
+          <strong id="rm-done">0</strong> of {TOPICS.length} topics completed (<span
+            id="rm-pct">0</span
+          >%)
+        </p>
+        <div class="rm-meter" aria-hidden="true"><i id="rm-meter"></i></div>
+        <button type="button" class="rm-link" id="rm-reset"
+          >Reset progress</button
+        >
+      </div>
+      <p class="rm-howto" id="rm-howto">
+        <span class="rm-howto-label">How to use</span>
+        <span class="rm-hint rm-mouse"
+          ><svg class="rm-ico" viewBox="0 0 16 20" aria-hidden="true"
+            ><rect x="2" y="1" width="12" height="18" rx="6"></rect><path
+              class="rm-ico-on"
+              d="M8 1v7H2V7a6 6 0 0 1 6-6z"></path><path d="M2 8h12M8 1v7"
+            ></path></svg
+          ><span><b>Left-click</b> a topic to mark it completed</span></span
+        >
+        <span class="rm-hint rm-mouse"
+          ><svg class="rm-ico" viewBox="0 0 16 20" aria-hidden="true"
+            ><rect x="2" y="1" width="12" height="18" rx="6"></rect><path
+              class="rm-ico-on"
+              d="M8 1v7h6V7a6 6 0 0 0-6-6z"></path><path d="M2 8h12M8 1v7"
+            ></path></svg
+          ><span><b>Right-click</b> to see details and articles</span></span
+        >
+        <span class="rm-hint rm-touch"
+          ><svg class="rm-ico" viewBox="0 0 20 20" aria-hidden="true"
+            ><circle class="rm-ico-on" cx="10" cy="10" r="3.5"></circle><circle
+              cx="10"
+              cy="10"
+              r="7.5"></circle></svg
+          ><span><b>Tap</b> a topic to mark it completed</span></span
+        >
+        <span class="rm-hint rm-touch"
+          ><svg class="rm-ico" viewBox="0 0 20 20" aria-hidden="true"
+            ><circle class="rm-ico-on" cx="10" cy="10" r="3.5"></circle><circle
+              cx="10"
+              cy="10"
+              r="6"></circle><circle cx="10" cy="10" r="9"></circle></svg
+          ><span><b>Press and hold</b> to see details and articles</span></span
+        >
+        <span class="rm-hint rm-keys"
+          >Keyboard: <kbd>Enter</kbd> marks, <kbd>I</kbd> opens details</span
+        >
+      </p>
+    </div>
+
+    <ol
+      class="rm-tree"
+      aria-label="C++ roadmap, from Stage 1 at the top to the goal at the bottom"
+    >
+      {
+        TIERS.map(ids => (
+          <li
+            class:list={[
+              "rm-tier",
+              ids === SEQUENCE
+                ? "rm-tier--seq"
+                : { "rm-tier--split": ids.length > 1 },
+            ]}
+            style={`--n:${ids.length}`}
+          >
+            <div class="rm-branches">
+              {ids.map(id => {
+                const stage = stageById.get(id)!;
+                const list = topicsIn(id);
+                return (
+                  <div class="rm-branch">
+                    <section
+                      class="rm-stage"
+                      id={`stage-${id}`}
+                      data-stage={id}
+                      aria-labelledby={`stage-${id}-title`}
+                    >
+                      <header class="rm-stage-head">
+                        <p class="rm-stage-n">
+                          Stage {stage.n}
+                          {ids.length > 1 && ids !== SEQUENCE && (
+                            <span class="rm-parallel">
+                              · parallel branch, any order
+                            </span>
+                          )}
+                        </p>
+                        <h3 id={`stage-${id}-title`}>{stage.title}</h3>
+                        <p class="rm-stage-sum">{stage.summary}</p>
+                        <p class="rm-stage-meta">
+                          <span data-stage-count={id}>
+                            {list.length} topics
+                          </span>
+                          {stage.hub && (
+                            <>
+                              {" · "}
+                              <a href={stage.hub.href}>{stage.hub.label}</a>
+                            </>
+                          )}
+                        </p>
+                      </header>
+                      <ul class="rm-topics">
+                        {list.map(t => (
+                          <li>
+                            <a
+                              class="rm-topic"
+                              href={`#topic-${t.id}`}
+                              data-id={t.id}
+                              data-level={t.level}
+                              data-stage={t.stage}
+                            >
+                              <span class="rm-dot" aria-hidden="true" />
+                              <span class="rm-topic-title">{t.title}</span>
+                              <span class="rm-lvl" title={LEVEL_LABEL[t.level]}>
+                                {LEVEL_LABEL[t.level].slice(0, 3)}
+                              </span>
+                              <span class="rm-status-text sr-only" />
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  </div>
+                );
+              })}
+            </div>
+          </li>
+        ))
+      }
+      <li class="rm-tier rm-tier--goal">
+        <div class="rm-goal">
+          <p class="rm-stage-n">Goal</p>
+          <p class="rm-goal-title">A confident C++ developer</p>
+          <p class="rm-stage-sum">
+            Strong fundamentals, plus depth in the direction you chose.
+          </p>
+        </div>
+      </li>
+    </ol>
+
+    <section class="rm-guide rm-guide--wide" aria-labelledby="guide-title">
+      <h2 id="guide-title">Every topic, stage by stage</h2>
+      <p class="text-muted-foreground">
+        The same roadmap as a reading list. Each topic says what to learn first,
+        what it unlocks, and where to read more.
+      </p>
+      {
+        STAGES.map((stage, i) => (
+          <section class="rm-guide-stage" aria-labelledby={`guide-${stage.id}`}>
+            <h3 id={`guide-${stage.id}`}>
+              Stage {i + 1}: {stage.title}
+            </h3>
+            <p class="text-muted-foreground">{stage.summary}</p>
+            <div class="rm-entries">
+              {topicsIn(stage.id).map(t => {
+                const next = nextOf(t.id);
+                const reads = articles(t);
+                return (
+                  <article class="rm-entry" id={`topic-${t.id}`} data-id={t.id}>
+                    <h4>{t.title}</h4>
+                    <p class="rm-entry-meta">
+                      {LEVEL_LABEL[t.level]} · Stage {i + 1}: {stage.title}
+                    </p>
+                    <p>{t.summary}</p>
+                    <p>
+                      <strong>After this:</strong> {t.outcome}
+                    </p>
+                    {t.prereqs.length > 0 && (
+                      <div>
+                        <strong>Learn first:</strong>{" "}
+                        <ul class="rm-inline">
+                          {t.prereqs.map(p => (
+                            <li>
+                              <a
+                                href={`#topic-${p}`}
+                                data-topic={p}
+                                set:text={topicById.get(p)!.title}
+                              />
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {next.length > 0 && (
+                      <div>
+                        <strong>Then try:</strong>{" "}
+                        <ul class="rm-inline">
+                          {next.map(n => (
+                            <li>
+                              <a
+                                href={`#topic-${n.id}`}
+                                data-topic={n.id}
+                                set:text={n.title}
+                              />
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {reads.length > 0 && (
+                      <div>
+                        <strong>Read on this site:</strong>
+                        <ul>
+                          {reads.map(r => (
+                            <li>
+                              <a href={r.href}>{r.title}</a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {t.links && t.links.length > 0 && (
+                      <div>
+                        <strong>References:</strong>{" "}
+                        <ul class="rm-inline">
+                          {t.links.map(l => (
+                            <li>
+                              <a
+                                href={l.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                set:text={l.label}
+                              />
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+            <p>
+              <a class="rm-link" href={`#stage-${stage.id}`}>
+                ↑ Back to Stage {i + 1} in the roadmap
+              </a>
+            </p>
+          </section>
+        ))
+      }
+    </section>
+
+    <section class="rm-guide" aria-labelledby="faq-title">
+      <h2 id="faq-title">Frequently asked questions</h2>
+      {
+        faqs.map(f => (
+          <>
+            <h3>{f.q}</h3>
+            <p>{f.a}</p>
+          </>
+        ))
+      }
+    </section>
+
+    <dialog id="rm-dialog" class="rm-dialog" aria-labelledby="rm-dialog-title">
+      <div class="rm-dialog-head">
+        <p class="rm-dialog-title" id="rm-dialog-title"></p>
+        <button type="button" class="rm-close" id="rm-close" aria-label="Close"
+          >✕</button
+        >
+      </div>
+      <div id="rm-dialog-body" class="rm-dialog-body"></div>
+    </dialog>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  import { initRoadmap } from "@/scripts/cppRoadmap";
+  document.addEventListener("astro:page-load", initRoadmap);
+</script>
+
+<style is:global>
+  /* C++ roadmap. Uses the site's theme tokens, so the header's light/dark
+     toggle switches between the white/green and black/green looks. */
+  .rm {
+    --rm-line: color-mix(in oklab, var(--accent) 70%, transparent);
+    --rm-gap: 36px;
+  }
+  .rm-link {
+    color: var(--accent);
+    font-size: 0.875rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  /* Progress and filters */
+  .rm-bar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--background);
+    border-block: 1px solid var(--border);
+    padding: 12px 0;
+    margin-bottom: 28px;
+    font-size: 0.875rem;
+  }
+  .rm-bar[hidden] {
+    display: none;
+  }
+  .rm-progress {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+  }
+  .rm-progress p {
+    margin: 0;
+  }
+  .rm-meter {
+    flex: 1 1 120px;
+    max-width: 240px;
+    height: 4px;
+    background: var(--muted);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .rm-meter i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+  }
+
+  /* The tree: Stage 1 at the top, the goal at the bottom. */
+  .rm-tree {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .rm-tier {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  /* Connector to the tier above sits in this tier's top padding. */
+  .rm-tier:not(:first-child) {
+    padding-top: var(--rm-gap);
+  }
+  .rm-tier:not(:first-child)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: var(--rm-gap);
+    border-left: 1px solid var(--rm-line);
+  }
+  .rm-branches {
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: 20px;
+    justify-items: center;
+  }
+  .rm-branch {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .rm-tier:not(.rm-tier--split) .rm-branch {
+    max-width: 640px;
+  }
+
+  /* Parallel branches: merge lines above and below the row. */
+  .rm-tier--split::before {
+    height: calc(var(--rm-gap) / 2) !important;
+  }
+  .rm-tier--split::after,
+  .rm-tier--split .rm-branches::after {
+    content: "";
+    position: absolute;
+    left: calc(100% / (2 * var(--n)));
+    right: calc(100% / (2 * var(--n)));
+    border-top: 1px solid var(--rm-line);
+  }
+  .rm-tier--split::after {
+    top: calc(var(--rm-gap) / 2);
+  }
+  .rm-tier--split .rm-branches {
+    padding-bottom: calc(var(--rm-gap) / 2);
+  }
+  .rm-tier--split .rm-branches::after {
+    bottom: 0;
+  }
+  .rm-tier--split .rm-branch {
+    padding-top: calc(var(--rm-gap) / 2);
+  }
+  .rm-tier--split .rm-branch::before,
+  .rm-tier--split .rm-branch::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    height: calc(var(--rm-gap) / 2);
+    border-left: 1px solid var(--rm-line);
+  }
+  .rm-tier--split .rm-branch::before {
+    top: 0;
+  }
+  .rm-tier--split .rm-branch::after {
+    bottom: calc(var(--rm-gap) / -2);
+  }
+
+  /* Sequence tier (Stages 1 and 2): side by side, a line from left to right,
+     then from the right-hand stage down to the next tier. Only used first. */
+  .rm-tier--seq {
+    --seq-gap: 48px;
+  }
+  .rm-tier--seq .rm-branches {
+    column-gap: var(--seq-gap);
+    padding-bottom: calc(var(--rm-gap) / 2);
+  }
+  .rm-tier--seq .rm-branch + .rm-branch::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: calc(-1 * var(--seq-gap));
+    width: var(--seq-gap);
+    border-top: 1px solid var(--rm-line);
+  }
+  .rm-tier--seq .rm-branch:last-child::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--rm-gap) / -2);
+    height: calc(var(--rm-gap) / 2);
+    border-left: 1px solid var(--rm-line);
+  }
+  .rm-tier--seq .rm-branches::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    right: calc(25% - var(--seq-gap) / 4);
+    border-top: 1px solid var(--rm-line);
+  }
+
+  /* Stage cards */
+  .rm-stage,
+  .rm-goal {
+    width: 100%;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .rm-goal {
+    max-width: 360px;
+    text-align: center;
+    border-color: var(--accent);
+  }
+  .rm-goal-title {
+    margin: 2px 0 4px;
+    font-weight: 700;
+    font-size: 1.125rem;
+  }
+  .rm-stage-head h3 {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 700;
+  }
+  .rm-stage-n {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .rm-parallel {
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--muted-foreground);
+  }
+  .rm-stage-sum {
+    margin: 4px 0 0;
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+  }
+  .rm-stage-meta {
+    margin: 6px 0 0;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+  }
+  .rm-stage-meta a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* How-to hints live in the sticky bar, next to the progress. */
+  .rm-howto {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 18px;
+    margin: 10px 0 0;
+    padding: 8px 12px;
+    border-left: 3px solid var(--accent);
+    background: var(--muted);
+    border-radius: 0 6px 6px 0;
+  }
+  .rm-howto-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .rm-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .rm-ico {
+    width: 16px;
+    height: 20px;
+    flex: none;
+    fill: none;
+    stroke: var(--foreground);
+    stroke-width: 1.3;
+  }
+  .rm-ico-on {
+    fill: var(--accent);
+    stroke: var(--accent);
+  }
+  .rm-keys {
+    color: var(--muted-foreground);
+    font-size: 0.8125rem;
+  }
+  .rm-keys kbd {
+    font: inherit;
+    font-size: 0.75rem;
+    padding: 0 5px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--background);
+    color: var(--foreground);
+  }
+  /* Touchscreens get tap / press-and-hold hints instead of mouse ones. */
+  .rm-touch {
+    display: none;
+  }
+  @media (hover: none) and (pointer: coarse) {
+    .rm-touch {
+      display: inline-flex;
+    }
+    .rm-mouse,
+    .rm-keys {
+      display: none;
+    }
+  }
+
+  /* Topic cards: stacked vertically inside each stage. Wide stages flow into
+     two columns (top to bottom, then the next column) so they stay compact. */
+  .rm-topics {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    columns: 2 210px;
+    column-gap: 8px;
+  }
+  .rm-topics li {
+    break-inside: avoid;
+    padding-bottom: 6px;
+  }
+  .rm-topics li[hidden] {
+    display: none;
+  }
+  .rm-topic {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 9px;
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.875rem;
+    line-height: 1.3;
+    color: var(--foreground);
+    background: color-mix(in oklab, var(--muted) 40%, var(--background));
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-touch-callout: none; /* long-press opens the topic card instead */
+    transition:
+      border-color 0.15s,
+      background-color 0.15s;
+  }
+  .rm-topic:hover {
+    border-color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 6%, var(--background));
+  }
+  .rm-topic:focus-visible {
+    border-color: var(--accent);
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .rm-topic-title {
+    flex: 1;
+    min-width: 0;
+    font-weight: 500;
+  }
+  .rm-lvl {
+    font-size: 0.6875rem;
+    color: var(--muted-foreground);
+  }
+  .rm-dot {
+    display: grid;
+    place-items: center;
+    width: 14px;
+    height: 14px;
+    flex: none;
+    border-radius: 50%;
+    border: 1.5px solid var(--muted-foreground);
+  }
+  /* Completed: green card with a checkmark. */
+  .rm-topic[data-status="done"] {
+    border-color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 14%, var(--background));
+  }
+  .rm-topic[data-status="done"] .rm-dot {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+  .rm-topic[data-status="done"] .rm-dot::after {
+    content: "✓";
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--background);
+  }
+
+  /* Text guide and FAQ */
+  .rm-guide {
+    max-width: 760px;
+    margin: 64px auto 0;
+    line-height: 1.65;
+  }
+  .rm-guide h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+  .rm-guide > h3,
+  .rm-guide-stage > h3 {
+    font-size: 1.1875rem;
+    font-weight: 700;
+    margin: 28px 0 4px;
+  }
+  .rm-guide p {
+    margin: 0 0 10px;
+  }
+  .rm-guide--wide {
+    max-width: none;
+  }
+  .rm-guide--wide > p {
+    max-width: 760px;
+  }
+  /* Topic entries as cards, as many per row as fit. */
+  .rm-entries {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 12px;
+    margin: 12px 0 14px;
+  }
+  .rm-entry {
+    padding: 14px 16px 4px;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    background: color-mix(in oklab, var(--muted) 40%, var(--background));
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    scroll-margin-top: 140px;
+  }
+  .rm-entry:target {
+    border-color: var(--accent);
+  }
+  .rm-entry h4 {
+    font-weight: 600;
+    margin: 0;
+  }
+  .rm-entry > div,
+  .rm-dialog-body > div {
+    margin: 0 0 10px;
+  }
+  .rm .rm-inline {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .rm-inline li {
+    display: inline;
+  }
+  /* Comma hangs off the link (inline-block keeps it out of the underline);
+     the whitespace after the link becomes the space. */
+  .rm-inline li:not(:last-child) > a::after {
+    content: ",";
+    display: inline-block;
+    color: var(--foreground);
+  }
+  .rm-entry-meta {
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+  }
+  .rm-entry a,
+  .rm-dialog-body a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .rm-entry ul,
+  .rm-dialog-body ul {
+    margin: 2px 0 10px;
+    padding-left: 20px;
+    list-style: disc;
+  }
+  .rm-stage {
+    scroll-margin-top: 150px;
+  }
+
+  /* Topic panel */
+  .rm-dialog {
+    width: min(560px, calc(100vw - 32px));
+    max-height: calc(100vh - 48px);
+    margin: auto;
+    padding: 20px;
+    color: var(--foreground);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    line-height: 1.6;
+  }
+  .rm-dialog::backdrop {
+    background: rgb(0 0 0 / 0.45);
+  }
+  .rm-dialog-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 12px;
+  }
+  .rm-dialog-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+  .rm-close {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: none;
+    color: var(--foreground);
+    cursor: pointer;
+  }
+  .rm-close:hover {
+    border-color: var(--accent);
+  }
+  .rm-dialog-body h4 {
+    display: none; /* the panel shows the title in its header */
+  }
+  .rm-dialog-body p {
+    margin: 0 0 10px;
+  }
+
+  @media (max-width: 640px) {
+    .rm {
+      --rm-gap: 28px;
+    }
+    /* Parallel stages stack on phones; each card is labelled as a parallel branch. */
+    .rm-tier--split .rm-branches {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding-bottom: 0;
+    }
+    .rm-tier--split::after,
+    .rm-tier--split .rm-branches::after,
+    .rm-tier--split .rm-branch::after {
+      display: none;
+    }
+    .rm-tier--split::before {
+      height: var(--rm-gap) !important;
+    }
+    .rm-tier--split .rm-branch {
+      padding-top: 0;
+    }
+    .rm-tier--split .rm-branch::before {
+      display: none;
+    }
+    .rm-tier--split .rm-branch + .rm-branch {
+      padding-top: var(--rm-gap);
+    }
+    .rm-tier--split .rm-branch + .rm-branch::before {
+      display: block;
+      height: var(--rm-gap);
+    }
+    /* Sequence tier stacks too: Stage 1, a line down, Stage 2, a line down. */
+    .rm-tier--seq .rm-branches {
+      grid-template-columns: 1fr;
+      row-gap: var(--rm-gap);
+      padding-bottom: 0;
+    }
+    .rm-tier--seq .rm-branches::after,
+    .rm-tier--seq .rm-branch:last-child::after {
+      display: none;
+    }
+    .rm-tier--seq .rm-branch + .rm-branch::before {
+      top: calc(-1 * var(--rm-gap));
+      left: 50%;
+      width: 0;
+      height: var(--rm-gap);
+      border-top: 0;
+      border-left: 1px solid var(--rm-line);
+    }
+    .rm-bar {
+      position: static;
+    }
+    .rm-dialog {
+      margin: auto auto 0;
+      width: 100vw;
+      max-width: 100vw;
+      max-height: 85vh;
+      border-radius: 12px 12px 0 0;
+    }
+  }
+</style>
