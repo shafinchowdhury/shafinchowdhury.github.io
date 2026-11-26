@@ -79,16 +79,16 @@ export const STAGES: Stage[] = [
     summary: "Write safe, efficient, idiomatic modern C++.",
   },
   {
+    id: "cp",
+    title: "Competitive Programming",
+    summary:
+      "Problem-solving techniques that turn slow brute force into fast solutions, for contests and coding interviews.",
+  },
+  {
     id: "practice",
     title: "Practical Development",
     summary:
       "Tools and habits for real projects. You can start these any time after the fundamentals.",
-  },
-  {
-    id: "paths",
-    title: "Choose Your Direction",
-    summary:
-      "Pick the path that fits your goals. Each one needs a different mix of the topics below, so you don't have to finish everything first.",
   },
 ];
 
@@ -103,8 +103,8 @@ export const TIERS: string[][] = [
   SEQUENCE,
   ["core"],
   ["oop", "stl"],
-  ["dsa", "modern", "practice"],
-  ["paths"],
+  ["dsa", "modern"],
+  ["cp", "practice"],
 ];
 
 const cppref = (path: string, label = "cppreference") => ({
@@ -116,7 +116,7 @@ export const TOPICS: Topic[] = [
   // Stage 1: Getting Started
   {
     id: "what-is-cpp",
-    title: "What is C++?",
+    title: "What Is C++?",
     stage: "start",
     level: "beginner",
     summary:
@@ -128,7 +128,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "compiler",
-    title: "Installing a compiler",
+    title: "Installing a Compiler",
     stage: "start",
     level: "beginner",
     summary:
@@ -138,7 +138,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "editor",
-    title: "Setting up an editor or IDE",
+    title: "Setting Up an Editor or IDE",
     stage: "start",
     level: "beginner",
     summary:
@@ -154,27 +154,29 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "first-program",
-    title: "Your first C++ program",
+    title: "Your First C++ Program",
     stage: "start",
     level: "beginner",
     summary:
       "The classic Hello, World! program: include <iostream>, write main() and print a line.",
     outcome: "Write and run a program that prints text.",
     prereqs: ["editor"],
+    posts: ["cpp-input-and-output"],
   },
   {
     id: "program-structure",
-    title: "Basic program structure",
+    title: "Basic Program Structure",
     stage: "start",
     level: "beginner",
     summary:
       "Every program has #include lines, a main() function, statements ending in semicolons and comments.",
     outcome: "Read a short program and name each of its parts.",
     prereqs: ["first-program"],
+    posts: ["cpp-input-and-output", "cpp-namespaces"],
   },
   {
     id: "compilation",
-    title: "Compilation and execution",
+    title: "Compilation and Execution",
     stage: "start",
     level: "beginner",
     summary:
@@ -187,7 +189,7 @@ export const TOPICS: Topic[] = [
   // Stage 2: Programming Fundamentals
   {
     id: "variables",
-    title: "Variables and data types",
+    title: "Variables and Data Types",
     stage: "basics",
     level: "beginner",
     summary:
@@ -199,7 +201,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "io",
-    title: "Input and output",
+    title: "Input and Output",
     stage: "basics",
     level: "beginner",
     summary:
@@ -222,7 +224,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "type-conversion",
-    title: "Type conversion",
+    title: "Type Conversion",
     stage: "basics",
     level: "beginner",
     summary:
@@ -234,7 +236,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "conditionals",
-    title: "Conditional statements",
+    title: "Conditional Statements",
     stage: "basics",
     level: "beginner",
     summary: "if, else if, else and switch let your program make decisions.",
@@ -371,7 +373,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "stack-heap",
-    title: "Stack and heap memory",
+    title: "Stack and Heap Memory",
     stage: "core",
     level: "intermediate",
     summary:
@@ -382,7 +384,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "dynamic-memory",
-    title: "Dynamic memory allocation",
+    title: "Dynamic Memory Allocation",
     stage: "core",
     level: "intermediate",
     summary:
@@ -403,10 +405,51 @@ export const TOPICS: Topic[] = [
     posts: ["cpp-functions"],
   },
 
+  {
+    id: "enums",
+    title: "Enumerations",
+    stage: "core",
+    level: "beginner",
+    summary:
+      "enum gives names to a fixed set of values; enum class keeps those names scoped and stops accidental conversion to int.",
+    outcome:
+      "Replace magic numbers with named constants the compiler can check.",
+    prereqs: ["variables", "conditionals"],
+    links: [cppref("language/enum", "cppreference: enumerations")],
+  },
+  {
+    id: "type-aliases",
+    title: "Type Aliases (typedef and using)",
+    stage: "core",
+    level: "beginner",
+    summary:
+      "typedef and the modern using syntax give an existing type a shorter or clearer name.",
+    outcome: "Read and write aliases such as using Score = long long;.",
+    prereqs: ["variables"],
+    links: [cppref("language/type_alias", "cppreference: type alias")],
+  },
+  {
+    id: "function-pointers",
+    title: "Function Pointers",
+    stage: "core",
+    level: "intermediate",
+    summary:
+      "A function pointer stores the address of a function, so you can pass behaviour around, for example as a callback.",
+    outcome:
+      "Pass a function to another function, such as a custom comparison.",
+    prereqs: ["pointers", "functions"],
+    links: [
+      cppref(
+        "language/pointer#Pointers_to_functions",
+        "cppreference: pointers to functions"
+      ),
+    ],
+  },
+
   // Stage 4: Object-Oriented Programming
   {
     id: "classes",
-    title: "Classes and objects",
+    title: "Classes and Objects",
     stage: "oop",
     level: "intermediate",
     summary:
@@ -417,7 +460,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "access",
-    title: "Access modifiers",
+    title: "Access Modifiers",
     stage: "oop",
     level: "intermediate",
     summary:
@@ -496,7 +539,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "function-overloading",
-    title: "Function overloading",
+    title: "Function Overloading",
     stage: "oop",
     level: "intermediate",
     summary:
@@ -507,7 +550,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "operator-overloading",
-    title: "Operator overloading",
+    title: "Operator Overloading",
     stage: "oop",
     level: "intermediate",
     summary:
@@ -515,6 +558,54 @@ export const TOPICS: Topic[] = [
     outcome: "Overload common operators while following their usual meaning.",
     prereqs: ["function-overloading", "references"],
     links: [cppref("language/operators")],
+  },
+
+  {
+    id: "struct-vs-class",
+    title: "Struct vs Class",
+    stage: "oop",
+    level: "intermediate",
+    summary:
+      "The only language difference is default access: struct members are public, class members are private. By convention, struct is for plain data and class for types with rules to protect.",
+    outcome: "Choose between struct and class on purpose.",
+    prereqs: ["classes", "access", "structs"],
+  },
+  {
+    id: "composition",
+    title: "Composition",
+    stage: "oop",
+    level: "intermediate",
+    summary:
+      "Build a class out of other objects (has-a) instead of inheriting from them (is-a). It is usually the more flexible choice.",
+    outcome: "Decide between composition and inheritance for a design.",
+    prereqs: ["classes", "inheritance"],
+    posts: ["cpp-composition-vs-inheritance"],
+  },
+  {
+    id: "virtual-destructors",
+    title: "Virtual Destructors",
+    stage: "oop",
+    level: "intermediate",
+    summary:
+      "Deleting a derived object through a base-class pointer only runs the derived destructor if the base destructor is virtual.",
+    outcome: "Write base classes that clean up derived objects correctly.",
+    prereqs: ["polymorphism", "destructors"],
+    posts: ["cpp-polymorphism", "cpp-abstraction"],
+    links: [cppref("language/destructor", "cppreference: destructors")],
+  },
+  {
+    id: "abstract-classes",
+    title: "Abstract Classes and Interfaces",
+    stage: "oop",
+    level: "intermediate",
+    summary:
+      "A class with a pure virtual function can't be instantiated. A class made only of pure virtual functions works as an interface in C++.",
+    outcome: "Define an interface and write several classes that implement it.",
+    prereqs: ["abstraction", "virtual-destructors"],
+    posts: ["cpp-abstraction"],
+    links: [
+      cppref("language/abstract_class", "cppreference: abstract classes"),
+    ],
   },
 
   // Stage 5: Standard Template Library
@@ -533,7 +624,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "vector",
-    title: "vector",
+    title: "std::vector",
     stage: "stl",
     level: "beginner",
     summary:
@@ -545,7 +636,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "stl-string",
-    title: "string",
+    title: "std::string",
     stage: "stl",
     level: "beginner",
     summary:
@@ -557,7 +648,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "pair",
-    title: "pair",
+    title: "std::pair",
     stage: "stl",
     level: "beginner",
     summary:
@@ -568,7 +659,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "list",
-    title: "list",
+    title: "std::list",
     stage: "stl",
     level: "intermediate",
     summary:
@@ -580,7 +671,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "map",
-    title: "map",
+    title: "std::map",
     stage: "stl",
     level: "intermediate",
     summary:
@@ -591,7 +682,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "unordered-map",
-    title: "unordered_map",
+    title: "std::unordered_map",
     stage: "stl",
     level: "intermediate",
     summary: "A hash table: average O(1) lookup, with no ordering of keys.",
@@ -601,7 +692,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "set",
-    title: "set",
+    title: "std::set",
     stage: "stl",
     level: "intermediate",
     summary: "Stores unique values in sorted order.",
@@ -611,7 +702,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "unordered-set",
-    title: "unordered_set",
+    title: "std::unordered_set",
     stage: "stl",
     level: "intermediate",
     summary:
@@ -622,7 +713,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "stl-stack",
-    title: "stack",
+    title: "std::stack",
     stage: "stl",
     level: "beginner",
     summary:
@@ -634,7 +725,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "stl-queue",
-    title: "queue",
+    title: "std::queue",
     stage: "stl",
     level: "beginner",
     summary: "std::queue: first in, first out (FIFO) with push, pop and front.",
@@ -645,7 +736,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "deque",
-    title: "deque",
+    title: "std::deque",
     stage: "stl",
     level: "intermediate",
     summary:
@@ -669,7 +760,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "algorithms",
-    title: "STL algorithms",
+    title: "STL Algorithms",
     stage: "stl",
     level: "intermediate",
     summary:
@@ -690,10 +781,81 @@ export const TOPICS: Topic[] = [
     links: [cppref("language/lambda")],
   },
 
+  {
+    id: "priority-queue",
+    title: "std::priority_queue",
+    stage: "stl",
+    level: "intermediate",
+    summary:
+      "A container adaptor that always hands you the largest element first, or the smallest with std::greater. It is a heap underneath.",
+    outcome:
+      "Repeatedly take the best item, as in Dijkstra's algorithm or task scheduling.",
+    prereqs: ["vector"],
+    links: [
+      cppref("container/priority_queue", "cppreference: std::priority_queue"),
+    ],
+  },
+  {
+    id: "tuple",
+    title: "std::tuple",
+    stage: "stl",
+    level: "intermediate",
+    summary:
+      "Groups any number of values of different types. Structured bindings unpack it: auto [a, b, c] = t;",
+    outcome: "Return several values from a function cleanly.",
+    prereqs: ["pair"],
+    links: [cppref("utility/tuple", "cppreference: std::tuple")],
+  },
+  {
+    id: "bitset",
+    title: "std::bitset",
+    stage: "stl",
+    level: "intermediate",
+    summary:
+      "A fixed-size sequence of bits with fast bitwise operations, counting and printing.",
+    outcome: "Store and manipulate flags or small sets compactly.",
+    prereqs: ["stl-intro", "operators"],
+    links: [cppref("utility/bitset", "cppreference: std::bitset")],
+  },
+  {
+    id: "optional",
+    title: "std::optional",
+    stage: "stl",
+    level: "intermediate",
+    summary:
+      'Holds either a value or nothing, so a function can report "no result" without magic values like -1 (C++17).',
+    outcome: "Return a value that might be missing, safely.",
+    prereqs: ["stl-intro"],
+    links: [cppref("utility/optional", "cppreference: std::optional")],
+  },
+  {
+    id: "variant",
+    title: "std::variant",
+    stage: "stl",
+    level: "advanced",
+    summary:
+      "A type-safe union: it holds exactly one of several types, checked with std::visit or std::holds_alternative (C++17).",
+    outcome: "Model a value that can be one of a few different types.",
+    prereqs: ["optional"],
+    links: [cppref("utility/variant", "cppreference: std::variant")],
+  },
+  {
+    id: "numeric",
+    title: "Numeric Algorithms",
+    stage: "stl",
+    level: "intermediate",
+    summary:
+      "The <numeric> header provides std::accumulate, std::iota, std::partial_sum, std::gcd and more for working with sequences of numbers.",
+    outcome:
+      "Sum, fill and combine ranges of numbers without hand-written loops.",
+    prereqs: ["algorithms"],
+    links: [cppref("header/numeric", "cppreference: <numeric>")],
+  },
+
   // Stage 6: Data Structures & Algorithms
   {
     id: "complexity",
-    title: "Time and space complexity",
+    title: "Time and Space Complexity",
     stage: "dsa",
     level: "intermediate",
     summary:
@@ -723,7 +885,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "linked-lists",
-    title: "Linked lists",
+    title: "Linked Lists",
     stage: "dsa",
     level: "intermediate",
     summary:
@@ -777,7 +939,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "bst",
-    title: "Binary search trees",
+    title: "Binary Search Trees",
     stage: "dsa",
     level: "intermediate",
     summary:
@@ -807,7 +969,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "bfs",
-    title: "Breadth-first search (BFS)",
+    title: "Breadth-First Search (BFS)",
     stage: "dsa",
     level: "advanced",
     summary:
@@ -823,7 +985,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "dfs",
-    title: "Depth-first search (DFS)",
+    title: "Depth-First Search (DFS)",
     stage: "dsa",
     level: "advanced",
     summary:
@@ -840,7 +1002,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "greedy",
-    title: "Greedy algorithms",
+    title: "Greedy Algorithms",
     stage: "dsa",
     level: "advanced",
     summary:
@@ -850,13 +1012,120 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "dp",
-    title: "Dynamic programming",
+    title: "Dynamic Programming",
     stage: "dsa",
     level: "advanced",
     summary:
       "Break a problem into overlapping subproblems and reuse their answers (memoization or tabulation).",
     outcome: "Turn a slow recursive solution into an efficient DP one.",
     prereqs: ["recursion", "complexity"],
+  },
+
+  {
+    id: "hash-tables",
+    title: "Hash Tables",
+    stage: "dsa",
+    level: "intermediate",
+    summary:
+      "A hash function maps keys to buckets for average O(1) lookup; collisions are handled by chaining or probing.",
+    outcome: "Explain how unordered_map works and when it slows down.",
+    prereqs: ["complexity", "unordered-map"],
+  },
+  {
+    id: "dsu",
+    title: "Disjoint Set Union (DSU)",
+    stage: "dsa",
+    level: "advanced",
+    summary:
+      "Tracks which elements belong to the same group, with near-constant-time union and find using path compression and union by size.",
+    outcome: "Detect cycles and connected components quickly.",
+    prereqs: ["graphs"],
+    links: [
+      {
+        label: "CP-Algorithms: DSU",
+        href: "https://cp-algorithms.com/data_structures/disjoint_set_union.html",
+      },
+    ],
+  },
+  {
+    id: "topo-sort",
+    title: "Topological Sorting",
+    stage: "dsa",
+    level: "advanced",
+    summary:
+      "Orders the nodes of a directed acyclic graph so every edge points forward, such as a build order or course prerequisites.",
+    outcome: "Schedule tasks that depend on each other.",
+    prereqs: ["dfs", "bfs"],
+    links: [
+      {
+        label: "CP-Algorithms: topological sort",
+        href: "https://cp-algorithms.com/graph/topological-sort.html",
+      },
+    ],
+  },
+  {
+    id: "shortest-paths",
+    title: "Shortest Paths",
+    stage: "dsa",
+    level: "advanced",
+    summary:
+      "Dijkstra's algorithm for non-negative weights, Bellman-Ford when edges can be negative, Floyd-Warshall for all pairs.",
+    outcome: "Find the cheapest route in a weighted graph.",
+    prereqs: ["bfs", "priority-queue"],
+    links: [
+      {
+        label: "CP-Algorithms: Dijkstra",
+        href: "https://cp-algorithms.com/graph/dijkstra.html",
+      },
+    ],
+  },
+  {
+    id: "mst",
+    title: "Minimum Spanning Trees",
+    stage: "dsa",
+    level: "advanced",
+    summary:
+      "Connect every node with the least total edge weight using Kruskal's algorithm (sorted edges plus DSU) or Prim's algorithm.",
+    outcome: "Build the cheapest network that connects every point.",
+    prereqs: ["dsu", "greedy", "sorting"],
+    links: [
+      {
+        label: "CP-Algorithms: Kruskal",
+        href: "https://cp-algorithms.com/graph/mst_kruskal.html",
+      },
+    ],
+  },
+  {
+    id: "segment-tree",
+    title: "Segment Trees",
+    stage: "dsa",
+    level: "advanced",
+    summary:
+      "A tree over an array that answers range queries (sum, min, max) and handles updates, each in O(log n).",
+    outcome: "Answer many range queries on data that keeps changing.",
+    prereqs: ["trees", "recursion"],
+    links: [
+      {
+        label: "CP-Algorithms: segment tree",
+        href: "https://cp-algorithms.com/data_structures/segment_tree.html",
+      },
+    ],
+  },
+  {
+    id: "fenwick",
+    title: "Fenwick Trees",
+    stage: "dsa",
+    level: "advanced",
+    summary:
+      "A compact array-based structure (binary indexed tree) for prefix sums with point updates, both in O(log n).",
+    outcome: "Maintain running totals while values change.",
+    prereqs: ["trees", "complexity"],
+    links: [
+      {
+        label: "CP-Algorithms: Fenwick tree",
+        href: "https://cp-algorithms.com/data_structures/fenwick.html",
+      },
+    ],
   },
 
   // Stage 7: Modern & Advanced C++
@@ -873,7 +1142,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "exceptions",
-    title: "Exception handling",
+    title: "Exception Handling",
     stage: "modern",
     level: "intermediate",
     summary:
@@ -884,7 +1153,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "copy-constructors",
-    title: "Copy constructors",
+    title: "Copy Constructors",
     stage: "modern",
     level: "intermediate",
     summary:
@@ -907,7 +1176,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "smart-pointers",
-    title: "Smart pointers",
+    title: "Smart Pointers",
     stage: "modern",
     level: "advanced",
     summary:
@@ -920,7 +1189,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "move-semantics",
-    title: "Move semantics",
+    title: "Move Semantics",
     stage: "modern",
     level: "advanced",
     summary:
@@ -931,7 +1200,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "move-constructors",
-    title: "Move constructors",
+    title: "Move Constructors",
     stage: "modern",
     level: "advanced",
     summary:
@@ -942,7 +1211,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "files",
-    title: "File handling",
+    title: "File Handling",
     stage: "modern",
     level: "intermediate",
     summary:
@@ -964,7 +1233,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "memory-management",
-    title: "Memory management",
+    title: "Memory Management",
     stage: "modern",
     level: "advanced",
     summary:
@@ -985,7 +1254,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "modern-features",
-    title: "Modern C++ features",
+    title: "Modern C++ Features",
     stage: "modern",
     level: "advanced",
     summary:
@@ -1001,7 +1270,211 @@ export const TOPICS: Topic[] = [
     ],
   },
 
-  // Stage 8: Practical Development
+  {
+    id: "constexpr",
+    title: "constexpr",
+    stage: "modern",
+    level: "intermediate",
+    summary:
+      "Marks values and functions that can be computed at compile time, so the work happens before the program runs.",
+    outcome: "Move fixed calculations and lookup tables to compile time.",
+    prereqs: ["const", "functions"],
+    links: [cppref("language/constexpr", "cppreference: constexpr")],
+  },
+  {
+    id: "auto",
+    title: "auto",
+    stage: "modern",
+    level: "intermediate",
+    summary:
+      "Lets the compiler deduce a variable's type from its initializer, which keeps long iterator and lambda types readable.",
+    outcome:
+      "Use auto where it helps and spell out types where it hides intent.",
+    prereqs: ["variables", "iterators"],
+    links: [cppref("language/auto", "cppreference: auto")],
+  },
+  {
+    id: "decltype",
+    title: "decltype",
+    stage: "modern",
+    level: "advanced",
+    summary:
+      "Gives the declared type of an expression, useful in templates and in return types that depend on the arguments.",
+    outcome: "Write a function whose return type depends on its parameters.",
+    prereqs: ["auto"],
+    links: [cppref("language/decltype", "cppreference: decltype")],
+  },
+  {
+    id: "type-deduction",
+    title: "Type Deduction",
+    stage: "modern",
+    level: "advanced",
+    summary:
+      "The rules the compiler uses to infer template arguments and auto types, including when references and const are kept or dropped.",
+    outcome: "Predict what type auto or a template parameter will become.",
+    prereqs: ["templates", "decltype"],
+    links: [
+      cppref(
+        "language/template_argument_deduction",
+        "cppreference: template argument deduction"
+      ),
+    ],
+  },
+  {
+    id: "concepts",
+    title: "Concepts",
+    stage: "modern",
+    level: "advanced",
+    summary:
+      "Named requirements on template parameters (C++20) that give clear error messages and replace most enable_if tricks.",
+    outcome: "Constrain a template so it only accepts suitable types.",
+    prereqs: ["type-deduction"],
+    links: [
+      cppref("language/constraints", "cppreference: constraints and concepts"),
+    ],
+  },
+  {
+    id: "ranges",
+    title: "Ranges",
+    stage: "modern",
+    level: "advanced",
+    summary:
+      "C++20 algorithms that take whole containers, plus composable views like filter and transform joined with |.",
+    outcome: "Write data pipelines without manual iterator pairs.",
+    prereqs: ["algorithms", "lambdas", "concepts"],
+    links: [cppref("ranges", "cppreference: ranges library")],
+  },
+  {
+    id: "object-lifetime",
+    title: "Object Lifetime",
+    stage: "modern",
+    level: "advanced",
+    summary:
+      "When an object's life begins and ends, and why using it outside that window, through a dangling pointer or reference, is a bug.",
+    outcome: "Spot dangling references and use-after-free before they ship.",
+    prereqs: ["constructors", "destructors", "stack-heap"],
+    links: [cppref("language/lifetime", "cppreference: object lifetime")],
+  },
+  {
+    id: "ub",
+    title: "Undefined Behavior",
+    stage: "modern",
+    level: "advanced",
+    summary:
+      "Operations the standard gives no meaning to, such as out-of-bounds access or signed overflow. The program may seem to work, then fail anywhere.",
+    outcome:
+      "Recognise common undefined behavior and catch it with sanitizers.",
+    prereqs: ["object-lifetime", "arrays", "pointers"],
+    links: [cppref("language/ub", "cppreference: undefined behavior")],
+  },
+  {
+    id: "alignment",
+    title: "Alignment",
+    stage: "modern",
+    level: "advanced",
+    summary:
+      "Each type must sit at an address that is a multiple of its alignment, so the compiler adds padding inside structs.",
+    outcome: "Predict sizeof for a struct and reorder members to save memory.",
+    prereqs: ["structs", "stack-heap"],
+    links: [cppref("language/object#Alignment", "cppreference: alignment")],
+  },
+
+  // Stage 8: Competitive Programming
+  {
+    id: "prefix-sums",
+    title: "Prefix Sums",
+    stage: "cp",
+    level: "intermediate",
+    summary:
+      "Precompute running totals once, then answer any range-sum query in O(1).",
+    outcome: "Answer range-sum queries in constant time.",
+    prereqs: ["arrays", "complexity"],
+    links: [
+      {
+        label: "USACO Guide: prefix sums",
+        href: "https://usaco.guide/silver/prefix-sums",
+      },
+    ],
+  },
+  {
+    id: "two-pointers",
+    title: "Two Pointers",
+    stage: "cp",
+    level: "intermediate",
+    summary:
+      "Move two indices through an array, often a sorted one, to find pairs or ranges in linear time.",
+    outcome: "Solve pair-sum and merge-style problems in O(n).",
+    prereqs: ["arrays", "sorting"],
+    links: [
+      {
+        label: "USACO Guide: two pointers",
+        href: "https://usaco.guide/silver/two-pointers",
+      },
+    ],
+  },
+  {
+    id: "sliding-window",
+    title: "Sliding Window",
+    stage: "cp",
+    level: "intermediate",
+    summary:
+      "Keep a window of elements and update its answer as it slides, instead of recomputing every window from scratch.",
+    outcome: "Find the best subarray of a given size or property in O(n).",
+    prereqs: ["two-pointers", "deque"],
+    posts: ["top-5-queue-problems-in-cpp"],
+  },
+  {
+    id: "binary-search-answer",
+    title: "Binary Search on the Answer",
+    stage: "cp",
+    level: "advanced",
+    summary:
+      "When you can check whether a candidate answer works, and the check is monotonic, binary search over the possible answers.",
+    outcome: "Turn optimisation problems into yes/no checks.",
+    prereqs: ["searching"],
+    links: [
+      {
+        label: "USACO Guide: binary search",
+        href: "https://usaco.guide/silver/binary-search",
+      },
+    ],
+  },
+  {
+    id: "bitmasking",
+    title: "Bitmasking",
+    stage: "cp",
+    level: "advanced",
+    summary:
+      "Represent subsets as the bits of an integer to loop over every subset or run dynamic programming over them.",
+    outcome: "Enumerate subsets and write bitmask DP for small inputs.",
+    prereqs: ["bitset", "dp"],
+    links: [
+      {
+        label: "CP-Algorithms: submasks",
+        href: "https://cp-algorithms.com/algebra/all-submasks.html",
+      },
+    ],
+  },
+  {
+    id: "number-theory",
+    title: "Number Theory",
+    stage: "cp",
+    level: "advanced",
+    summary:
+      "Primes, the sieve of Eratosthenes, GCD, modular arithmetic and fast exponentiation: the maths behind many contest problems.",
+    outcome:
+      "Solve problems about divisibility, primes and large numbers modulo m.",
+    prereqs: ["numeric", "complexity"],
+    posts: ["mathematics-formula-cheat-sheet"],
+    links: [
+      {
+        label: "CP-Algorithms: sieve",
+        href: "https://cp-algorithms.com/algebra/sieve-of-eratosthenes.html",
+      },
+    ],
+  },
+
+  // Stage 9: Practical Development
   {
     id: "git",
     title: "Git and GitHub",
@@ -1035,7 +1508,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "build-systems",
-    title: "Build systems",
+    title: "Build Systems",
     stage: "practice",
     level: "intermediate",
     summary:
@@ -1061,7 +1534,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "code-organization",
-    title: "Code organization",
+    title: "Code Organization",
     stage: "practice",
     level: "intermediate",
     summary:
@@ -1071,7 +1544,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "maintainable-code",
-    title: "Writing maintainable code",
+    title: "Writing Maintainable Code",
     stage: "practice",
     level: "intermediate",
     summary:
@@ -1087,68 +1560,12 @@ export const TOPICS: Topic[] = [
   },
   {
     id: "dev-practices",
-    title: "Software development practices",
+    title: "Software Development Practices",
     stage: "practice",
     level: "intermediate",
     summary:
       "Code review, pull requests, issue tracking and continuous integration: how teams ship software together.",
     outcome: "Work on a shared codebase the way professional teams do.",
     prereqs: ["git", "testing"],
-  },
-
-  // Stage 9: Choose Your Direction
-  {
-    id: "path-cp",
-    title: "Competitive programming",
-    stage: "paths",
-    level: "advanced",
-    summary:
-      "Solve algorithmic problems under time limits. Focus on the STL, data structures, graphs and dynamic programming. You can skip most of Practical Development.",
-    outcome: "Take part in contests on sites like Codeforces or LeetCode.",
-    prereqs: ["algorithms", "dp", "bfs", "dfs", "greedy"],
-    posts: ["top-5-stack-problems-in-cpp", "top-5-queue-problems-in-cpp"],
-    links: [{ label: "CP-Algorithms", href: "https://cp-algorithms.com/" }],
-  },
-  {
-    id: "path-backend",
-    title: "Backend development",
-    stage: "paths",
-    level: "advanced",
-    summary:
-      "High-performance servers and services. Focus on networking, multithreading, databases, testing and build tooling.",
-    outcome: "Build and ship a networked service in C++.",
-    prereqs: ["threads", "testing", "cmake"],
-  },
-  {
-    id: "path-games",
-    title: "Game development",
-    stage: "paths",
-    level: "advanced",
-    summary:
-      "Engines like Unreal use C++. Focus on OOP, memory and performance, math, and an engine or graphics library.",
-    outcome:
-      "Build a small game with an engine or a library such as SFML or SDL.",
-    prereqs: ["polymorphism", "memory-management", "complexity"],
-  },
-  {
-    id: "path-systems",
-    title: "Systems programming",
-    stage: "paths",
-    level: "advanced",
-    summary:
-      "Operating systems, compilers and tools. Focus on memory, concurrency, the OS interface and performance.",
-    outcome:
-      "Write low-level tools that talk directly to the operating system.",
-    prereqs: ["memory-management", "threads", "build-systems"],
-  },
-  {
-    id: "path-embedded",
-    title: "Embedded programming",
-    stage: "paths",
-    level: "advanced",
-    summary:
-      "Code for microcontrollers with tight memory limits. Focus on pointers, bitwise operations, fixed-size memory and hardware registers.",
-    outcome: "Program a microcontroller board in C++.",
-    prereqs: ["pointers", "operators", "const", "debugging"],
   },
 ];

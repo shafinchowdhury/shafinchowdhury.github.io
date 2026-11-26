@@ -161,8 +161,89 @@ export function initRoadmap() {
   });
 
   render();
+  drawLines(root.querySelector<HTMLElement>(".rm-tree")!);
 
   // A shared link like /cpp-roadmap/#topic-pointers opens that topic's card.
   const hash = location.hash.match(/^#topic-(.+)$/);
   if (hash && document.getElementById(`topic-${hash[1]}`)) open(hash[1]);
+}
+
+// ---- curved connectors ----
+// Replaces the straight CSS lines (kept as the no-JS fallback) with smooth
+// curves: each tier's stages merge into one point, which fans out to the next.
+type Box = {
+  x: number;
+  top: number;
+  bottom: number;
+  mid: number;
+  l: number;
+  r: number;
+};
+
+// Vertical S-curve between two points; tangents are vertical at both ends, so
+// curves meeting at a hub join smoothly.
+const vCurve = (x1: number, y1: number, x2: number, y2: number) => {
+  const m = (y1 + y2) / 2;
+  return `M${x1} ${y1}C${x1} ${m} ${x2} ${m} ${x2} ${y2}`;
+};
+
+function drawLines(tree: HTMLElement) {
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.classList.add("rm-lines");
+  svg.setAttribute("aria-hidden", "true");
+  tree.prepend(svg);
+  tree.classList.add("has-lines");
+
+  const draw = () => {
+    const o = tree.getBoundingClientRect();
+    const box = (el: Element): Box => {
+      const r = el.getBoundingClientRect();
+      return {
+        x: r.left - o.left + r.width / 2,
+        top: r.top - o.top,
+        bottom: r.bottom - o.top,
+        mid: r.top - o.top + r.height / 2,
+        l: r.left - o.left,
+        r: r.right - o.left,
+      };
+    };
+    const d: string[] = [];
+    // Each tier: the boxes that receive the line from above (ins) and send it on (outs).
+    const tiers = [...tree.querySelectorAll(":scope > .rm-tier")].map(t => {
+      const boxes = [...t.querySelectorAll(".rm-stage, .rm-goal")].map(box);
+      const stacked = boxes.length > 1 && boxes[1].top >= boxes[0].bottom;
+      if (stacked || t.classList.contains("rm-tier--seq")) {
+        // Chain: one after another, side by side (sequence) or stacked (phone).
+        for (let i = 1; i < boxes.length; i++) {
+          const a = boxes[i - 1];
+          const b = boxes[i];
+          if (stacked) d.push(`M${a.x} ${a.bottom}V${b.top}`);
+          else {
+            const y = Math.min(a.mid, b.mid);
+            d.push(`M${a.r} ${y}H${b.l}`);
+          }
+        }
+        return { ins: boxes.slice(0, 1), outs: boxes.slice(-1) };
+      }
+      return { ins: boxes, outs: boxes };
+    });
+    for (let i = 1; i < tiers.length; i++) {
+      const { outs } = tiers[i - 1];
+      const { ins } = tiers[i];
+      const from = Math.max(...outs.map(b => b.bottom));
+      const to = Math.min(...ins.map(b => b.top));
+      if (outs.length === 1 && ins.length === 1) {
+        d.push(vCurve(outs[0].x, outs[0].bottom, ins[0].x, ins[0].top));
+        continue;
+      }
+      const hx =
+        (Math.min(...ins.map(b => b.l)) + Math.max(...ins.map(b => b.r))) / 2;
+      const hy = (from + to) / 2;
+      for (const b of outs) d.push(vCurve(b.x, b.bottom, hx, hy));
+      for (const b of ins) d.push(vCurve(hx, hy, b.x, b.top));
+    }
+    svg.innerHTML = d.map(p => `<path d="${p}"/>`).join("");
+  };
+  new ResizeObserver(draw).observe(tree);
 }

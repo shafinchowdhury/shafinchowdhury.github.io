@@ -2,19 +2,29 @@
 interface Props {
   title: string;
   description?: string;
-  date: string;
+  date?: string;
+  cta?: string;
   tags?: string[];
   href?: string;
 }
 
-const { title, description, date, tags = [], href = "#" } = Astro.props;
+const {
+  title,
+  description,
+  date,
+  tags = [],
+  href = "#",
+  cta = "Read more",
+} = Astro.props;
 
 // Format date
-const formattedDate = new Date(date).toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "short",
-  day: "numeric",
-});
+const formattedDate =
+  date &&
+  new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 ---
 
 <a
@@ -31,11 +41,13 @@ const formattedDate = new Date(date).toLocaleDateString("en-US", {
           {title}
         </h3>
       </div>
-      <time
-        class="text-sm font-medium whitespace-nowrap text-slate-600 dark:text-slate-400"
-      >
-        {formattedDate}
-      </time>
+      {
+        formattedDate && (
+          <time class="text-sm font-medium whitespace-nowrap text-slate-600 dark:text-slate-400">
+            {formattedDate}
+          </time>
+        )
+      }
     </div>
 
     <!-- Description -->
@@ -64,7 +76,7 @@ const formattedDate = new Date(date).toLocaleDateString("en-US", {
     <div
       class="text-accent text-sm font-medium transition-transform group-hover:translate-x-1"
     >
-      Read more →
+      {cta} →
     </div>
   </div>
 </a>

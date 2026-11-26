@@ -9,6 +9,7 @@ import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import Card from "@/components/Card.astro";
 import FeaturedProjectCard from "@/components/FeaturedProjectCard.astro";
+import { STAGES, TOPICS } from "@/data/cppRoadmap";
 import LinkButton from "@/components/LinkButton.astro";
 import ProfessionalHero from "@/components/ProfessionalHero.astro";
 import profilePhoto from "@/assets/shafin.jpg";
@@ -178,7 +179,7 @@ const homeStructuredData = {
 
     <!-- 3. FEATURED GUIDES / RECOMMENDED READING -->
     {
-      featuredGuides.length > 0 && (
+      (
         <section
           id="featured-guides"
           class="border-border border-b py-12 sm:py-16"
@@ -194,6 +195,13 @@ const homeStructuredData = {
           </div>
 
           <div class="grid gap-6 sm:gap-8 lg:grid-cols-1">
+            <FeaturedProjectCard
+              title="Interactive C++ Roadmap"
+              description={`Learn C++ step by step: ${TOPICS.length} topics across ${STAGES.length} stages, from your first program to OOP, the STL, data structures and modern C++. Mark topics as you finish them and track your progress.`}
+              tags={["cpp", "roadmap"]}
+              href="/cpp-roadmap/"
+              cta="Open the roadmap"
+            />
             {featuredGuides.map(post => {
               const postSlug = getPostSlug(post.id, post.filePath);
               const displayTags = (post.data.tags ?? []).slice(0, 3);
