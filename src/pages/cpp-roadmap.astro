@@ -131,7 +131,7 @@ const structuredData = {
       <p class="text-muted-foreground mt-3 leading-relaxed sm:text-lg">
         A map of what to learn in C++, in what order, and how the pieces
         connect. Start at Stage 1 at the top, work down through the core
-        concepts, then branch out toward the direction that fits your goals.
+        concepts, then branch out into the areas you want to go deeper in.
       </p>
       <ul class="text-muted-foreground mt-4 list-disc space-y-1 ps-5 text-sm">
         <li>Your progress stays in this browser, no sign-up needed.</li>
@@ -282,7 +282,7 @@ const structuredData = {
           <p class="rm-stage-n">Goal</p>
           <p class="rm-goal-title">A confident C++ developer</p>
           <p class="rm-stage-sum">
-            Strong fundamentals, plus depth in the direction you chose.
+            Strong fundamentals, plus depth in the areas that matter to you.
           </p>
         </div>
       </li>
@@ -479,6 +479,8 @@ const structuredData = {
 
   /* The tree: Stage 1 at the top, the goal at the bottom. */
   .rm-tree {
+    position: relative;
+    isolation: isolate;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -595,14 +597,44 @@ const structuredData = {
     border-top: 1px solid var(--rm-line);
   }
 
+  /* With JS, curved SVG connectors replace the straight CSS ones. */
+  .rm-lines {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    fill: none;
+    stroke: var(--rm-line);
+    stroke-width: 1.5;
+  }
+  .rm-tree.has-lines .rm-tier::before,
+  .rm-tree.has-lines .rm-tier::after,
+  .rm-tree.has-lines .rm-branches::after,
+  .rm-tree.has-lines .rm-branch::before,
+  .rm-tree.has-lines .rm-branch::after {
+    border-color: transparent;
+  }
+
   /* Stage cards */
   .rm-stage,
   .rm-goal {
     width: 100%;
-    background: var(--background);
+    background: color-mix(in oklab, var(--muted) 55%, var(--background));
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 16px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+  .rm-stage:hover {
+    border-color: color-mix(in oklab, var(--accent) 55%, var(--border));
+    box-shadow: 0 6px 18px -8px
+      color-mix(in oklab, var(--accent) 45%, transparent);
   }
   .rm-goal {
     max-width: 360px;
@@ -738,7 +770,7 @@ const structuredData = {
     font-size: 0.875rem;
     line-height: 1.3;
     color: var(--foreground);
-    background: color-mix(in oklab, var(--muted) 40%, var(--background));
+    background: var(--background);
     border: 1px solid var(--border);
     border-radius: 6px;
     cursor: pointer;
@@ -760,7 +792,7 @@ const structuredData = {
   .rm-topic-title {
     flex: 1;
     min-width: 0;
-    font-weight: 500;
+    font-weight: 600;
   }
   .rm-lvl {
     font-size: 0.6875rem;
@@ -838,7 +870,7 @@ const structuredData = {
     border-color: var(--accent);
   }
   .rm-entry h4 {
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
   }
   .rm-entry > div,

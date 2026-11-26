@@ -83,6 +83,7 @@ const schemaData = {
     })),
   },
 };
+import { STAGES, TOPICS } from "@/data/cppRoadmap";
 ---
 
 <Layout
@@ -134,14 +135,29 @@ const schemaData = {
       </p>
       {
         topicData.roadmapHref && (
-          <p class="mt-3 text-sm">
-            <a
-              class="text-accent underline underline-offset-4"
-              href={topicData.roadmapHref}
+          <a
+            href={topicData.roadmapHref}
+            class="group border-border/80 bg-muted/20 hover:border-accent mt-6 flex items-center justify-between gap-4 rounded-xl border p-5 transition-colors"
+          >
+            <span>
+              <span class="text-accent block text-xs font-semibold tracking-wider uppercase">
+                Interactive roadmap
+              </span>
+              <span class="text-foreground group-hover:text-accent mt-1 block text-lg font-bold transition-colors">
+                C++ Roadmap: Learn C++ Step by Step
+              </span>
+              <span class="text-muted-foreground mt-1 block text-sm">
+                {TOPICS.length} topics in {STAGES.length} stages. Mark what
+                you've learned and see what to study next.
+              </span>
+            </span>
+            <span
+              class="text-accent shrink-0 text-xl transition-transform group-hover:translate-x-1"
+              aria-hidden="true"
             >
-              See where this fits in the visual C++ roadmap →
-            </a>
-          </p>
+              →
+            </span>
+          </a>
         )
       }
     </header>
