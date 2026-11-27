@@ -10,14 +10,18 @@ tags:
   - overloading
   - overriding
   - polymorphism
-description: "A definitive side-by-side comparison of function overloading and function overriding in C++. Compare signatures, binding time, virtual dispatch, and name hiding."
+seoTitle: "Function Overloading vs Overriding in C++ (With Table)"
+keyword: "function overloading vs overriding"
+description: "Function overloading vs overriding in C++: overloading reuses a name with new parameters at compile time; overriding redefines a virtual function at runtime."
+related:
+  - cpp-polymorphism
+  - cpp-inheritance
+  - cpp-functions
 ---
 
-In C++, developers frequently reuse function names to perform related operations. However, depending on whether those functions live in the same scope or across an inheritance hierarchy, C++ applies two fundamentally different mechanisms: **function overloading** and **function overriding**.
+**Function overloading** means defining several functions with the same name but different parameter lists in the same scope. The compiler picks the right one at compile time. **Function overriding** means a derived class redefines a `virtual` function from its base class with the same signature, and the program picks the version at runtime based on the object's actual type.
 
-Because both concepts share the prefix "over-", beginners and university students often confuse them on exams and in job interviews.
-
-This guide provides a direct, technically precise comparison of both mechanisms, their syntax, dispatch rules, and underlying behaviors.
+Function overloading vs overriding is a classic exam and interview question, partly because both names start with "over". Below we compare their syntax and binding rules, show each one in code, and cover the name-hiding trap you hit when you overload a function that a base class already declares.
 
 ---
 

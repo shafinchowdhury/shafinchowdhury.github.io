@@ -10,16 +10,18 @@ tags:
   - composition
   - inheritance
   - software-design
-description: "Explore the architectural trade-offs between composition and inheritance in C++. Learn when to use 'has-a' vs 'is-a', coupling dynamics, and reusability."
+seoTitle: "Composition vs Inheritance in C++: When to Use Each"
+keyword: "composition vs inheritance in C++"
+description: "Composition vs inheritance in C++: inheritance models is-a, composition models has-a. Compare coupling, flexibility and reuse, and learn when to use each."
+related:
+  - cpp-inheritance
+  - cpp-polymorphism
+  - cpp-abstraction
 ---
 
-When new software developers learn Object-Oriented Programming, inheritance often feels like a superpower. You write a base class with a dozen useful features, subclass it, and instantly acquire everything for free.
+**Inheritance** in C++ models an _is-a_ relationship: a `Dog` is an `Animal`, so `Dog` derives from `Animal` and reuses its interface. **Composition** models a _has-a_ relationship: a `Car` has an `Engine`, so `Car` holds an `Engine` object as a data member. Use inheritance when the derived class can stand in anywhere the base class is expected. Otherwise, prefer composition, which keeps classes loosely coupled and lets you swap parts at runtime.
 
-However, as software systems grow from small academic exercises into large production codebases, unconstrained inheritance hierarchies frequently become brittle, tightly coupled, and difficult to refactor.
-
-This leads to one of the most famous principles in software architecture: **"Favor object composition over class inheritance."**
-
-Notice the wording: _favor_, not _blindly use_. Neither technique is universally superior. Each serves a distinct purpose in system design. This article objectively breaks down the architectural trade-offs between **composition** and **inheritance** in C++.
+That second rule is the well-known advice to **"favor object composition over class inheritance."** Note the word _favor_: inheritance is still the right tool for real is-a hierarchies. Below we build an example of each and compare composition vs inheritance in C++ on coupling, the fragile base class problem, runtime flexibility and boilerplate.
 
 ---
 

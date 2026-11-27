@@ -348,11 +348,11 @@ int main() {
 ```text
 --- Store Inventory Report ---
 
-Product            Stock   Price ($)
+Product           Stock   Price ($)
 -----------------------------------
-Mechanical KB         45       89.99
-Gaming Mouse         120       49.50
-USB-C Cable          350        9.90
+Mechanical KB        45       89.99
+Gaming Mouse        120       49.50
+USB-C Cable         350        9.90
 ```
 
 ---

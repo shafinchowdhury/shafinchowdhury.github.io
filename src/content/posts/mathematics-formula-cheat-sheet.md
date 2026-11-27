@@ -11,7 +11,9 @@ tags:
   - calculus
   - algebra
   - geometry
-description: "A compact yet comprehensive mathematical formula cheat sheet covering arithmetic, algebra, calculus, coordinate geometry, trigonometry, matrices, probability, statistics, and discrete mathematics."
+seoTitle: "Mathematics Formula Cheat Sheet: Algebra, Calculus & Trig"
+keyword: "mathematics formula cheat sheet"
+description: "A mathematics formula cheat sheet for quick lookup: algebra, calculus, trigonometry, coordinate geometry, matrices, probability, statistics and discrete math."
 socials:
   - name: "github"
     url: "https://github.com/shafinchowdhury"
@@ -30,7 +32,7 @@ socials:
     linkTitle: "Shafin on Instagram"
 ---
 
-> **A compact but broad reference of the most-used mathematical formulas.**
+> **A compact mathematics formula cheat sheet with the most-used formulas in one place.**
 >
 > This sheet is designed for quick lookup rather than derivations. It covers school mathematics, higher-secondary mathematics, undergraduate calculus, coordinate geometry, vectors, matrices, complex numbers, sequences and series, probability, statistics, number theory, discrete mathematics, numerical methods, and common applied formulas.
 >

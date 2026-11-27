@@ -15,7 +15,7 @@ One of the most powerful features of C++ is **const correctness**.
 
 In C++, `const` is not merely a documentation comment or an optional style suggestion—it is a compile-time contract enforced strictly by the compiler. When an entity is declared `const`, the compiler guarantees that its value cannot be modified.
 
-Writing const-correct code prevents subtle bugs, clarifies design intentions to other developers, and unlocks aggressive compiler optimizations.
+Writing const-correct code prevents subtle bugs and tells other developers which values a function is allowed to change.
 
 In this final article of our C++ Fundamentals series, we demystify every facet of `const`: from basic variables and reference parameters to the often-feared pointer constness syntax, class member functions, and modern compile-time `constexpr`.
 

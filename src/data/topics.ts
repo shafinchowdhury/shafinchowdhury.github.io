@@ -217,9 +217,9 @@ export const TOPIC_HUBS: Record<string, TopicHub> = {
   stack: {
     slug: "stack",
     name: "C++ Stack",
-    title: "Stack in C++: Complete Beginner-to-Advanced Guide",
+    title: "C++ Stack Tutorial Series: From Basics to Problems",
     description:
-      "Master the Stack data structure in C++ from LIFO fundamentals and STL std::stack to custom Vector, Array, and Linked List implementations and the top 5 competitive programming Stack problems.",
+      "A 5-part C++ stack series: LIFO basics and std::stack, stacks built on a vector, an array and a linked list, then five classic stack problems.",
     intro:
       "The Stack is one of the most foundational linear data structures in computer science. Governed by the Last-In, First-Out (LIFO) principle, stacks power function call execution, recursion, expression evaluation, undo history, and linear-time monotonic stack algorithms. Follow this progressive 5-part curriculum from core concepts to three from-scratch C++ implementations and classic competitive programming problems.",
     learningPath: [
