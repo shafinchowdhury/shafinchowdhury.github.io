@@ -28,7 +28,6 @@ A binary number is converted into a decimal number by multiplying each binary di
 1. Write the given binary number and assign powers of 2 from right to left (starting from 0).
 2. Multiply each binary digit by its corresponding power of 2.
 3. Add all the products together to get the final decimal number.
-   ![Converting 45 to binary by dividing by 2 repeatedly and reading the remainders from bottom to top, giving 101101](https://cdn.shafinchowdhury.dev/blogs/number-system/decimal_to_binary_conversio.png)
 
 **Solved Examples:**
 
@@ -60,6 +59,8 @@ To convert a decimal number to binary, the number is repeatedly divided by 2, an
 2. Divide the resulting quotient by 2 again and note the remainder.
 3. Repeat the process until the quotient becomes 0.
 4. Read the remainders from bottom to top (from MSB to LSB) to get the binary equivalent.
+
+![Converting 45 to binary by dividing by 2 repeatedly and reading the remainders from bottom to top, giving 101101](https://cdn.shafinchowdhury.dev/blogs/number-system/decimal_to_binary_conversio.png)
 
 **Solved Examples:**
 

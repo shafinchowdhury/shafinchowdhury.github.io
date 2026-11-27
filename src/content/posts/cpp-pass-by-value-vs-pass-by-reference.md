@@ -1,5 +1,7 @@
 ---
 title: "Pass by Value vs Pass by Reference in C++: Performance and Mechanics"
+seoTitle: "Pass by Value vs Pass by Reference in C++ (With Examples)"
+keyword: "pass by value vs pass by reference in C++"
 author: "Shafin Chowdhury"
 pubDatetime: 2026-08-11T10:00:00+06:00
 featured: true
@@ -8,16 +10,20 @@ tags:
   - cpp
   - fundamentals
   - performance
-description: "A definitive guide to parameter passing in C++. Master pass by value, pass by reference, pass by const reference, CPU register mechanics, and real-world performance trade-offs."
+description: "Pass by value vs pass by reference in C++: a copy versus the caller's own variable. Learn when to use T, T&, const T& or a pointer, with examples."
+related:
+  - cpp-references
+  - cpp-pointers
+  - cpp-const
 ---
 
 One of the most consequential decisions you make when writing a C++ function is choosing how parameters are passed.
 
 Should you pass an argument **by value**, **by reference**, **by const reference**, or **by pointer**?
 
-The decision affects not only whether your function can alter the caller's variables, but also the runtime memory efficiency, CPU cache performance, and safety of your entire application.
+**Pass by value** gives the function its own copy of the argument, so changes inside the function never reach the caller. **Pass by reference** (`T&`) gives the function the caller's actual variable, so its changes stick. **Pass by `const` reference** (`const T&`) skips the copy and still blocks changes, which makes it the usual choice for strings, vectors and other large objects.
 
-In this guide, we break down the call stack mechanics, explain the performance trade-offs with technical rigor, and give you a clear decision matrix used by professional C++ engineers.
+Below we compare pass by value vs pass by reference on the call stack, show when a copy is cheaper than a reference, and end with a decision tree for choosing between value, reference, `const` reference and pointer.
 
 ---
 
@@ -255,7 +261,7 @@ Follow this simple decision tree when designing any C++ function parameter:
                           Pass by REFERENCE (T&)    Pass by CONST REFERENCE (const T&)
 ```
 
-_(If the argument is optional, pass by pointer `const T_`or modern`std::optional<T>` instead).\*
+_(If the argument is optional, pass a pointer (`const T*`) or use `std::optional<T>` instead.)_
 
 ---
 

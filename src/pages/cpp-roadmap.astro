@@ -30,9 +30,7 @@ const pageURL = `${SITE_URL}/cpp-roadmap/`;
 
 // Resolve article slugs to real posts; a typo or deleted post fails the build.
 const posts = await getCollection("posts", postFilter);
-const postBySlug = new Map(
-  posts.map(p => [getPostSlug(p.id, p.filePath).slice(1), p])
-);
+const postBySlug = new Map(posts.map(p => [getPostSlug(p.id, p.filePath), p]));
 const topicById = new Map(TOPICS.map(t => [t.id, t]));
 const stageById = new Map(STAGES.map((s, i) => [s.id, { ...s, n: i + 1 }]));
 // Learning order of each stage: tier, then position within the sequence tier.

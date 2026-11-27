@@ -105,15 +105,15 @@ In modern C++, you should include `<cstdlib>` and explicitly prefix calls with `
 
 ```cpp
 #include <iostream>
-#include <cstdlib> // Required for malloc and std::free
+#include <cstdlib> // Required for std::malloc and std::free
 
 int main() {
     // Explicitly scope with std:: to guarantee namespace correctness
-    void* raw_memory = malloc(sizeof(int));
+    void* raw_memory = std::malloc(sizeof(int));
 
     if (raw_memory != nullptr) {
-        cout << "Successfully allocated memory at: " << raw_memory << "\n";
-        free(raw_memory);
+        std::cout << "Successfully allocated memory at: " << raw_memory << "\n";
+        std::free(raw_memory);
     }
 
     return 0;
