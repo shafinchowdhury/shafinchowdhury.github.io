@@ -1,0 +1,66 @@
+name: Deploy notification
+
+# Emails a summary when content reaches production. Cloudflare Workers Builds
+# reports each finished build as a check run on the commit; that is the only
+# reliable "deploy succeeded" signal, so this listens for it.
+on:
+  check_run:
+    types: [created, completed]
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: Commit that was deployed (defaults to the latest on main)
+        required: false
+      dry_run:
+        description: Build the email but don't send it
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  checks: read
+
+jobs:
+  notify:
+    name: Email content changes
+    # Cloudflare may create the check run already completed, so both events can
+    # fire for one build; the concurrency group plus Resend's idempotency key
+    # make sure only one email goes out.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.check_run.status == 'completed' &&
+       startsWith(github.event.check_run.name, 'Workers Builds') &&
+       github.event.check_run.check_suite.head_branch == github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: deploy-notify-${{ github.event.check_run.head_sha || inputs.sha || github.sha }}
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # needs history to diff against the previous deploy
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "11.3.0"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Send notification
+        run: >-
+          node scripts/deploy-notify.mjs
+          ${{ github.event_name == 'workflow_dispatch' && format('--sha {0}', inputs.sha || github.sha) || '' }}
+          ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '--dry-run' || '' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFY_EMAIL_TO: ${{ secrets.NOTIFY_EMAIL_TO }}
+          NOTIFY_EMAIL_FROM: ${{ vars.NOTIFY_EMAIL_FROM }}
+          CLOUDFLARE_BUILDS_API_TOKEN: ${{ secrets.CLOUDFLARE_BUILDS_API_TOKEN }}
